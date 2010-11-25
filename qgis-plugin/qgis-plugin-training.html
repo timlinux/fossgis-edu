@@ -1,0 +1,693 @@
+<?xml version="1.0"
+      encoding="iso-8859-1"
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>QGIS Python Training Course</title>
+<meta name="generator" content="http://txt2tags.sf.net" />
+
+<!-- Included style.css -->
+<style type="text/css">
+body {
+  padding: 2em 1em 2em 70px;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+  background: white;
+}
+:link { color: #00C; background: transparent }
+:visited { color: #609; background: transparent }
+a:active { color: #C00; background: transparent }
+
+a:link img, a:visited img { border-style: none } 
+
+
+h1, h2, h3, h4, h5, h6 { text-align: left }
+h1, h2, h3 { color: #005A9C; background: white }
+h1 { font: 170% sans-serif }
+h2 { font: 140% sans-serif }
+h3 { font: 120% sans-serif }
+h4 { font: bold 100% sans-serif }
+h5 { font: italic 100% sans-serif }
+h6 { font: small-caps 100% sans-serif }
+
+pre { margin-left: 2em;
+      border: 1;
+      padding: 4px;
+      background: #ececec; }
+pre, code { font-family: monospace } 
+
+
+</style>
+
+</head>
+<body>
+
+<div class="header" id="header">
+<h1>QGIS Python Training Course</h1>
+<h3>Tim Sutton, 2010</h3>
+</div>
+
+<div class="toc" id="toc">
+  <ol>
+  <li><a href="#toc1">Introduction to Python and QGIS</a>
+    <ul>
+    <li><a href="#toc2">1.1. Environment Setup</a>
+    </li>
+    <li><a href="#toc3">1.2. Install Python</a>
+      <ul>
+      <li><a href="#toc4">1.2.1. Install Ugly Eric IDE</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc5">1.3. Building your first plugin</a>
+      <ul>
+      <li><a href="#toc6">1.3.1. Generating your plugin</a>
+      </li>
+      <li><a href="#toc7">1.3.2. Testing your plugin</a>
+      </li>
+      <li><a href="#toc8">1.3.3. Setting up an Eric project</a>
+      </li>
+      <li><a href="#toc9">1.3.4. Install the plugin reloader plugin in QGIS</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc10">1.4. First tweaks to our plugin</a>
+    </li>
+    <li><a href="#toc11">1.5. First steps into the QGIS api</a>
+    </li>
+    <li><a href="#toc12">1.6. Getting and checking the active layer</a>
+    </li>
+    <li><a href="#toc13">1.7. Computing the min max values within the view extent for the layer</a>
+    </li>
+    <li><a href="#toc14">1.8. Setting the band min and max values</a>
+    </li>
+    <li><a href="#toc15">1.9. Extra house keeping</a>
+    </li>
+    <li><a href="#toc16">1.10. Putting it all together</a>
+    </li>
+    <li><a href="#toc17">1.11. Testing</a>
+    </li>
+    <li><a href="#toc18">1.12. Exercise</a>
+    </li>
+    <li><a href="#toc19">1.13. Exercise Solution</a>
+    </li>
+    <li><a href="#toc20">1.14. Complete Plugin</a>
+    </li>
+    </ul>
+  </li>
+  </ol>
+
+</div>
+<div class="body" id="body">
+<a id="toc1" name="toc1"></a>
+<h1>1. Introduction to Python and QGIS</h1>
+<p>
+<b>Note:</b> This tutorial requires QGIS 1.6 (not yet released at time of writing) or QGIS Trunk r14052 (available from osgeo4w as a nightly build or build it yourself on linux from source).
+</p>
+<a id="toc2" name="toc2"></a>
+<h2>1.1. Environment Setup</h2>
+<a id="toc3" name="toc3"></a>
+<h2>1.2. Install Python</h2>
+<p>
+<b>Ubuntu</b>
+</p>
+<pre>
+sudo apt-get install shapely numpy python-qt4 python-qgis python-qgis-common python-psycopg2 python-numpy 
+</pre>
+<p></p>
+<p>
+<b>Windows</b>
+</p>
+<a id="toc4" name="toc4"></a>
+<h3>1.2.1. Install Ugly Eric IDE</h3>
+<p>
+<b>Ubuntu</b>
+</p>
+<pre>
+sudo apt-get install eric python-qt4-doc qt4-doc-html
+</pre>
+<p></p>
+<p>
+<b>Windows</b>
+</p>
+ <ul>
+ <li>Download <a href="http://www.python.org/ftp/python/3.1.2/python-3.1.2.msi">python 3.1 python-3.1.2.msi</a>
+ </li>
+ <li>Download the <a href="http://www.riverbankcomputing.co.uk/static/Downloads/PyQt4/PyQt-Py3.1-gpl-4.7.4-1.exe">binary PyQt4 packages</a> for windows.
+ </li>
+ <li>Install the above packages.
+ </li>
+ <li>Download <a href="http://www.die-offenbachs.de/eric/eric4-download.html">Eric</a>.
+ </li>
+ <li>Extract Eric to a place of your choosing.
+ </li>
+ <li>Run install.py by double clicking on it
+ </li>
+ <li>Run c:\python31\eric.py
+ </li>
+ </ul>
+
+<p></p>
+<a id="toc5" name="toc5"></a>
+<h2>1.3. Building your first plugin</h2>
+<a id="toc6" name="toc6"></a>
+<h3>1.3.1. Generating your plugin</h3>
+<p>
+There is an online tool for <a href="http://pyqgis.org/builder/plugin_builder.py">creating a plugin</a>. Simply fill in the blanks and it
+will generate a simple plugin framework for you. We are going to make a simple
+plugin to perform a histogram stretch based on the min max values in the
+current view extents. Lets start by filling in some details in the plugin
+builder:
+</p>
+<pre>
+Class name (use CamelCase)     : RasterScale
+Short descriptive title        : Raster Local Histogram Stretch
+Description                    : Scale the min max of the raster to 
+                                 the min max within the view.
+Version number                 : 0.1
+Minimum required QGIS version  : 1.5
+Text for the menu item         : Raster
+Author/Company name            : Linfiniti Consulting CC
+Email address                  : tim@linfiniti.com
+</pre>
+<p></p>
+<p>
+After clicking the 'build it' link you will see a screen like this:
+</p>
+<pre>
+
+Generation complete for RasterScale. You can download it here.
+
+What Next?
+
+Unzip the plugin into your QGIS plugin directory and test it.
+Modify it by editing the implementation file RasterScale.py
+Create your own custom icon, replacing default icon.png
+Modify your user interface by opening RasterScale.ui in 
+Qt Designer (don't forget to compile it with pyuic4 
+after changing it)
+Use the Makefile to compile your Ui and resource files 
+if you make changes to them (requires gmake)
+</pre>
+<p></p>
+<p>
+Click the download link and save it to your local disk.
+</p>
+<a id="toc7" name="toc7"></a>
+<h3>1.3.2. Testing your plugin</h3>
+<p>
+Use your operating system to extract the plugin to your home directory .qgis folder:
+</p>
+<pre>
+/home/&lt;yourusername&gt;/.qgis/python/plugins/
+</pre>
+<p></p>
+<p>
+If this directory does not already exist, you should create it.
+</p>
+<p>
+Now open QGIS.
+</p>
+<p>
+Next do:
+</p>
+<pre>
+Plugins -&gt; Manage Plugins
+</pre>
+<p></p>
+<p>
+In the filter box enter
+</p>
+<pre>
+Stretch 
+</pre>
+<p></p>
+<p>
+An icon will appear in the plugin toolbar and if you click it, your plugin will run!
+</p>
+<a id="toc8" name="toc8"></a>
+<h3>1.3.3. Setting up an Eric project</h3>
+<p>
+Fire up eric. Now do Projects-&gt;New.
+</p>
+<p>
+Set the project name to RasterStretch
+Set the correct directory for the project dir - probably /home/&lt;youraccount&gt;/.qgis/python/plugins/rasterscale. 
+Fill the other boxes according to your preferences.
+</p>
+<p>
+Now click the ok button and a prompt will come up saying: "Add existing files to your project?"
+</p>
+<p>
+Click yes to add your generated plugin files.
+</p>
+<p>
+Choose no for the dialog that prompts you about revision control.
+</p>
+<a id="toc9" name="toc9"></a>
+<h3>1.3.4. Install the plugin reloader plugin in QGIS</h3>
+<p>
+Normally when you change a plugin you have to close and reopen QGIS to see the result of your changes. This can become a little tedious. To work around this, you can install the plugin reloader plugin like this:
+</p>
+<pre>
+Start QGIS
+Plugins -&gt; Fetch Python Plugins
+Repositories tab
+Click the 'Add 3rd party repositories button' and click Ok for the message that appears.
+
+Wait a few moments while the repository list is updated.
+
+On the Options tab, check the 'Show all plugins, even those marked experimental' radio button
+
+In the Plugins tab, type reload into the filter box
+
+Select the Plugin Reloader plugin from the list
+
+Click Install, then Ok
+</pre>
+<p></p>
+<p>
+Now we want to configure the plugin reloader to reload our raster scale plugin so do this:
+</p>
+<pre>
+Press Shift+F5
+Choose rasterscale from the plugin list
+Press Ok
+</pre>
+<p></p>
+<p>
+Now whenever you press the F5 key, your plugin will be reloaded along with any changes you might have made to it.
+</p>
+<a id="toc10" name="toc10"></a>
+<h2>1.4. First tweaks to our plugin</h2>
+<p>
+Lets make our first little tweaks to our plugin - just to test out the development process. Look at the name of your plugin:
+</p>
+<pre>
+click Plugins -&gt; Raster 
+</pre>
+<p></p>
+<p>
+In the raster submenu you will see our plugin is named <code>Raster</code>. Lets rename it to <code>Raster Scale</code>. To do this, in Eric, open the RasterScale.py file from the list of files in your project on the left. Now look at the initiGui method and change the line that creates the menu action - it looks like this:
+</p>
+<pre>
+  self.action = QAction(QIcon(":/plugins/rasterscale/icon.png"), \
+    "Raster", self.iface.mainWindow())
+</pre>
+<p></p>
+<p>
+Now change it so that it looks like this:
+</p>
+<pre>
+  self.action = QAction(QIcon(":/plugins/rasterscale/icon.png"), \
+    "Raster Scale", self.iface.mainWindow())
+</pre>
+<p></p>
+<p>
+You will see above that I have simply added the characters `` Scale`` to the QAction's name.
+</p>
+<p>
+Now save that file and go back to QGIS. Hit the <code>F5</code> key to reload your plugin. Now once again do
+</p>
+<pre>
+click Plugins -&gt; Raster 
+</pre>
+<p></p>
+<p>
+You should see the submenu is now named 'Raster Scale' instead of just 'Raster'.
+</p>
+<p>
+This is the general process you should follow when writing a plugin - 
+</p>
+<pre>
+Edit code
+
+Save source file
+
+Reload plugin in QGIS (F5)
+
+Test
+</pre>
+<p></p>
+<p>
+In the units that follow we will assume that you do this each time we ask you to modify your plugin sources.
+</p>
+<a id="toc11" name="toc11"></a>
+<h2>1.5. First steps into the QGIS api</h2>
+<p>
+Writing python plugins in QGIS requires knowledge of three things:
+</p>
+<ul>
+<li>Python
+</li>
+<li><a href="http://www.riverbankcomputing.co.uk/static/Docs/PyQt4/html/classes.html">PyQt - the Python language bindings for the Qt4 framework</a>
+</li>
+<li><a href="http://doc.qgis.org/head/">The QGIS api</a>
+</li>
+</ul>
+
+<p></p>
+<p>
+A really good resource for learning PyQt is the <a href="http://www.commandprompt.com/community/pyqt/">command prompt reference</a>
+</p>
+<p>
+Each of these three things is documented and generally searchable with google. We will look at the documentation in a little while. but first lets get our hands dirty and start modifying our plugin.
+</p>
+<p>
+The first thing I would like to do is outline the functionality that we are going to give our plugin. Here is the logic flow:
+</p>
+<p>
+<img align="middle" src="logic.gif" border="0" alt=""/>
+</p>
+<a id="toc12" name="toc12"></a>
+<h2>1.6. Getting and checking the active layer</h2>
+<p>
+As a first step, we are going to replace the run() method in RasterScale.py with our own logic - the comments in the code explain step for step what is going on:
+</p>
+<pre>
+ # run method that performs all the real work
+ def run(self): 
+  # get the currently active layer (if any)
+  layer = self.iface.mapCanvas().currentLayer()
+  # test if a valid layer was returned
+  if layer:      
+    # test if the layer is a raster from a local file (not a wms)
+    if layer.type() == layer.RasterLayer and ( not layer.usesProvider() ):
+      # Test if the raster is single band greyscale
+      if layer.rasterType()==QgsRasterLayer.GrayOrUndefined:
+        #Everything looks fine so show a little message and exit
+        QMessageBox.information(None,"Raster Scale","Layer is ok")
+        return
+  # One of our tests above failed - show and error message and exit
+  QMessageBox.information(None,"Raster Scale", \
+         "A single band greyscale raster layer must be selected")
+  return
+</pre>
+<p></p>
+<p>
+Now press F5 in QGIS to reload the plugin (since we have changed its code) and then click the plugin icon with no layers loaded in your project. You should get a message telling you that there needs to be a layer available.
+</p>
+<p>
+Next add a greyscale raster (e.g. a dem) and then click on the plugin icon again. This time you should get a 'Layer is Ok' message.
+</p>
+<a id="toc13" name="toc13"></a>
+<h2>1.7. Computing the min max values within the view extent for the layer</h2>
+<p>
+Now we want to answer the question: 'what is the minimum and maximum value in my current view extent?' Fortunately its pretty easy to do - using the raster layer computeMinimumMaximumFromLastExtent method e.g.:
+</p>
+<pre>
+# compute the min and max for the current extent
+extentMin, extentMax = layer.computeMinimumMaximumFromLastExtent( band )
+</pre>
+<p></p>
+<p>
+If for example our current view extent contains pixels with values from 20 to 140, extentMin will now be assigned a value of 20 and extentMax will now be assigned a value of 140. The idea is to then scale the colour assigments made to each pixel to this range, such that a pixel of value 20 will be painted black and a pixel of value 140 will be painted white.
+</p>
+<p>
+<img align="middle" src="img/qgis_001.png" border="0" alt=""/>
+</p>
+<a id="toc14" name="toc14"></a>
+<h2>1.8. Setting the band min and max values</h2>
+<p>
+Now what we need to do is tell the raster layer to consider the min max values from the current extent to be the min max values for the whole layer, and then to stretch the colour pallette accross the new min/max value range for the layer.
+</p>
+<p>
+Ok so to do this we can use the following api calls:
+</p>
+<pre>
+# For greyscale layers there is only ever one band
+band = layer.bandNumber( layer.grayBandName() ) # base 1 counting in gdal
+# We don't want to create a lookup table
+generateLookupTableFlag = False
+# set the layer min value for this band
+layer.setMinimumValue( band, extentMin, generateLookupTableFlag );
+# set the layer max value for this band
+layer.setMaximumValue( band, extentMax, generateLookupTableFlag );
+</pre>
+<p></p>
+<p>
+This should be self explanatory except maybe the part about a lookup table. Lookup tables are used for creating custome colour pallettes. Since in our case we are not interested in creating a custom colour pallette, we can leave it out of the equation for now by setting it to false.
+</p>
+<a id="toc15" name="toc15"></a>
+<h2>1.9. Extra house keeping</h2>
+<p>
+Just a little extra house keeping is needed. First we have to ensure that standard deviations are disabled as it will affect the values given to each pixel. 
+</p>
+<p>
+Next we let the raster layer know that we are using a user defined min and max range rather than the true range of the data in the raster.
+</p>
+<p>
+Next we clear any cached image for the raster (used to speed up drawing in some situations).
+</p>
+<p>
+Lastly we tell the layer to redraw itself!
+</p>
+<pre>
+# ensure that stddev is set to zero
+layer.setStandardDeviations( 0.0 );
+# let the layer know that the min max are user defined
+layer.setUserDefinedGrayMinimumMaximum( True );
+# ensure any cached render data for this layer is cleared
+layer.setCacheImage( None );
+# make sure the layer is redrawn
+layer.triggerRepaint();
+</pre>
+<p></p>
+<a id="toc16" name="toc16"></a>
+<h2>1.10. Putting it all together</h2>
+<p>
+Lets look at our complete run method now:
+</p>
+<pre>
+ # run method that performs all the real work
+ def run(self): 
+  # get the currently active layer (if any)
+  layer = self.iface.mapCanvas().currentLayer()
+  # test if a valid layer was returned
+  if layer:      
+    # test if the layer is a raster from a local file (not a wms)
+    if layer.type() == layer.RasterLayer and ( not layer.usesProvider() ):
+      # Test if the raster is single band greyscale
+      if layer.rasterType()==QgsRasterLayer.GrayOrUndefined:
+        #Everything looks fine so set stretch and exit
+        #For greyscale layers there is only ever one band
+        band = layer.bandNumber( layer.grayBandName() )
+        extentMin = 0.0
+        extentMax = 0.0
+        generateLookupTableFlag = False
+        # compute the min and max for the current extent
+        extentMin, extentMax = layer.computeMinimumMaximumFromLastExtent( band )
+        # set the layer min value for this band
+        layer.setMinimumValue( band, extentMin, generateLookupTableFlag );
+        # set the layer max value for this band
+        layer.setMaximumValue( band, extentMax, generateLookupTableFlag );
+        # ensure that stddev is set to zero
+        layer.setStandardDeviations( 0.0 );
+        # let the layer know that the min max are user defined
+        layer.setUserDefinedGrayMinimumMaximum( True );
+        # ensure any cached render data for this layer is cleared
+        layer.setCacheImage( None );
+        # make sure the layer is redrawn
+        layer.triggerRepaint();
+        #QMessageBox.information(None, 'Raster Scale', \
+              "Min %s : Max %s" % ( extentMin , extentMax ))
+        return
+  # One of our tests above failed - show and error message and exit
+  QMessageBox.information(None,"Raster Scale", \
+              "A single band raster layer must be selected")
+  return
+</pre>
+<p></p>
+<a id="toc17" name="toc17"></a>
+<h2>1.11. Testing</h2>
+<p>
+Refresh the plugin using the plugin reloader F5 keyboard shortcut. Now zoom to an area on your greyscale raster and then click the RasterScale plugin icon. You should see something happen like that shown below:
+</p>
+<p>
+<img align="middle" src="img/qgis_002.png" border="0" alt=""/>
+Before scaling
+</p>
+<p>
+<img align="middle" src="img/qgis_003.png" border="0" alt=""/>
+After scaling
+</p>
+<a id="toc18" name="toc18"></a>
+<h2>1.12. Exercise</h2>
+<p>
+See if you can update the plugin so that it works for RGB and palletted images too!
+</p>
+<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+<p></p>
+<a id="toc19" name="toc19"></a>
+<h2>1.13. Exercise Solution</h2>
+<pre>
+/***************************************************************************
+RasterScale
+A QGIS plugin
+Scale the min max of the raster to the min max within the view.
+               -------------------
+begin        : 2010-08-05 
+copyright      : (C) 2010 by Linfiniti Consulting CC.
+email        : tim@linfiniti.com 
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                     *
+ *  This program is free software; you can redistribute it and/or modify *
+ *  it under the terms of the GNU General Public License as published by *
+ *  the Free Software Foundation; either version 2 of the License, or   *
+ *  (at your option) any later version.                  *
+ *                                     *
+ ***************************************************************************/
+"""
+# Import the PyQt and QGIS libraries
+from PyQt4.QtCore import * 
+from PyQt4.QtGui import *
+from qgis.core import *
+from qgis.gui import *
+
+# Initialize Qt resources from file resources.py
+import resources
+# Import the code for the dialog
+from RasterScaleDialog import RasterScaleDialog
+
+class RasterScale: 
+
+ def __init__(self, iface):
+  # Save reference to the QGIS interface
+  self.iface = iface
+
+ def initGui(self): 
+  # Create action that will start plugin configuration
+  self.action = QAction(QIcon(":/plugins/rasterscale/icon.png"), \
+    "Raster Scale", self.iface.mainWindow())
+  # connect the action to the run method
+  QObject.connect(self.action, SIGNAL("triggered()"), self.run) 
+
+  # Add toolbar button and menu item
+  self.iface.addToolBarIcon(self.action)
+  self.iface.addPluginToMenu("&amp;Raster", self.action)
+
+ def unload(self):
+  # Remove the plugin menu item and icon
+  self.iface.removePluginMenu("&amp;Raster",self.action)
+  self.iface.removeToolBarIcon(self.action)
+
+ # run method that performs all the real work
+ def run(self): 
+  # Allowed drawing styles that can have a local histogram stretch:
+
+  allowedGreyStyles = [ QgsRasterLayer.SingleBandGray, 
+             QgsRasterLayer.MultiBandSingleBandPseudoColor,
+             QgsRasterLayer.MultiBandSingleBandGray, 
+             QgsRasterLayer.SingleBandPseudoColor ]
+  allowedRgbStyles = [ QgsRasterLayer.MultiBandColor ]
+  # get the currently active layer (if any)
+  layer = self.iface.mapCanvas().currentLayer()
+  # test if a valid layer was returned
+  if layer:      
+    # test if the layer is a raster from a local file (not a wms)
+    if layer.type() == layer.RasterLayer and ( not layer.usesProvider() ):
+      # Test if the raster is single band greyscale
+      if layer.drawingStyle() in allowedGreyStyles:
+        #Everything looks fine so set stretch and exit
+        #For greyscale layers there is only ever one band
+        band = layer.bandNumber( layer.grayBandName() ) # base 1 counting in gdal
+        extentMin = 0.0
+        extentMax = 0.0
+        generateLookupTableFlag = False
+        # compute the min and max for the current extent
+        extentMin, extentMax = layer.computeMinimumMaximumFromLastExtent( band )
+        # set the layer min value for this band
+        layer.setMinimumValue( band, extentMin, generateLookupTableFlag );
+        # set the layer max value for this band
+        layer.setMaximumValue( band, extentMax, generateLookupTableFlag );
+        # ensure that stddev is set to zero
+        layer.setStandardDeviations( 0.0 );
+        # let the layer know that the min max are user defined
+        layer.setUserDefinedGrayMinimumMaximum( True );
+        # ensure any cached render data for this layer is cleared
+        layer.setCacheImage( None );
+        # make sure the layer is redrawn
+        layer.triggerRepaint();
+        return
+      if layer.drawingStyle() in allowedRgbStyles:
+        #Everything looks fine so set stretch and exit
+        redBand = layer.bandNumber( layer.redBandName() )
+        greenBand = layer.bandNumber( layer.greenBandName() )
+        blueBand = layer.bandNumber( layer.blueBandName() )
+        extentRedMin = 0.0
+        extentRedMax = 0.0
+        extentGreenMin = 0.0
+        extentGreenMax = 0.0
+        extentBlueMin = 0.0
+        extentBlueMax = 0.0
+        generateLookupTableFlag = False
+        # compute the min and max for the current extent
+        extentRedMin, extentRedMax = layer.computeMinimumMaximumFromLastExtent( redBand )
+        extentGreenMin, extentGreenMax = layer.computeMinimumMaximumFromLastExtent( greenBand )
+        extentBlueMin, extentBlueMax = layer.computeMinimumMaximumFromLastExtent( blueBand )
+        # set the layer min max value for the red band
+        layer.setMinimumValue( redBand, extentRedMin, generateLookupTableFlag );
+        layer.setMaximumValue( redBand, extentRedMax, generateLookupTableFlag );
+        # set the layer min max value for the red band
+        layer.setMinimumValue( greenBand, extentGreenMin, generateLookupTableFlag );
+        layer.setMaximumValue( greenBand, extentGreenMax, generateLookupTableFlag );
+        # set the layer min max value for the red band
+        layer.setMinimumValue( blueBand, extentBlueMin, generateLookupTableFlag );
+        layer.setMaximumValue( blueBand, extentBlueMax, generateLookupTableFlag );
+        # ensure that stddev is set to zero
+        layer.setStandardDeviations( 0.0 );
+        # let the layer know that the min max are user defined
+        layer.setUserDefinedRGBMinimumMaximum( True );
+        # ensure any cached render data for this layer is cleared
+        layer.setCacheImage( None );
+        # make sure the layer is redrawn
+        layer.triggerRepaint();
+        return
+  # One of our tests above failed - show and error message and exit
+  QMessageBox.information(None,"Raster Scale", \
+        "A single band raster layer must be selected")
+  return
+
+</pre>
+<p></p>
+<a id="toc20" name="toc20"></a>
+<h2>1.14. Complete Plugin</h2>
+<p>
+The complete plugin is available <a href="download/rasterscale.zip">here</a>
+</p>
+</div>
+
+<!-- xhtml code generated by txt2tags 2.5 (http://txt2tags.sf.net) -->
+<!-- cmdline: txt2tags -t xhtml -i qgis-plugin-training.t2t -o qgis-plugin-training.html -->
+</body></html>

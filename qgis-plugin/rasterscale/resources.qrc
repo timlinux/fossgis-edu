@@ -1,0 +1,6 @@
+<RCC> 
+  <qresource prefix="/plugins/rasterscale" > 
+    <file>icon.png</file> 
+  </qresource> 
+</RCC> 
+
