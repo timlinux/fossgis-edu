@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1052.3622"
+   height="744.09448"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="fossgisacademylogo.svg"
+   inkscape:export-filename="/home/timlinux/Documents/FOSSGISCourseFlyers/fossgisacademy/fossgisacademylogo.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="375"
+     inkscape:cy="514.28571"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="976"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-308.2677)">
+    <text
+       xml:space="preserve"
+       style="font-size:144.00000049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bauhaus Hv BT;-inkscape-font-specification:Bauhaus Hv BT;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr"
+       x="125.42412"
+       y="361.65094"
+       id="text2985"
+       sodipodi:linespacing="125%"
+       transform="scale(0.69472257,1.4394235)"><tspan
+         sodipodi:role="line"
+         id="tspan2987"
+         x="125.42412"
+         y="361.65094"
+         style="font-size:144.00000049px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr;text-anchor:start;font-family:Bauhaus Hv BT;-inkscape-font-specification:Bauhaus Hv BT">the fossgis academy</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:50.88150787px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Bauhaus Lt BT;-inkscape-font-specification:Bauhaus Lt BT"
+       x="534.30908"
+       y="503.75702"
+       id="text2989"
+       sodipodi:linespacing="125%"
+       transform="scale(0.97931108,1.021126)"><tspan
+         sodipodi:role="line"
+         id="tspan2991"
+         x="534.30908"
+         y="503.75702" /><tspan
+         sodipodi:role="line"
+         id="tspan2993"
+         x="534.30908"
+         y="567.35889"
+         style="font-size:50.88150787px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Bauhaus Lt BT;-inkscape-font-specification:Bauhaus Lt BT">listen, learn, be free</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:52.23687363px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Bauhaus Lt BT;-inkscape-font-specification:Bauhaus Lt BT"
+       x="275.88687"
+       y="1015.7595"
+       id="text2997"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2999"
+         x="275.88687"
+         y="1015.7595"
+         style="font-size:52.23687363px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Bauhaus Lt BT;-inkscape-font-specification:Bauhaus Lt BT">http://www.fossgisacademy.com/</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="411.42856"
+       y="1258.0765"
+       id="text3024"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3026"
+         x="411.42856"
+         y="1258.0765">bauhaus LT BT &amp; bauhausHV BT</tspan></text>
+  </g>
+</svg>

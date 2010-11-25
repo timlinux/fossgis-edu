@@ -1,0 +1,81 @@
+Intrdocutions
+Aim of the course
+ - technical overview - lots of shell, config files etc. no point & click
+ - familiarise with OGC Standarads
+ - understand the role of GeoData Infrastructure and how WPS can be used in that
+ - familiarise with OGC WPS
+ - Understand the potential of WPS
+ - Understand how to configure and deploy WPS on an ubuntu server
+ - Build a simple process
+ - Build a more complex using GRASS
+ - Understand where to go for help
+ - 
+ 
+Familiarise with OGC Standarads
+ - What is OGC
+ - Key standards WXX
+ - What is a service
+
+ 
+Understand the role of GeoData Infrastructure and how WPS can be used in that
+ - Why should we use services in GEO context
+ - 
+
+Understand the potential of WPS
+ - Use GRASS to process to process geodata on a remote server
+ - distribute processes to clients from one server without desktop GIS requirement
+ 
+Familiarise with OGC WPS
+ - What can you do with WPS
+ - What kind of inputs can be used
+ - What kind of ouputs can be received
+ - API Overview
+   - getCapabilities
+   - Describe process
+   - execut process
+   - http get and post
+   - Key/value pairs 
+   
+The PyWPS project
+  - home page
+  - documentation
+  - getting the source
+  - community
+
+Understand how to configure and deploy WPS on an ubuntu server
+  - System prerequisites
+  - Initial install
+  - Apache configuration
+  - WPS config file
+  - rc.local
+  - the process directory
+  - setting it up as a module
+
+Build a simple process
+  - deploy
+    - define inputs
+    - define outputs
+    - implement processor
+  - test with getCapabilities
+  - test with QGIS wps client
+  - troubleshooting
+  
+  
+Build a more complex using GRASS
+  - deploy
+    - define inputs
+    - define outputs
+    - implement processor
+  - test with getCapabilities
+  - test with QGIS wps client
+  - troubleshooting
+
+Understand where to go for help
+  - pywps page
+  - irc
+  - mailing lists 
+ 
+Some general thoughts on testing and troubleshooting
+  - watch your log files!
+  - test from the command line
+  - check, check and double check your config files

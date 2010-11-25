@@ -1,0 +1,68 @@
+Day 1: QGIS Part 1
+
+Morning (9am start):
+
+Session 1 Installation of QGIS (Windows and Linux) and first tour of
+the User Interface
+Session 2 Adding data to QGIS - Vector data and vector properties
+Session 3 Vector symbolisation - Old vs New Symbology, advanced symbology
+Session 4 Vector data creation - Creating and digitising vector data
+(point, line & polygon)
+
+Lunch
+
+Session 5 Adding data to QGIS - Raster data loading and properties
+Session 6 Adding data to QGIS - Web Services (WMS/WFS) and esoteric formats
+Session 7 Q&A
+
+Day 2: QGIS Part 2
+
+Session 1 Vector analysis - in QGIS
+Session 2 Raster Processing - in QGIS
+Session 3 Analysis using GRASS - Raster
+Session 4 Analysis using GRASS - Map Calculator
+
+Lunch
+
+Session 5 QGIS Map Composition
+Session 6 Exploring the plugin ecosystem
+Session 7 Q&A
+
+Day 3: PostGIS
+
+Session 1 Setup and installation of PostgreSQL / PostGIS
+Session 2 Database fundamentals
+Session 3 Database fundamentals
+Session 4 Adding geometries to your tables
+
+Lunch
+
+Session 5 PostGIS / QGIS integration
+Session 6 In-database spatial analysis
+Session 7 Q&A
+
+Day 4: GeoPython day 1
+
+Session 1 Setup and installation of python
+Session 2 Basics of the language - part 1
+Session 3 Basics of the language - part 2
+Session 4 Reading and manipulation of raster data using numpy
+
+Lunch
+
+Session 5 Reading and manipulating vector data using shapely
+Session 6 Exercises
+Session 7 Q&A
+
+Day 4: GeoPython day 2
+
+Session 1 Writing your first QGIS plugin
+Session 2 Introduction to Qt & PyQt4
+Session 3 Building a user interface
+Session 4 Using the QGIS API
+
+Lunch
+
+Session 5 Creating a simple tool for QGIS
+Session 6 Q&A
+
