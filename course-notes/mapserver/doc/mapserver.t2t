@@ -72,6 +72,14 @@ psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
 psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 ```
 
+Now load our sample datasets:
+
+```
+pg_restore country.dmp | mapserver
+pg_restore cities.dmp | mapserver
+```
+
+
 == Making your first map file ==
 
 Lets dive right in!
