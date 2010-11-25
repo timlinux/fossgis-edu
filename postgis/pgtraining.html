@@ -54,7 +54,7 @@ pre, code { font-family: monospace }
     <LI><A HREF="#toc2">1.1. What is a Database?</A>
       <UL>
       <LI><A HREF="#toc3">1.1.1. Tables</A>
-      <LI><A HREF="#toc4">1.1.2. Columnns / Fields</A>
+      <LI><A HREF="#toc4">1.1.2. Columns / Fields</A>
       <LI><A HREF="#toc5">1.1.3. Records</A>
       <LI><A HREF="#toc6">1.1.4. Datatypes</A>
       <LI><A HREF="#toc7">1.1.5. Modelling an Address Database</A>
@@ -77,8 +77,8 @@ pre, code { font-family: monospace }
       <LI><A HREF="#toc20">1.3.5. Starting a database shell session</A>
       <LI><A HREF="#toc21">1.3.6. Make Tables in SQL</A>
       <LI><A HREF="#toc22">1.3.7. Create Keys in SQL</A>
-      <LI><A HREF="#toc23">1.3.8. Create Indexes SQL</A>
-      <LI><A HREF="#toc24">1.3.9. Dropping Tables SQL</A>
+      <LI><A HREF="#toc23">1.3.8. Create Indexes in SQL</A>
+      <LI><A HREF="#toc24">1.3.9. Dropping Tables in SQL</A>
       <LI><A HREF="#toc25">1.3.10. A word on PG Admin III</A>
       </UL>
     <LI><A HREF="#toc26">1.4. Adding Data to the Model</A>
@@ -100,7 +100,7 @@ pre, code { font-family: monospace }
     <LI><A HREF="#toc38">1.6. Views</A>
       <UL>
       <LI><A HREF="#toc39">1.6.1. Creating a View</A>
-      <LI><A HREF="#toc40">1.6.2. Modifying a view</A>
+      <LI><A HREF="#toc40">1.6.2. Modifying a View</A>
       <LI><A HREF="#toc41">1.6.3. Dropping a View</A>
       </UL>
     <LI><A HREF="#toc42">1.7. Rules</A>
@@ -197,7 +197,7 @@ a candidate key." - Wikipedia
 In SQL databases a table is also known as a <B>relation.</B>
 </P>
 <A NAME="toc4"></A>
-<H3>1.1.2. Columnns / Fields</H3>
+<H3>1.1.2. Columns / Fields</H3>
 <P>
 "A column is a set of data values of a particular simple type, one for each row
 of the table. The columns provide the structure according to which the rows are
@@ -242,13 +242,15 @@ Tim and Horst
 <P>
 There are many kinds of datatypes, lets focus on the most common:
 </P>
-<P>
-String - to store free form text data
-Integer - to store whole numbers
-Real - to store decimal numbers
-Date - to store Horsts birthday so no one forgets
-Boolean - to store simple true/false values
-</P>
+<UL>
+<LI>String - to store free form text data
+<LI>Integer - to store whole numbers
+<LI>Real - to store decimal numbers
+<LI>Date - to store Horst's birthday so no one forgets
+<LI>Boolean - to store simple true/false values
+</UL>
+
+<P></P>
 <P>
 You can tell the database to allow you to also store nothing in a field - this
 data is referred to as 'Null'. 
@@ -329,7 +331,7 @@ The process of removing redundancy from a database is called Normalisation.
 <P>
 "Normalization is a systematic way of ensuring that a database structure is
 suitable for general-purpose querying and free of certain undesirable
-characteristics—insertion, update, and deletion anomalies—that could lead to a
+characteristics -insertion, update, and deletion anomalies- that could lead to a
 loss of data integrity." - Wikipedia
 </P>
 <P>
@@ -411,7 +413,7 @@ You can read more about database normalisation <A HREF="http://en.wikipedia.org/
 operations on a database table." - Wikipedia
 </P>
 <P>
-Imagine you are reading a text book and lookig for the explanation of a concept
+Imagine you are reading a text book and looking for the explanation of a concept
 </P>
 <UL>
 <LI>and the text book has no index! You will have to start reading at one cover
@@ -464,7 +466,7 @@ record is added to the table:
 <H3>1.2.4. Entity Relationship Diagramming</H3>
 <P>
 In a normalised database, you typically have many relations (tables). The
-entity-relationship diagram (ER Diagram) is used design the logical
+entity-relationship diagram (ER Diagram) is used to design the logical
 dependencies between the relations. Remember our un-normalised people table? 
 </P>
 <div class="code"><PRE>
@@ -557,7 +559,7 @@ A Primary key is one or more field values that make a record unique. Usually
 the primary key is called id and is a sequence. 
 </P>
 <P>
-A foreign key is used to refer to a unique record on another table.
+A Foreign key is used to refer to a unique record on another table.
 </P>
 <P>
 In ER Diagramming, the linkage between tables is normally based on Foreign keys
@@ -925,7 +927,7 @@ Indexes:
 </PRE></div>
 <P></P>
 <P>
-<B>Note:</B> for advanced users, we have purposely ommitted the fkey constraint.
+<B>Note:</B> for advanced users, we have purposely omitted the fkey constraint.
 </P>
 <A NAME="toc22"></A>
 <H3>1.3.7. Create Keys in SQL</H3>
@@ -957,10 +959,10 @@ alter table people
 <P></P>
 <P>
 That tells the people table that its street_id fields must match a valid street
-id from the steets table.
+id from the streets table.
 </P>
 <P>
-The more usualy way to create a constraint is to do it when you create the table:
+The more usual way to create a constraint is to do it when you create the table:
 </P>
 <div class="code"><PRE>
 create table people (id serial not null primary key, 
@@ -991,7 +993,7 @@ Foreign-key constraints:
 </PRE></div>
 <P></P>
 <A NAME="toc23"></A>
-<H3>1.3.8. Create Indexes SQL</H3>
+<H3>1.3.8. Create Indexes in SQL</H3>
 <P>
 We want lightning fast searches on peoples names. To provide for this, we can
 create an index on the name column of our people table:
@@ -1019,7 +1021,7 @@ Foreign-key constraints:
 </PRE></div>
 <P></P>
 <A NAME="toc24"></A>
-<H3>1.3.9. Dropping Tables SQL</H3>
+<H3>1.3.9. Dropping Tables in SQL</H3>
 <P>
 If you want to get rid of a table you can use the 'drop' command:
 </P>
@@ -1280,7 +1282,7 @@ address=# select * from people;
 </PRE></div>
 <P></P>
 <P>
-Excercise:
+Exercise:
 </P>
 <P>
 Use the skills you learned earlier to add some new friends to your database.
@@ -1456,7 +1458,7 @@ update people set street_id = 3 where id=3;
 </PRE></div>
 <P></P>
 <P>
-Lets take a quick look at our data after those changes - we resuse our query
+Lets take a quick look at our data after those changes - we reuse our query
 from the previous section:
 </P>
 <div class="code"><PRE>
@@ -1628,7 +1630,7 @@ As you can see the only change is the <CODE>`create view roads_count_v as`</CODE
 at the beginning. The nice thing is that we can now select data from that view:
 </P>
 <div class="code"><PRE>
-select * from road_count_v;
+select * from roads_count_v;
 </PRE></div>
 <P></P>
 <P>
@@ -1645,13 +1647,13 @@ Result:
 </PRE></div>
 <P></P>
 <A NAME="toc40"></A>
-<H3>1.6.2. Modifying a view</H3>
+<H3>1.6.2. Modifying a View</H3>
 <P>
 A view is not fixed, and it contains no 'real data'. This means you can easily
 change it without impacting on any data in your database.
 </P>
 <div class="code"><PRE>
-create or replace road_count_v as 
+create or replace roads_count_v as 
   select count(people.name), streets.name 
   from people, streets where people.street_id=streets.id 
   group by people.street_id, streets.name 
@@ -1708,9 +1710,7 @@ create rule people_log as on update to people
 <A NAME="toc44"></A>
 <H1>2. Introduction to PostGIS</H1>
 <P>
-While working through this section, you may want to keep a copy of the [PostGIS
-cheat sheet postgis_cheatsheet.pdf] available at [Boston GIS user group
-<A HREF="http://www.bostongis.com/postgis_quickguide.bqg">http://www.bostongis.com/postgis_quickguide.bqg</A>].
+While working through this section, you may want to keep a copy of the <A HREF="postgis_cheatsheet.pdf">PostGIS cheat sheet</A> available at <A HREF="http://www.bostongis.com/postgis_quickguide.bqg">Boston GIS user group</A>.
 </P>
 <A NAME="toc45"></A>
 <H2>2.1. PostGIS Setup</H2>
@@ -1963,16 +1963,16 @@ processing and data sharing." - Wikipedia
 <A NAME="toc54"></A>
 <H3>2.2.2. What is the SFS Model</H3>
 <P>
-The Simple Feaure for SQL (SFS) Model is a non topological way to store
+The Simple Feature for SQL (SFS) Model is a non topological way to store
 geospatial data in a database and defines functions for accessing, operating,
-and constructung these data.
+and constructing these data.
 </P>
 <P>
 <IMG ALIGN="middle" SRC="ogc_sfs.png" BORDER="0" ALT="">
 </P>
 <P>
 The model defines geospatial data from type Point, Linestring, Polygon and
-aggrgations of them to Multi objects.
+aggregations of them to Multi objects.
 </P>
 <P>
 For further information have also a look at <A HREF="http://www.opengeospatial.org/standards/sfs">OGC Simple Feature for SQL</A>
@@ -2640,5 +2640,5 @@ SPIT is a QGIS plugin, which is delivered with QGIS. You can use SPIT for upload
 </DIV>
 
 <!-- html code generated by txt2tags 2.5 (http://txt2tags.sf.net) -->
-<!-- cmdline: txt2tags -t html -i pgtraining.t2t -o pgtraining.html -->
+<!-- cmdline: txt2tags -t html -o pgtraining.html pgtraining.t2t -->
 </BODY></HTML>

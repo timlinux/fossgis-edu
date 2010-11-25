@@ -1,0 +1,1011 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.sf.net">
+<TITLE>QGIS Training Course</TITLE>
+
+<!-- Included style.css -->
+<STYLE TYPE="text/css">
+body {
+  padding: 2em 1em 2em 70px;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+  background: white;
+}
+:link { color: #0A8000; background: transparent }
+:visited { color: #215E21; background: transparent }
+a:active { color: #0A8000; background: transparent }
+
+a:link img, a:visited img { border-style: none } 
+
+
+h1, h2, h3, h4, h5, h6 { text-align: left }
+h1, h2, h3 { color: #228B22; background: white }
+h1 { font: 170% sans-serif }
+h2 { font: 140% sans-serif }
+h3 { font: 120% sans-serif }
+h4 { font: bold 100% sans-serif }
+h5 { font: italic 100% sans-serif }
+h6 { font: small-caps 100% sans-serif }
+
+pre { margin-left: 2em;
+      border: 1;
+      padding: 4px;
+      background: #ececec; }
+pre, code { font-family: monospace } 
+
+
+</STYLE>
+
+</HEAD>
+<BODY>
+
+<DIV CLASS="header" ID="header">
+<H1>QGIS Training Course</H1>
+<H3>Tim Sutton, 2010</h3><a href="#toc">Back to the contents list</a>
+</DIV>
+
+<DIV CLASS="toc" ID="toc">
+  <OL>
+  <LI><A HREF="#toc1">Introduction to the Course</A>
+  <LI><A HREF="#toc2">Introducing QQIS</A>
+    <UL>
+    <LI><A HREF="#toc3">2.1. Installing QGIS</A>
+    <LI><A HREF="#toc4">2.2. QGIS Main features</A>
+    <LI><A HREF="#toc5">2.3. Introducing the interface</A>
+      <UL>
+      <LI><A HREF="#toc6">2.3.1. GUI Overview</A>
+      <LI><A HREF="#toc7">2.3.2. Menu bar</A>
+      <LI><A HREF="#toc8">2.3.3. Toolbars</A>
+      <LI><A HREF="#toc9">2.3.4. The Legend</A>
+      <LI><A HREF="#toc10">2.3.5. Map View</A>
+      </UL>
+    </UL>
+  <LI><A HREF="#toc11">Customising your QGIS environment</A>
+    <UL>
+    <LI><A HREF="#toc12">3.1. QGIS Application setiings</A>
+    <LI><A HREF="#toc13">3.2. Plugins</A>
+      <UL>
+      <LI><A HREF="#mp_anchor">3.2.1. Managing plugins</A>
+      <LI><A HREF="#toc15">3.2.2. Fetching plugins</A>
+      <LI><A HREF="#toc16">3.2.3. Accessing your plugins</A>
+      </UL>
+    </UL>
+  <LI><A HREF="#ld_anchor">Loading data into your project</A>
+    <UL>
+    <LI><A HREF="#toc18">4.1. Vector data</A>
+    <LI><A HREF="#toc19">4.2. Raster data</A>
+    <LI><A HREF="#toc20">4.3. Saving your project</A>
+    </UL>
+  <LI><A HREF="#toc21">Working with layer properties</A>
+    <UL>
+    <LI><A HREF="#toc22">5.1. Symbology</A>
+    <LI><A HREF="#toc23">5.2. Labels</A>
+      <UL>
+      <LI><A HREF="#toc24">5.2.1. Neater labels</A>
+      </UL>
+    <LI><A HREF="#toc25">5.3. Attributes</A>
+    <LI><A HREF="#toc26">5.4. General Properties</A>
+    <LI><A HREF="#toc27">5.5. Metadata</A>
+    </UL>
+  <LI><A HREF="#toc28">Visualisation examples</A>
+    <UL>
+    <LI><A HREF="#toc29">6.1. Combining symbology and labelling</A>
+    <LI><A HREF="#toc30">6.2. Visualising change with transparency</A>
+    </UL>
+  <LI><A HREF="#at_anchor">Attribute tables</A>
+    <UL>
+    <LI><A HREF="#toc32">7.1. Using the selection tool and attribute selections</A>
+    <LI><A HREF="#toc33">7.2. Editing attributes and using table calculations</A>
+    <LI><A HREF="#toc34">7.3. Searching the attribute table</A>
+    </UL>
+  <LI><A HREF="#toc35">Spatial bookmarks</A>
+  <LI><A HREF="#toc36">Georeferencer</A>
+    <UL>
+    <LI><A HREF="#toc37">9.1. Setting up</A>
+    <LI><A HREF="#toc38">9.2. Using the Georeferencer tool</A>
+    </UL>
+  <LI><A HREF="#toc39">Editing</A>
+    <UL>
+    <LI><A HREF="#toc40">10.1. Create a new vector layer</A>
+    <LI><A HREF="#toc41">10.2. Digitising settings</A>
+    <LI><A HREF="#toc42">10.3. Digitising tools</A>
+    </UL>
+  <LI><A HREF="#toc43">Analysis</A>
+  <LI><A HREF="#toc44">Mapcomposition</A>
+  <LI><A HREF="#toc45">Where to next?</A>
+    <UL>
+    <LI><A HREF="#toc46">13.1. Where can I go for help?</A>
+    </UL>
+  </OL>
+
+</DIV>
+<DIV CLASS="body" ID="body">
+<A NAME="toc1"></A>
+<H1>1. Introduction to the Course</H1>
+<P>
+This course is a practical introduction to the desktop GIS package: Quantum GIS (QGIS). It will go through the process of map production, including common GIS functionality and features, whereby you will work your way from raw spatial data to a polished, printable map at the end of the course.
+</P>
+<P>
+QGIS is <I>F</I>ree and <I>O</I>pen <I>S</I>ource <I>S</I>oftware GIS (FOSS GIS) package - where the term 
+<I>Free</I> stands for <I>Freedom</I>, as in freedom to share and modify the software.  The software is licensed under the <A HREF="http://www.gnu.org/copyleft/gpl.html">GNU General Public Licence</A>, meaning the source code is made available for users and developers to use, study, change, and improve.  QGIS is continually growing in its capabilities, functions and plugins, due to many contributions from the QGIS community.  If you are interested in knowing more about the QGIS project, please have a look at the <A HREF="http://www.qgis.org/">QGIS website</A>.  
+</P>
+<A NAME="toc2"></A>
+<H1>2. Introducing QQIS</H1>
+<A NAME="toc3"></A>
+<H2>2.1. Installing QGIS</h2><a href="#toc">Back to the contents list</a>
+<P>
+The latest version of Quantum GIS is available to download from the QGIS website - <A HREF="http://download.qgis.org">http://download.qgis.org</A> . Alternatively, the course organisers may have included some of the installers and packages on the disc from this course.
+</P>
+<P>
+On the website, there are instructions on how to install QGIS under various operating systems - Windows, MacOS X and Linux (Debian, Fedora, openSUSE, Mandriva, Ubuntu and Slackware).  You can also choose from the release or the trunk version.  The trunk version is actively under development, and is only available for testing purposes.  For new users (and those not planning to go into the development of the software), the release edition would be the recommended choice.
+</P>
+<A NAME="toc4"></A>
+<H2>2.2. QGIS Main features</h2><a href="#toc">Back to the contents list</a>
+ <UL>
+ <LI>Key features of QGIS
+   <UL>
+   <LI><B>cross platform</B> - runs on Linux, Unix, Mac OSX, and Windows systems 
+   <LI><B>free and open source</B> - an official project of the international organisation,
+     <A HREF="http://www.osgeo.org/">Open Source Geospatial Foundation (OSGeo)</A> 
+   <LI><B>extensible via plugins</B> - a large variety of plugins are shared and freely available.  Users can also code their own plugins to add on to the software.
+   <LI><B>fully featured</B> - provides a variety of tools from data capture, to analysis, 
+     to map composition
+   <LI><B>easy to use</B> - the GUI is designed to be user-friendly and also there are a variety of initiatives to translate the software into other languages
+   <LI><B>great for digitising</B> - points, lines or polygons - settings option to correct for topological errors - and capture attributes for features simultaneously while digitising
+   <LI><B>great for mapping</B> - create maps with labels, scale bar, north arrow, legend and pictures
+   <LI><B>great documentation</B> - for example, the QGIS detailed user manual updated with each release
+   <LI><B>free community support</B> - see the help section at the end of these notes
+   </UL>
+ </UL>
+
+<A NAME="toc5"></A>
+<H2>2.3. Introducing the interface</h2><a href="#toc">Back to the contents list</a>
+<A NAME="toc6"></A>
+<H3>2.3.1. GUI Overview</h3><a href="#toc">Back to the contents list</a>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_061.png" BORDER="0" ALT="">
+</P>
+<A NAME="toc7"></A>
+<H3>2.3.2. Menu bar</h3><a href="#toc">Back to the contents list</a>
+<P>
+The Menu bar provides access to a variety of features, the most common are:
+</P>
+   <UL>
+   <LI>File:
+      <UL>
+      <LI>create new projects, open or save existing projects, print maps - these functions
+        are available on the file toolbar (see toolbars below)
+      <LI>save map as an image
+      <LI>project properties
+      </UL>
+   <LI>Edit:
+      <UL>
+      <LI>a list of options covered in the digitizing and advanced digitizing toolbars (see
+        toolbars below)
+      <LI>options, configure shortcuts, style manager and custom CRS
+      </UL>
+   <LI>View:
+      <UL>
+      <LI>a list of options covered in the map navigation and attributes toolbars (see    
+        below)
+      <LI>select panels or toolbars to display
+      <LI>tile scale slider
+      <LI>live GPS tracking
+      </UL>
+   <LI>Layer:
+      <UL>
+      <LI>add / remove data layers (see manage layers toolbar below)
+      <LI>control which layers appear in the overview
+      <LI>hide / show all layers
+      </UL>
+   <LI>Plugins:
+      <UL>
+      <LI>fetch &amp; manage plugins
+      <LI>menus for enabled plugins
+      <LI>python console
+      </UL>
+   <LI>Vector:
+      <UL>
+      <LI>vector analysis tools (provided by fTools)
+      </UL>
+   <LI>Help
+   </UL>
+
+<A NAME="toc8"></A>
+<H3>2.3.3. Toolbars</h3><a href="#toc">Back to the contents list</a>
+<P>
+Toolbars can be set as visible through the Menu bar, or by right clicking the tool bar area and choosing from the list.  The default toolbars that display look like this:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_002.png" BORDER="0" ALT="">
+</P>
+<P>
+A basic guide to the iconography used:
+</P>
+       <UL>
+       <LI>a green plus <IMG ALIGN="middle" SRC="img/qgis_062.png" BORDER="0" ALT=""> indicates to add something
+       <LI>a yellow star <IMG ALIGN="middle" SRC="img/qgis_063.png" BORDER="0" ALT=""> indicates to create something
+       <LI>a red cross <IMG ALIGN="middle" SRC="img/qgis_064.png" BORDER="0" ALT=""> indicates to delete something
+       </UL>
+
+<P>
+Here are some of the starting toolbars.  
+</P>
+ <UL>
+ <LI>File toolbar
+ <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_065.png" BORDER="0" ALT="">
+ <P></P>
+ <LI>Manage layers toolbar
+ <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_066.png" BORDER="0" ALT="">
+ <P></P>
+ <LI>Navigation toolbar
+ <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_067.png" BORDER="0" ALT="">
+ <P></P>
+ <LI>Attributes toolbar (section 1)
+ <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_068.png" BORDER="0" ALT="">
+ <P></P>
+Further on in the attributes toolbar there is also a button that enables map tips <IMG ALIGN="middle" SRC="img/qgis_069.png" BORDER="0" ALT=""> - this may be useful to users new to the QGIS interface.
+ <P></P>
+<B><I>Now, you have a go...</I></B>
+ <P></P>
+ </UL>
+
+ <OL>
+ <LI>Add a vector layer (road_lines.shp) 
+(If you are struggling with adding the layer, see <A HREF="#ld_anchor">Loading data in your project</A>)
+ <LI>Use the navigation tools to zoom and pan
+ <LI>Use the identify tool (Attributes toolbar) to inspect individual roads by clicking on them
+ </OL>
+
+<A NAME="toc9"></A>
+<H3>2.3.4. The Legend</h3><a href="#toc">Back to the contents list</a>
+<P>
+The legend is also an important part of the interface, and closely connected to the map view.  The legend shows all the layers that are  opened.  There are also a list of options available when you right click a layer - you can zoom, open the attributes table, control whether the layer is displayed  in the overview map, rename the layer, allow editing (for vectors) etc.  You can also switch a layer to visible or invisible, by adjusting the checkbox next to the layer's name.  Double-clicking on a layer will bring up the Layer properties dialog which we will look at later in this course. 
+</P>
+<TABLE>
+<TR>
+<TD><IMG ALIGN="middle" SRC="img/qgis_003.png" BORDER="0" ALT=""></TD>
+</TR>
+</TABLE>
+
+<P>
+<B><I>Now, you have a go...</I></B>  
+</P>
+<OL>
+<LI>Make sure your vector layer (road_lines.shp) is still open
+<LI>Add the raster layer ASTGTM-DEM.tif
+(If you are struggling with adding the layer, see <A HREF="#ld_anchor">Loading data in your project</A>)
+<LI>Re-order the layers by dragging the roads layer above the DEM
+<LI>Right click the layers and see what functions are available 
+</OL>
+
+<A NAME="toc10"></A>
+<H3>2.3.5. Map View</h3><a href="#toc">Back to the contents list</a>
+<P>
+The map view contains the open data layers (that have been set to visible).  Layers are 'drawn' and displayed according to the order from the legend (from the bottom up) - as you saw in the last exercise.  You can change the symbology used in the map view, which we will look at in the Layer properties section.  When you first open your data (unless the symbology has been specified in QGIS before), the colours used will be assigned randomly.
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_004.png" BORDER="0" ALT="">
+</P>
+<P>
+Also notice the status bar under the map view.
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_070.png" BORDER="0" ALT="">
+</P>
+<A NAME="toc11"></A>
+<H1>3. Customising your QGIS environment</H1>
+<A NAME="toc12"></A>
+<H2>3.1. QGIS Application setiings</h2><a href="#toc">Back to the contents list</a>
+<P>
+Before we begin working with our data there are a few settings that are recommended.  We will be using these settings for the exercises that follow.
+</P>
+<OL>
+<LI>Open QGIS and go to the Options dialog found under the menu: <CODE>`Edit &gt; Options`</CODE> or <CODE>`Settings &gt; Options`</CODE> depending on your operating system interface. You should get a dialog like this:
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_094.png" BORDER="0" ALT="">
+<P></P>
+<LI><IMG ALIGN="left" SRC="img/qgis_095.png" BORDER="0" ALT="">  Under the Rendering and SVG tab, check:
+</OL>
+
+<UL>
+<LI><B>Rendering behavior</B>: Use render caching where possible to speed up redraws
+<LI><B>Rendering quality</B>: Make lines appear less jagged at the expense of some drawing performance
+<LI><B>Compatibility</B>: Use new generation symbology for rendering
+</UL>
+
+<A NAME="toc13"></A>
+<H2>3.2. Plugins</h2><a href="#toc">Back to the contents list</a>
+<P>
+Plugins are add-on modules (scripts written in a language called Python) created by other users in QGIS, and shared with the QGIS community.  They are usually to serve a particular function e.g. such as a plugin to convert spreadsheet data to shapefiles (dxf2shp). Therefore they commonly are not included into the core QGIS application.  They can however be incorporated into the core later if they are suitable (There are a few of these, such as fTools).
+</P>
+<P>
+Plugins for QGIS give it a lot of flexibility and power.  As you start working with QGIS more you will realise the importance of the plugin modules.  Also if you have programming skills, you will be able to create your own plugins and contribute these to the QGIS project.  For more information on this see the <A HREF="http://www.qgis.org">QGIS website</A>
+</P>
+<A NAME="mp_anchor"></A>
+<H3>3.2.1. Managing plugins</h3><a href="#toc">Back to the contents list</a>
+<P>
+By default some of the plugins are enabled and others disabled.  You can manage the plugins (enable or disable them) through the Plugin Manager.  This is found in the menu bar under <CODE>`Plugins &gt; Manage plugins...`</CODE>
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_096.png" BORDER="0" ALT="">
+</P>
+<A NAME="toc15"></A>
+<H3>3.2.2. Fetching plugins</h3><a href="#toc">Back to the contents list</a>
+<P>
+The Plugin manager only lists the plugins that are installed on your system.  There are a whole host of plugins that can be 'fetched' from the internet.  The internet is more versatile in that it provides a dynamic link where sourcecode from plugins can be updated from the developer.  To get more plugins, go to the the plugin menu: <CODE>`Plugins &gt; Fetch plugins...`</CODE>
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_097.png" BORDER="0" ALT="">
+</P>
+<P>
+This dialog may differ in content depending on what repositories you are connected to and what plugins you have installed.  By default you will be connected to the QGIS contributed repository but there is a broader collection of plugins that you can use through 3rd party repositories.
+</P>
+<P>
+Select the Repositories tab, and click <CODE>Add 3rd party repositories</CODE>.  The warning message is letting you know that you accessing data outside of QGIS.  
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_099.png" BORDER="0" ALT="">
+</P>
+<P>
+QGIS will say <CODE>Fetching plugins</CODE> and have a progress bar.  
+</P>
+<P>
+Note: If the update stops, there may be one or two repositories offline so you can <CODE>Abort fetching</CODE> (You will still have the ones that have been fetched).  If you find that the same respositories are always offine, you can also disable fetching them on your side.  Select the repostitory and click the <CODE>Edit...</CODE> button.
+</P>
+<P>
+Now you can go back to your Plugins tab. Filter to find the desired plugin, select it and click install.
+</P>
+<P>
+<B>Remember</B>: After you fetch a plugin, to use it you may first need to enable it through the <A HREF="#mp_anchor">Plugin manager</A>.
+</P>
+<A NAME="toc16"></A>
+<H3>3.2.3. Accessing your plugins</h3><a href="#toc">Back to the contents list</a>
+<P>
+The plugins that are installed and active are listed under the Plugins menu bar, and are also available through icons on the toolbar.  If you don't see the Plugin toolbar, you may need to set it as visible by right-clicking a blank space in the toolbar.  This will bring up a contextual menu - something similar to this:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_098.png" BORDER="0" ALT="">
+</P>
+<P>
+If Plugins isn't ticked, select it.
+</P>
+<A NAME="ld_anchor"></A>
+<H1>4. Loading data into your project</H1>
+<P>
+Follow the steps below to add data to your project.  You can start off with a new project file (by selecting the new project icon <IMG ALIGN="middle" SRC="img/qgis_071.png" BORDER="0" ALT="">, or if you wish to continue from the exercises above - simply omit the steps you have already completed
+</P>
+<P>
+<B><I>Now, you have a go...</I></B>  
+</P>
+<OL>
+<LI>Install these plugins that you will use in later exercises:
+</OL>
+
+<A NAME="toc18"></A>
+<H2>4.1. Vector data</h2><a href="#toc">Back to the contents list</a>
+<P>
+Click the add vector icon: 
+<IMG ALIGN="middle" SRC="img/qgis_005.png" BORDER="0" ALT="">
+</P>
+<P>
+In the box that appears, click 'Browse'
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_006.png" BORDER="0" ALT="">
+</P>
+<P>
+Now add these shapefiles
+</P>
+ <UL>
+ <LI>river_lines
+ <LI>landcover_polys
+ <LI>road_lines
+ </UL>
+
+<P></P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_007.png" BORDER="0" ALT="">
+</P>
+<P>
+<B>Tip:</B> to select more than one shapefile at a time, hold down CTRL while clicking.
+</P>
+<P>
+Once you selected the files, click open and then open again.
+Your QGIS session should look something like this now:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_008.png" BORDER="0" ALT="">
+</P>
+<P>
+Note: the symbol colours are randomly assigned.
+</P>
+<A NAME="toc19"></A>
+<H2>4.2. Raster data</h2><a href="#toc">Back to the contents list</a>
+<P>
+The procedure to add a raster is similar.
+</P>
+<P>
+Click the add raster icon:
+<IMG ALIGN="middle" SRC="img/qgis_009.png" BORDER="0" ALT="">
+</P>
+<P>
+Add the ASTER DEM (ASTGTM-DEM.tif).
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_010.png" BORDER="0" ALT="">
+</P>
+<P>
+Initially the raster may appear grey in your view:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_011.png" BORDER="0" ALT="">
+</P>
+<P>
+Select the layer in the legend so that it is highlighted:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_012.png" BORDER="0" ALT="">
+</P>
+<P>
+Right click the layer and follow these options:
+</P>
+<PRE>
+Properties -&gt; Symbology -&gt; Contrast Enhancement -&gt; Stretch to MinMax -&gt; OK
+</PRE>
+<P></P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_013.png" BORDER="0" ALT="">
+</P>
+<P>
+And you should see the DEM in nice grey shades now.
+</P>
+<P>
+Add the 1:50 000 topographic map 3318DD_2000_ED5_UTM34.tif and slide it to the bottom on the layer list (legend).
+</P>
+<A NAME="toc20"></A>
+<H2>4.3. Saving your project</h2><a href="#toc">Back to the contents list</a>
+<P>
+Drag and drop layers in your map so the DEM is below all others.
+</P>
+<P>
+Once you are happy with the arrangement of layers, save your project
+</P>
+<PRE>
+File -&gt; Save Project -&gt; File Name: MyFirstProject
+</PRE>
+<P></P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_014.png" BORDER="0" ALT="">
+</P>
+<A NAME="toc21"></A>
+<H1>5. Working with layer properties</H1>
+<A NAME="toc22"></A>
+<H2>5.1. Symbology</h2><a href="#toc">Back to the contents list</a>
+<P>
+The symbology screen is used to set outline and fill style and colours for vector layers. For raster layers it is used to define colour shading approach (as we saw with the DEM).  
+</P>
+<UL>
+<LI>Vector symbology
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_024.png" BORDER="0" ALT="">
+<P></P>
+The symbology functions provide rich control over the symbolisation of vectors (points, lines and polygons).  It allows you to create and customise your own styles, to increase the visual effectiveness of the map and obtain the your desired appearance.  Once you create styles, you also have an option to save these for re-use.
+</UL>
+
+<UL>
+<LI>Raster symbology
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_016.png" BORDER="0" ALT="">
+<P></P>
+<B><I>Now, you have a go...</I></B>
+<P></P>
+You have already used the raster symbology when editing the DEM in the section above.
+<P></P>
+Try adjusting some of the other settings: 
+<P></P>
+Remember: if you can't see your DEM you may need to bring it to the top of the legend.  You can move it back down at the end of these steps.
+<P></P>
+<LI>Invert color map
+<LI>Change color map option
+<PRE>
+Single band properties -&gt; Color Map -&gt; Pseudocolor OR Freak Out
+</PRE>
+If you chose the Colormap option, you will have to go the Colormap icon in the Layer Properties:
+<PRE>
+Color map -&gt; Generate new color map -&gt; Number of entries -&gt; Enter a number e.g. 24 
+-&gt; Press Classify 
+</PRE>
+</UL>
+
+<A NAME="toc23"></A>
+<H2>5.2. Labels</h2><a href="#toc">Back to the contents list</a>
+<P>
+The labels screen can be used to set up labelling for vector layers.
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_017.png" BORDER="0" ALT="">
+</P>
+<P>
+Labels can easily be added by ticking the Display labels checkbox and selecting an appropriate field name.  You can also change other style parameters, a nice one to add is a buffer (scroll down in the dialog).  There is a neater labelling style available, using the advanced labelling.
+</P>
+<A NAME="toc24"></A>
+<H3>5.2.1. Neater labels</h3><a href="#toc">Back to the contents list</a>
+<P>
+The advanced labelling tool can be accessed from the icon on the Attribute toolbar: <IMG ALIGN="right" SRC="img/qgis_025.png" BORDER="0" ALT="">
+Or when you have your vector layer selected in the Contents pane, on the Menu bar select <CODE>`Layer &gt; Labelling`</CODE>
+</P>
+<P>
+<B><I>Now, you have a go...</I></B>
+</P>
+<P>
+Try labelling the roads layers using the parameters below: 
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_027.png" BORDER="0" ALT="">
+</P>
+<P>
+You should get something like this:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_028.png" BORDER="0" ALT="">
+</P>
+<P>
+<B>Note</B>:  If you already set the normal labelling, this needs to be switched off before adding the advanced labelling.
+</P>
+<A NAME="toc25"></A>
+<H2>5.3. Attributes</h2><a href="#toc">Back to the contents list</a>
+<P>
+The attributes panel is used to view the attributes of vector layers. For some providers, you can edit the attributes. You can also set the edit widget column value which is used when doing advanced data capture.
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_018.png" BORDER="0" ALT="">
+</P>
+<P>
+We will be looking at the attribute table in more detail <A HREF="#at_anchor">later in the course</A>.
+</P>
+<A NAME="toc26"></A>
+<H2>5.4. General Properties</h2><a href="#toc">Back to the contents list</a>
+<P>
+Here you can set things like the projection parameters for the data layer, the legend display name, create spatial indexes (vector data) and subsets (vector data):
+</P>
+<UL>
+<LI>Vector General Properties
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_019.png" BORDER="0" ALT="">
+<P></P>
+<LI>Raster General Properties
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_020.png" BORDER="0" ALT="">
+</UL>
+
+<A NAME="toc27"></A>
+<H2>5.5. Metadata</h2><a href="#toc">Back to the contents list</a>
+<P>
+The metadata screen shows derived information for the layer. For vector layers you get things like feature counts and extents. For raster you see band counts and value ranges.
+</P>
+<UL>
+<LI>Vector Metadata
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_021.png" BORDER="0" ALT="">
+<P></P>
+<LI>Raster Metadata
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_022.png" BORDER="0" ALT="">
+</UL>
+
+<A NAME="toc28"></A>
+<H1>6. Visualisation examples</H1>
+<A NAME="toc29"></A>
+<H2>6.1. Combining symbology and labelling</h2><a href="#toc">Back to the contents list</a>
+<P>
+We can combine nice symbology and advanced labelling, so get a neat display for our roads layer...
+</P>
+<OL>
+<LI>Road symbology
+<P></P>
+For the roads layer, in symbology mode, click the Properties button:
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_083.png" BORDER="0" ALT="">
+<P></P>
+   <UL>
+   <LI>Change the line to black, with a pen width of 3,26
+   <LI>Click the <IMG ALIGN="middle" SRC="img/qgis_086.png" BORDER="0" ALT=""> icon to add another symbol layer
+   <LI>Set the second simple line to: White, pen width = 2,26
+   <LI>Also if necessary, change <CODE>Join style: Bevel</CODE> and <CODE>Cap Style: Round</CODE> for  both lines
+   <P></P>
+   </UL>
+<LI>Road labels
+<P></P>
+Change the advanced label settings to the following:
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_084.png" BORDER="0" ALT="">
+<P></P>
+The end result should be something like this:
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_085.png" BORDER="0" ALT="">
+</OL>
+
+<P>
+With good symbology and good labelling, you can get great results!
+</P>
+<A NAME="toc30"></A>
+<H2>6.2. Visualising change with transparency</h2><a href="#toc">Back to the contents list</a>
+<P>
+Transparency can have a powerful effect, and let's you view and analyse your data in a different way.  These steps will show how you can use transparency to visualise change.  
+</P>
+<OL>
+<LI>Add these aerial photographs (rasters) to your project
+ <UL>
+ <LI>3318DD_21_2008_19_RGB_RECT_UTM34
+ <LI>3318DD_21_498_367_02_0195_PAN_RECT_UTM34
+ <P></P>
+ </UL>
+<LI>Re-arrange the order so they follow this order:
+ <UL>
+ <LI>Rivers
+ <LI>1:50 000 topo map (2000)- 3318DD_2000_ED5_UTM34
+ <LI>2008 colour photo - 3318DD_21_2008_19_RGB_RECT_UTM34
+ <LI>Old black and white photo - 3318DD_21_498_367_02_0195_PAN_RECT_UTM34
+ <P></P>
+(You can remove the other layers that we are not using, or switch off their visibility)
+ <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_050.png" BORDER="0" ALT="">
+ <P></P>
+ </UL>
+<LI>Zoom into Spier (by the south-west corner of the topo map)
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_051.png" BORDER="0" ALT="">
+<P></P>
+<LI>In the Properties of the topo map layer, change the Transparency to somewhere around 75%.
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_052.png" BORDER="0" ALT="">
+<P></P>
+<LI>Switch the colour photo and topo layers on and off and compare them to each other and to the black and white photo. Notice any changes?
+</OL>
+
+<A NAME="at_anchor"></A>
+<H1>7. Attribute tables</H1>
+<P>
+Attributes play an important role in understanding and using your vector data.  So far, we have seen a number of ways that we can access the attribute information for the layer
+</P>
+<OL>
+<LI>The identify tool  <IMG ALIGN="middle" SRC="img/qgis_087.png" BORDER="0" ALT=""> that we used in one of the first exercises.  This allowed you to click on indivual features of the active layer (e.g. roads), and the attributes for that individual feature will be displayed.
+<P></P>
+<LI>The attribute section in Layer Properties.  Here we could see the list of fields for the attributes that the layer was storing.  It included information about the data type of the attributes
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_018.png" BORDER="0" ALT="">
+<P></P>
+<LI>The attribute table.  Accessed either from the toolbar <IMG ALIGN="middle" SRC="img/qgis_031.png" BORDER="0" ALT=""> or by right clicking the layer in the legend, which will show you the full table of all the features and their attributes.  We will be focusing on the attribute table this section.
+</OL>
+
+<P>
+But first let us look at the selection tool, as this allows us to combine the attributes of the features to the geometries in the map view (similar to the identify tool, but in a more versatile manner), and can be used together with the attribute table.
+</P>
+<A NAME="toc32"></A>
+<H2>7.1. Using the selection tool and attribute selections</h2><a href="#toc">Back to the contents list</a>
+<P>
+<B><I>Let's have a go...</I></B> 
+</P>
+ <OL>
+ <LI>Open the landcover polygon layer, make sure it is on top, and the active layer (selected)
+ <LI>Use the selection tool <IMG ALIGN="middle" SRC="img/qgis_030.png" BORDER="0" ALT="">, and click on some of the features in the map view.  You should see these highlighted yellow.
+ </OL>
+
+ <UL>
+ <LI>You can select one by clicking, or select many by either dragging a box (selecting by geographical area) or by holding the CTRL button and selecting individual features
+-
+   <UL>
+   <LI>Open the attribute table for the layer.  Notice how when you select features in the map view, they are also selected in the attributes table.  
+   <LI>You can use the icon <IMG ALIGN="middle" SRC="img/qgis_088.png" BORDER="0" ALT=""> on the attribute table, to move the currently selected to the top of the table so that you can evaluate them.  Or you could enable <CODE>Show selected records only</CODE>
+   <P></P>
+The features dynamically linked through the attribute table and map view. You can also select features from the attribute table (click on the record/row number on the left of the table.  To select more than one feature hold down CTRL or drag the mouse)
+   </UL>
+ </UL>
+
+<A NAME="toc33"></A>
+<H2>7.2. Editing attributes and using table calculations</h2><a href="#toc">Back to the contents list</a>
+<P>
+For the Landcover polys we can see that there is an Area attribute, but many of the amounts are 0 or in scientific notation that is difficult to interpret. Let's try to recalculate the area as a new separate column.
+</P>
+<P>
+<B><I>Let's have a go...</I></B> 
+</P>
+<OL>
+<LI>Before making any changes to your attributes you need to enable editing.  You can click the pencil icon <IMG ALIGN="middle" SRC="img/qgis_080.png" BORDER="0" ALT=""> on the digitising toolbar, the same icon is availble on the attribute table.  You could also right click your layer and <CODE>Toggle editing</CODE>.
+You will know when your layer is in editing mode when:
+ <UL>
+ <LI>there is a little pencil drawing icon on your contents pane next to the layer name: <IMG ALIGN="middle" SRC="img/qgis_100.png" BORDER="0" ALT=""> 
+ <LI>the rest of the icons on the digitising toolbar are no longer greyed out
+ <LI>you will see red croses in the mapview that indicate vertices of other shapes (lines or polygons) in that shapefile.
+ <P></P>
+ </UL>
+<LI>Next you will select the field calculator from the attribute table.  Click the calculator icon on the Attribute table dialog (the last icon in the icon list):
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_101.png" BORDER="0" ALT="">
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_102.png" BORDER="0" ALT="">
+<P></P>
+<LI>We will create a New field.  Deselect Update existing field if this is ticked (we would tick this option if we wanted to edit an existing field).  For <B>New field</B>, input the following
+<P></P>
+<PRE>
+Output field name: Area2
+Output field type: Decimal number (real)
+Output field width: 10
+Output field precision: 2
+</PRE>
+<LI>In the <B>Operators</B> section click the <CODE>area</CODE> button.  This will add <CODE>$area</CODE> into your field calulator expression box.  Then click OK.
+<P></P>
+Now you will see that there is a new column, called Area2 with the newly calculated values.
+<P></P>
+<B><I>Question:</I></B>  What units are the new area measurements in? Can we do this and what will it require? 
+<P></P>
+You can test one of the area values. Select a record (feature) from the attribute table and zoom to the selected feature in the map view.  Use the Measure Area tool <IMG ALIGN="middle" SRC="img/qgis_103.png" BORDER="0" ALT=""> in the Attributes toolbar, to measure the area (digitise over the area by left clicking, and right click to complete). Compare this number with what is listed on your new area value in the attribute table. 
+<P></P>
+<LI>To save your edits, remember to disable editing mode and say yes to saving the edits.
+</OL>
+
+<A NAME="toc34"></A>
+<H2>7.3. Searching the attribute table</h2><a href="#toc">Back to the contents list</a>
+<P>
+If we were looking for all features with a specific attribute, say for example waterbodies, there are a few ways to go about this
+</P>
+<P>
+<B><I>Let's have a go...</I></B> 
+</P>
+<OL>
+<LI>As with most database application, the attribute allows you to sort the fields.  
+ <UL>
+ <LI>Click the column name DESCRIPTIO to sort by the attribute, then scroll down to where the waterbodies start
+ <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_089.png" BORDER="0" ALT="">
+ <LI>Now, you would have to drag and scroll down to select all the features (rows) that are water bodies
+ <LI>You will see them appear in the map view (these are dams in the area.  You can review this by overlaying your topo map and changing the transparency level)
+ </UL>
+<LI>Another way would be to use the Look for ... field (Note: this is case sensitive). Type in <CODE>Waterbodies</CODE> and select the <CODE>DESCRIPTIO</CODE> field -&gt; Search
+ <UL>
+ <LI>This will automatically select all the features that are waterbodies
+ <P></P>
+All waterbodies selected:
+ <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_090.png" BORDER="0" ALT="">
+ <P></P>
+ </UL>
+<LI>There is also an option to used the advanced search.  
+You may want to find places that are barren rock.  Using the advanced search:
+<P></P>
+<PRE>
+Advanced search button -&gt;  click DESCRIPTIO in field list -&gt; click sample 
+Double click DESCRIPTIO in field list -&gt; click equals (=) button -&gt;  Double click 'Barren Rock' in values list
+Press OK 
+</PRE>
+<P></P>
+One feature has been selected.  We can see this in the attribute table using the steps from the previous example, but where is it in the map view?  To zoom to the selected features use the <IMG ALIGN="middle" SRC="img/qgis_091.png" BORDER="0" ALT=""> icon on the attribute table. 
+</OL>
+
+<A NAME="toc35"></A>
+<H1>8. Spatial bookmarks</H1>
+<P>
+Spatial bookmarks allow you to 'bookmark' (store) the geospatial location.  There are tools for this on the Attribute toolbar: <IMG ALIGN="middle" SRC="img/qgis_092.png" BORDER="0" ALT="">.
+Say for example you would like to keep the location of where the barren rock is (without repeating the search, or saving the feature as a separate layer).
+You can create a bookmark for this area (the current view extent of your map view):
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_093.png" BORDER="0" ALT="">
+</P>
+<P>
+Then by clicking show bookmarks, you will have a list of all previous bookmarks that you can zoom to and re-visit.
+</P>
+<A NAME="toc36"></A>
+<H1>9. Georeferencer</H1>
+<P>
+If your raster imagery is not georeferenced, it will not be easy to overlay your data.  You can georeference data in QGIS using the Georeferencer plugin.
+</P>
+<P>
+<B><I>Let's have a go...</I></B> 
+</P>
+<A NAME="toc37"></A>
+<H2>9.1. Setting up</h2><a href="#toc">Back to the contents list</a>
+   <UL>
+   <LI>Load the plugin <CODE>Georeferencer GDAL</CODE> using the QGIS Plugin manager (under Plugins on the Menu bar)
+   <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_053.png" BORDER="0" ALT="">
+   <P></P>
+The geoferencer will now be available on the Menu bar (under Plugins) and on the toolbar: <IMG ALIGN="middle" SRC="img/qgis_072.png" BORDER="0" ALT=""> (provided the plugin toolbar is set to display)  
+   <LI>In Project properties uncheck <CODE>Enable on the fly CRS transformation</CODE>
+   <P></P>
+   <LI>To georeference we will need a reference layer.  In this example we will use the roads layer.  Load the layer road_lines if it is not open, and switch off the visibilty of the other layers if they will interfer.
+   <LI>For this example it will help to have the street name labels on and all you can use the search tools in the attribute table to find the relevant street names. Use your knowledge from the previous sections to add the labels and access the attributes (street names)
+   </UL>
+
+<A NAME="toc38"></A>
+<H2>9.2. Using the Georeferencer tool</h2><a href="#toc">Back to the contents list</a>
+<UL>
+<LI>Start the georeferencer tool
+<P></P>
+  <center><IMG ALIGN="middle" SRC="img/qgis_054.png" BORDER="0" ALT=""></center>  
+<LI>Load the raster: roads.png (this has no projection data and is a raw data image)
+<LI>Digitise in 6 GCPs (refer to the image below as a reference) - see guideline steps below the image
+<P></P>
+<IMG ALIGN="middle" SRC="img/qgis_073.png" BORDER="0" ALT="">
+<P></P>
+     <UL>
+     <LI>To digitise, the Add point button <IMG ALIGN="middle" SRC="img/qgis_075.png" BORDER="0" ALT=""> on the Georeferencer toolbar must be enabled
+     <LI>Under Georeferencer menu bar: <CODE>Settings -&gt; Configure Properties -&gt; check "show IDs"</CODE>
+     </UL>
+</UL>
+
+<TABLE>
+<TR>
+<TD><IMG ALIGN="middle" SRC="img/qgis_074.png" BORDER="0" ALT=""></TD>
+<TD>Begin by digitising in the Georeferencer window.  Click <CODE>From map canvas</CODE>, and then digitise the corrosponding point from your QGIS main map view</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>Change the following in the Transformation settings
+     <UL>
+     <LI>polynominal 1
+     <LI>nearest neighbour
+     <LI>LZW
+     <LI>set output raster
+     <LI>SRS: EPSG:32734
+     <LI>check <CODE>Load in QGIS when done</CODE>
+     <P></P>
+     </UL>
+<LI>And then run the process (<IMG ALIGN="middle" SRC="img/qgis_076.png" BORDER="0" ALT=""> on the toolbar) 
+<P></P>
+Congratulations you have georeferenced an image in QGIS!  You can save your GCP points in the Georeferencer and load them if you need them again.  Evaluate your georeferenced image in QGIS.
+</UL>
+
+<A NAME="toc39"></A>
+<H1>10. Editing</H1>
+<P>
+Using our georeferenced image, we can digitise vector layers and create new information.  Let's create a new layer for the land parcels (the numbered areas at the south end of the the georeferenced roads image)  
+</P>
+<A NAME="toc40"></A>
+<H2>10.1. Create a new vector layer</h2><a href="#toc">Back to the contents list</a>
+  <UL>
+  <LI>Create a new polygon layer <IMG ALIGN="middle" SRC="img/qgis_077.png" BORDER="0" ALT=""> called <CODE>parcels</CODE>
+  <LI>Add an attribute for the land parcel number (integer/ whole number)
+  <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_078.png" BORDER="0" ALT="">
+  </UL>
+
+<A NAME="toc41"></A>
+<H2>10.2. Digitising settings</h2><a href="#toc">Back to the contents list</a>
+  <UL>
+  <LI>In Project Properities (General tab) you should enable the topological editing
+  <P></P>
+<IMG ALIGN="middle" SRC="img/qgis_079.png" BORDER="0" ALT="">
+  <LI>Select <CODE>Avoid intersection of new polygons...</CODE> for the layer
+  <LI>For Snapping options, enable for the layer and set a tolerance of 10
+  </UL>
+
+<A NAME="toc42"></A>
+<H2>10.3. Digitising tools</h2><a href="#toc">Back to the contents list</a>
+  <UL>
+  <LI>Now you can start digitising
+    <UL>
+    <LI>To enable editing, click the <IMG ALIGN="middle" SRC="img/qgis_080.png" BORDER="0" ALT=""> button on the digitising toolbar
+    <LI>To digitise in a new feature use <IMG ALIGN="middle" SRC="img/qgis_081.png" BORDER="0" ALT="">.
+    <LI>Right click to finish the feature, hold down the middle mouse button and drag to pan while digitising
+    <LI>Capture the attribute data (parcel_number) as you digitising, or if you wish to turn this function off you can Options menu (under Edit in the menu bar) -&gt; Digitizing
+    <LI>You can move a vertex afterwards using <IMG ALIGN="middle" SRC="img/qgis_082.png" BORDER="0" ALT="">.
+    <LI>Save your features as you digitise
+    </UL>
+  </UL>
+
+<P>
+ similar approach can be applied to other instances if you wanted to edit vector data that has already been captured.
+</P>
+<A NAME="toc43"></A>
+<H1>11. Analysis</H1>
+<P>
+One of the strengths of GIS is the ability to do spatial analysis.  In this section we will walk you through some simple examples of spatial analysis in QGIS.  
+</P>
+<A NAME="toc44"></A>
+<H1>12. Mapcomposition</H1>
+<P>
+<IMG ALIGN="middle" SRC="img/qgis_056.png" BORDER="0" ALT="">
+</P>
+  <UL>
+  <LI>Open a Mapcomposition 
+  <LI>Global settings
+    <UL>
+    <LI>Pagesize/Orientation
+    <LI>Print as raster
+    </UL>
+  </UL>
+
+<P>
+<IMG ALIGN="left" SRC="img/qgis_057.png" BORDER="0" ALT="">    
+</P>
+  <UL>
+  <LI>Adding a map:
+    <UL>
+    <LI>click in map and select <CODE>Item</CODE> Tab
+    <LI>Select <CODE>Extent</CODE> and tick <CODE>Show Grid</CODE>
+    <LI>define a X and Y grid interval of 100000m
+    <LI>Select <CODE>Draw Annotation</CODE> and select the annotation position <CODE>Outside Frame</CODE> - annotation direction <CODE>Boundary Direction</CODE>
+    </UL>
+  </UL>
+
+<P></P>
+<P>
+<IMG ALIGN="left" SRC="img/qgis_058.png" BORDER="0" ALT="">        
+</P>
+  <UL>
+  <LI>Adding a legend
+    <UL>
+    <LI>Click in Legend and select <CODE>Item</CODE> Tab
+    <LI>Change the Legend Title to <CODE>Census 2001</CODE>
+    <LI>Open the tab <CODE>Legend Items`</CODE>and move Swellendam at the top
+    <LI>Open the tab <CODE>Item options</CODE> and remove the box
+    </UL>
+  </UL>
+
+<P>
+<IMG ALIGN="left" SRC="img/qgis_059.png" BORDER="0" ALT="">        
+</P>
+  <UL>
+  <LI>Adding a scalebar
+    <UL>
+    <LI>Resize the scale bar height to 2mm
+    <LI>Open the tab <CODE>General options</CODE> and remove the box
+    </UL>
+  </UL>
+
+<P>
+<IMG ALIGN="left" SRC="img/qgis_060.png" BORDER="0" ALT="">        
+</P>
+  <UL>
+  <LI>Adding a text box
+    <UL>
+    <LI>Add some text
+    <LI>Open the tab <CODE>General options</CODE> and remove the box    
+    </UL>
+  </UL>
+
+<P></P>
+<A NAME="toc45"></A>
+<H1>13. Where to next?</H1>
+<A NAME="toc46"></A>
+<H2>13.1. Where can I go for help?</h2><a href="#toc">Back to the contents list</a>
+<P>
+The open source community provides help and support for QGIS in a number of different ways:
+</P>
+ <UL>
+ <LI>Mailing lists:
+   <UL>
+   <LI>For QGIS users: <A HREF="http://lists.osgeo.org/mailman/listinfo/qgis-user">http://lists.osgeo.org/mailman/listinfo/qgis-user</A> 
+   <LI>For QGIS developers:<A HREF="http://lists.osgeo.org/mailman/listinfo/qgis-developer">http://lists.osgeo.org/mailman/listinfo/qgis-developer</A>
+   <LI>For contribution to QGIS help and support: <A HREF="http://lists.osgeo.org/mailman/listinfo/qgis-community-team">http://lists.osgeo.org/mailman/listinfo/qgis-community-team</A>
+   <LI>For a full list, please see the QGIS User Manual, Help and Support section  
+   </UL>
+ <LI>IRC channel:
+   Using IRC, you can join the #qgis channel at irc.freenode.net.  Logs of the
+   discussions that occur here are also kept at <A HREF="http://logs.qgis.org">http://logs.qgis.org</A>
+ <LI>Bug tracker: <A HREF="https://trac.osgeo.org/qgis/">https://trac.osgeo.org/qgis/</A>
+   This is the system used for logging bugs, submitting patches for bugs an    
+   requesting enhancements. 
+ <LI>QGIS Official Blog: <A HREF="http://blog.qgis.org">http://blog.qgis.org</A> 
+   This weblog is created by QGIS users and developers.  You may also sign up and 
+   contribute
+ <LI>Official Wiki: <A HREF="http://www.qgis.org/wiki">http://www.qgis.org/wiki</A>
+   Information on development plans for the software, release plans and links to 
+   download sites can be found here
+ <P></P>
+ </UL>
+
+</DIV>
+
+<!-- html code generated by txt2tags 2.5 (http://txt2tags.sf.net) -->
+<!-- cmdline: txt2tags -t html -o qgis_training.html qgis_training.t2t -->
+</BODY></HTML>

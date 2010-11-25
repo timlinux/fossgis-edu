@@ -1,9 +1,9 @@
 PostGIS Training Course
 
-Tim Sutton, Horst Duester, 2010
+Tim Sutton, Horst Duester, Gavin Fleming, Samantha Lee Pan 2010
 
 %! target       : html
-%! style        : style.css
+%! style(html)  : style.css
 %! Options      : --toc --toc-level 3 --enum-title --css-sugar --css-inside
 %! preproc      : TUT_URL   https://qgis.org
 %! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
@@ -59,7 +59,7 @@ a candidate key." - Wikipedia
 
 In SQL databases a table is also known as a **relation.**
 
-=== Columnns / Fields ===
+=== Columns / Fields ===
 
 "A column is a set of data values of a particular simple type, one for each row
 of the table. The columns provide the structure according to which the rows are
@@ -100,11 +100,12 @@ Tim and Horst
 
 There are many kinds of datatypes, lets focus on the most common:
 
-String - to store free form text data
-Integer - to store whole numbers
-Real - to store decimal numbers
-Date - to store Horsts birthday so no one forgets
-Boolean - to store simple true/false values
+- String - to store free form text data
+- Integer - to store whole numbers
+- Real - to store decimal numbers
+- Date - to store Horst's birthday so no one forgets
+- Boolean - to store simple true/false values
+-
 
 You can tell the database to allow you to also store nothing in a field - this
 data is referred to as 'Null'. 
@@ -180,7 +181,7 @@ The process of removing redundancy from a database is called Normalisation.
 
 "Normalization is a systematic way of ensuring that a database structure is
 suitable for general-purpose querying and free of certain undesirable
-characteristics—insertion, update, and deletion anomalies—that could lead to a
+characteristics -insertion, update, and deletion anomalies- that could lead to a
 loss of data integrity." - Wikipedia
 
 There are different kinds of normalisation 'forms'. 
@@ -256,7 +257,7 @@ You can read more about database normalisation [here http://en.wikipedia.org/wik
 "A database index is a data structure that improves the speed of data retrieval
 operations on a database table." - Wikipedia
 
-Imagine you are reading a text book and lookig for the explanation of a concept
+Imagine you are reading a text book and looking for the explanation of a concept
 - and the text book has no index! You will have to start reading at one cover
 and work your way through the entire book until you find the information you
 need. The index at the back of a book helps you to jump quickly to the page
@@ -303,7 +304,7 @@ record is added to the table:
 === Entity Relationship Diagramming ===
 
 In a normalised database, you typically have many relations (tables). The
-entity-relationship diagram (ER Diagram) is used design the logical
+entity-relationship diagram (ER Diagram) is used to design the logical
 dependencies between the relations. Remember our un-normalised people table? 
 
 ```
@@ -315,7 +316,7 @@ test=# select * from people;
 (2 rows)
 ```
 
-With a little work we can make it into two tables, removing the need to repeat
+With a little work we can split it into two tables, removing the need to repeat
 the street name for individuals who live in the same street:
 
 ```
@@ -330,13 +331,14 @@ and
 
 
 ```
-test=# select * from streets;
+test=# select * from people;
  id |     name     | house_no | street_id |  phone_no   
 ----+--------------+----------+-----------+-------------
   1 | Horst Duster |        4 |         1 | 072 121 122
 (1 row)
 
 ```
+We can then link the two tables using the 'keys' streets.id and people.streets_id
 
 If we draw an ER Diagram for these two tables it would look something like
 this:
@@ -388,7 +390,7 @@ your postal code could ensure that the number falls between 1000 and 9999.
 A Primary key is one or more field values that make a record unique. Usually
 the primary key is called id and is a sequence. 
 
-A foreign key is used to refer to a unique record on another table.
+A Foreign key is used to refer to a unique record on another table.
 
 In ER Diagramming, the linkage between tables is normally based on Foreign keys
 linking to Primary keys.
@@ -463,6 +465,9 @@ Do you want to continue [Y/n]? y
 
 Press 'Y' and wait for the download and installation to finish.
 
+===Help===
+PostgreSQL has very good [local file:///usr/share/doc/postgresql-doc-8.4/html/index.html] and [online http://www.postgresql.org/docs/8.4/static/index.html] documentation. 
+
 
 === Create a database user ===
 
@@ -526,9 +531,7 @@ template1 | postgres | UTF8     | en_ZA.utf8 | en_ZA.utf8 |
 (3 rows)
 
 ```
-
-
-
+Type 'q' to exit
 
 === Create a database ===
 
@@ -557,6 +560,8 @@ template0 | postgres | UTF8     | en_ZA.utf8 | en_ZA.utf8 | =c/postgres: postgre
 template1 | postgres | UTF8     | en_ZA.utf8 | en_ZA.utf8 | =c/postgres: postgres=CTc/postgres
 (4 rows)
 ```
+
+Type 'q' to exit.
 
 === Starting a database shell session ===
 
@@ -599,6 +604,7 @@ lets create a streets table:
 ```
 create table streets (id serial not null primary key, name varchar(50));
 ```
+'serial' and 'varchar' are ''data types''. 'serial' tell PostgreSQL to start an integer sequence (autonumber) to populate the id automatically for every new record. 'varchar(50)' tell PostgreSQL to create a character field of 50 characters in length. 
 
 You will notice that the command ends with a ```;``` - all SQL commands should
 be terminated this way. When you press enter, psql will report something like
@@ -611,7 +617,9 @@ NOTICE:  CREATE TABLE will create implicit sequence "streets_id_seq" for serial
 CREATE TABLE
 ```
 
-That means your table was created successfully.
+That means your table was created successfully, with a primary key 'streets_pkey' using streets.id.
+
+Note: If you hit return without entering a ';' the you get a prompt like this 'address-#' since PG is expecting you to enter more. Enter ';' to run your command.
 
 To view your table schema you can do this:
 
@@ -651,6 +659,7 @@ Which should show something like this:
 As you can see, our table is empty!
 
 Use the approach shown above to make a table called people:
+Add fields such as phone number, home address, name, etc. (these aren't all valid names: change them to make them valid).
 
 ```
 Write the SQL you create here:
@@ -722,7 +731,7 @@ Indexes:
 
 ```
 
-**Note:** for advanced users, we have purposely ommitted the fkey constraint.
+**Note:** for advanced users, we have purposely omitted the fkey constraint.
 
 === Create Keys in SQL ===
 
@@ -742,13 +751,13 @@ Lets show you the first way:
 
 ```
 alter table people 
-  add constraint people_streets_fk foreign key (id) references streets(id);
+  add constraint people_streets_fk foreign key (street_id) references streets(id);
 ```
 
 That tells the people table that its street_id fields must match a valid street
-id from the steets table.
+id from the streets table.
 
-The more usualy way to create a constraint is to do it when you create the table:
+The more usual way to create a constraint is to do it when you create the table:
 
 ```
 create table people (id serial not null primary key, 
@@ -778,7 +787,7 @@ Foreign-key constraints:
 ```
 
 
-=== Create Indexes SQL ===
+=== Create Indexes in SQL ===
 
 We want lightning fast searches on peoples names. To provide for this, we can
 create an index on the name column of our people table:
@@ -805,7 +814,7 @@ Foreign-key constraints:
  "people_streets_fk" FOREIGN KEY (id) REFERENCES streets(id)
 ```
 
-=== Dropping Tables SQL ===
+=== Dropping Tables in SQL ===
 
 If you want to get rid of a table you can use the 'drop' command:
 
@@ -861,7 +870,7 @@ Some thoughts on why you could drop people:
 
 ```
 
-
+Note: Rather don't drop the tables as you will need them in the next exercises.
 
 === A word on PG Admin III ===
 
@@ -869,6 +878,13 @@ We are showing you the SQL commands from the psql prompt because its a very
 useful way to learn about databases. However, there are quicker and easier ways
 to do a lot of what we are showing you. Install PGAdminIII and you can create,
 drop, alter etc tables using 'point and click' in a GUI.
+
+
+Under ubuntu you can install it like this:
+
+```
+sudo apt-get install pgadmin3
+```
 
 
 == Adding Data to the Model ==
@@ -893,6 +909,7 @@ A couple of things to note:
    integrity of your database.
  -
 
+You should see 'INSERT 0 1' if it is successful.
 You can see the result of your insert action by selecting all the data in the table:
 
 ```
@@ -943,6 +960,7 @@ House Number: 55
 Street: Main Street
 Phone: 072 882 33 21
 ```
+Remember, we defined phone numbers as strings.
 
 What problems did you encounter? 
 
@@ -969,6 +987,8 @@ What problems did you encounter?
 You should have an error report if you try to do this without first creating a
 record for Main Street in the streets table. 
 
+What error did you get?
+
 You should have noticed that:
  - You can't add the street using its name
  - You can't add a street using a street id before first 
@@ -984,9 +1004,8 @@ Here is how we made our friend:
 ```
 insert into streets (name) values('Main Street');
 insert into people (name,house_no, street_id, phone_no) 
-  values ('Joe Smith',55,1,'072 882 33 21');
+  values ('Joe Smith',55,2,'072 882 33 21');
 ```
-
 === Select data ===
 
 We have already shown you the syntax for selecting records. Lets look at a few
@@ -1026,8 +1045,9 @@ record to be changed:
 update streets set name='New Main Street' where id=2;
 ```
 
+It should return 'UPDATE 1'
 
-
+Note: the WHERE statement criteria are case sensitive 'Main Street' <> 'Main street'
 
 === Delete Data ===
 
@@ -1048,7 +1068,7 @@ address=# select * from people;
 
 ```
 
-Excercise:
+Exercise:
 
 Use the skills you learned earlier to add some new friends to your database.
 
@@ -1071,6 +1091,13 @@ insert into people (name,house_no, street_id, phone_no)
 insert into people (name,house_no, street_id, phone_no) 
             values ('QGIS Geek',83,1,'072 932 31 32');
 ```
+% Got an error and not sure how to get around:
+% address=# insert into people (name,house_no, street_id, phone_no) 
+% address-#             values ('IP Knightly',55,1,'072 837 33 35');
+% ERROR:  insert or update on table "people" violates foreign key constraint 
+% "people_streets_fk"
+% DETAIL:  Key (id)=(3) is not present in table "streets".
+%% This number increments each time I re-run the exact same statement (which specfies id=1 for streets).
 
 
 === Ordering results ===
@@ -1181,6 +1208,7 @@ select people.name, house_no, streets.name
 from people,streets
 where people.street_id=streets.id;
 ```
+Note: With joins, you will always state the two tables the information is coming from, in this case people and streets.  You also need to specify which two keys must match (foreign key & primary key)
 
 Here is what the output will look like:
 
@@ -1212,7 +1240,7 @@ update people set street_id = 2 where id=2;
 update people set street_id = 3 where id=3;
 ```
 
-Lets take a quick look at our data after those changes - we resuse our query
+Lets take a quick look at our data after those changes - we reuse our query
 from the previous section:
 
 ```
@@ -1333,7 +1361,7 @@ Solution:
 select count(people.name), streets.name 
 from people, streets 
 where people.street_id=streets.id 
-group by people.street_id, streets.name;
+group by streets.name;
 ```
 
 Result:
@@ -1377,7 +1405,7 @@ As you can see the only change is the ```create view roads_count_v as``` part
 at the beginning. The nice thing is that we can now select data from that view:
 
 ```
-select * from road_count_v;
+select * from roads_count_v;
 ```
 
 Result:
@@ -1394,18 +1422,20 @@ Result:
 
 
 
-=== Modifying a view ===
+=== Modifying a View ===
 
 A view is not fixed, and it contains no 'real data'. This means you can easily
 change it without impacting on any data in your database.
 
+
 ```
-create or replace road_count_v as 
-  select count(people.name), streets.name 
-  from people, streets where people.street_id=streets.id 
-  group by people.street_id, streets.name 
-  order by streets.name;
+CREATE OR REPLACE roads_count_v AS 
+  SELECT count(people.name), streets.name 
+  FROM people, streets WHERE people.street_id=streets.id 
+  GROUP BY people.street_id, streets.name 
+  ORDER BY streets.name;
 ```
+(this example also shows the best practice convention of using UPPERCASE for all SQL keywords)
 
 You will see that we have added an 'order by' clause so that our view rows are nicely sorted:
 
@@ -1449,9 +1479,10 @@ create rule people_log as on update to people
 
 = Introduction to PostGIS =
 
-While working through this section, you may want to keep a copy of the [PostGIS
-cheat sheet postgis_cheatsheet.pdf] available at [Boston GIS user group
-http://www.bostongis.com/postgis_quickguide.bqg].
+While working through this section, you may want to keep a copy of the [PostGIS cheat sheet postgis_cheatsheet.pdf] available at [Boston GIS user group http://www.bostongis.com/postgis_quickguide.bqg]. Another good friend is the [local file:///usr/share/doc/postgis/postgis/postgis.html] or [online http://postgis.refractions.net/documentation/manual-1.5/] PostGIS documentation.
+
+Some other resources:
+[PostGIS online http://postgisonline.org/]
 
 == PostGIS Setup ==
 === Installing under Ubuntu ===
@@ -1459,7 +1490,7 @@ http://www.bostongis.com/postgis_quickguide.bqg].
 Postgis is easily installed from apt.
 
 ```
-sudo apt-get install postgis
+sudo apt-get install postgis postgresql-8.4-postgis
 ```
 
 Really, its that easy...
@@ -1478,8 +1509,11 @@ A little more complicated, but still not hard. Note that you need to be online t
 
 **Note:** You can ensure that any database created on your system automatically
 gets these spatial extensions by running these commands (from this and the next
-two sections) on the template1 system database ''before'' you create any of
-your own databases.
+two sections) on the ``template1`` system database ''before'' you create any of
+your own databases. 
+
+% appropriate formatting for ''before'' above?
+% suggestion: use ``template1`` (as it's a name)
 
 PostgreSQL can use various procedural languages. What is a procedural language?
 It is an 'in database' language that can be used to extend the functionality of
@@ -1509,9 +1543,6 @@ this, a number of functions are installed into the database.
 psql address < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
 ```
 
-Once that has run (it normally only takes a few seconds), you can view all the
-functions that were loaded by doing this:
-
 ```
 psql address
 \df
@@ -1533,6 +1564,7 @@ exceptions).
 
 To load the SRS table do:
 
+Note: quit the database first. Then:
 ```
 psql address < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 ```
@@ -1542,8 +1574,8 @@ The above command adds a table to our database. We can see the schema of this ta
 ```
 address=# \d spatial_ref_sys
 Table "public.spatial_ref_sys"
-  Column   |          Type           | Modifiers 
------------+-------------------------+-----------
+   Column   |          Type           | Modifiers 
+ -----------+-------------------------+-----------
   srid      | integer                 | not null
   auth_name | character varying(256)  | 
   auth_srid | integer                 | 
@@ -1599,6 +1631,7 @@ So lets give that a try:
 ```
 address=# select st_pointfromtext('POINT(1 1)');
 ```
+
 
 Result:
 
@@ -1664,14 +1697,14 @@ implementation of standards for geospatial content and services, GIS data
 processing and data sharing." - Wikipedia
 
 === What is the SFS Model ===
-The Simple Feaure for SQL (SFS) Model is a non topological way to store
+The Simple Feature for SQL (SFS) Model is a non topological way to store
 geospatial data in a database and defines functions for accessing, operating,
-and constructung these data.
+and constructing these data.
 
 [ogc_sfs.png]
 
 The model defines geospatial data from type Point, Linestring, Polygon and
-aggrgations of them to Multi objects.
+aggregations of them to Multi objects.
 
 For further information have also a look at [OGC Simple Feature for SQL http://www.opengeospatial.org/standards/sfs]
 
@@ -1734,7 +1767,6 @@ sure it has a constraint enforcing geometries to be polygons
 
 
 ```
-
 Solution:
 
 
@@ -1803,12 +1835,23 @@ insert into people (name,house_no, street_id, phone_no, the_geom)
                  34,
                  3,
                  '072 812 31 28', 
-                 st_makepoint(33,-33);
+                 st_makepoint(33,-33));
 ```
 
 **Note:** Now is probably a good time to fire up QGIS and try to view your
 people table. Also try editing / adding / deleting records and then performing
 select queries in the database to see how the data has changed.
+
+To load a PostGIS layer in QGIS use the 'Add PostGIS layer' menu option or toolbar button to open the dialog. Then define a new connection, e.g.:
+name: myPG
+host: localhost
+port: 5432
+database: address
+user:
+password:
+
+then Test it. Then OK, then Connect and add layers to your project!
+ 
 
 ```
 
@@ -1873,7 +1916,7 @@ geometry column as every other database column. With the installation of
 PostGIS in our database we have additional functions to query our database.
 
 
-=== Spatial operators ===
+=== Spatial Operators ===
 
 When you want to know which points are within a distance of 2 degrees to a
 point(X,Y) you can do this with:
@@ -2042,7 +2085,7 @@ Solution:
 ```
 alter table streets add column the_geom geometry;
 alter table streets add constraint streets_geom_point_chk check 
-     (st_geometrytype(the_geom) = 'ST_Linestring'::text OR the_geom IS NULL);
+     (st_geometrytype(the_geom) = 'LINESTRING'::text OR the_geom IS NULL);
 insert into geometry_columns values ('','public','streets','the_geom',2,4326,'LINESTRING');
 create index streets_geo_idx
   on streets
@@ -2055,7 +2098,7 @@ Now lets insert a linestring into our streets table. In this case I am going to 
 an existing street record:
 
 ```
-update streets set the_geom = st_linefromtext('LINESTRING(20 -33, 21 -34, 24 -33)') 
+update streets set the_geom = st_linestringfromtext('LINESTRING(20 -33, 21 -34, 24 -33)') 
 where streets.id=2;
 ```
 
@@ -2152,7 +2195,7 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            3,
            '072 812 31 28', 
            1,
-           st_makepoint(33,-33);
+           st_makepoint(33,-33));
 
 insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
    values ('IP Knightly',
@@ -2160,7 +2203,7 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            1,
            '071 812 31 28', 
            1,
-           st_makepoint(32,-34);
+           st_makepoint(32,-34));
 
 insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
    values ('Rusty Bedsprings',
@@ -2168,7 +2211,7 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            1,
            '071 822 31 28', 
            1,
-           st_makepoints(34,-34);
+           st_makepoint(34,-34));
 
 ```
 
@@ -2183,6 +2226,8 @@ By now our schema should be looking like this:
 
 Create city boundaries by computing the minimum convex hull of all addresses
 for that city and computing a buffer around that area.
+
+
 
 === Access Subobjects ===
 
@@ -2206,7 +2251,6 @@ from (
   select st_boundary(geometry) as myGeometry 
   from myPolygonTable) as foo
 ```
-
 
 == Data Processing ==
 PostGIS supports all OGC SFS/MM standard conform functions. All these functions are starting with ``ST_``. 
@@ -2288,7 +2332,7 @@ pgsql2shp -f <path to new shapefile> -g <geometry column name> \
 ```
 
 === ogr2ogr ===
-ogr2ogr is a very powerful tool to convert data into and from postgis to many dataformats. ogr2ogr is part of the GDAL/OGR Software and has to be installed seperately. To export a table from PostGIS to GML you can use this command:
+ogr2ogr is a very powerful tool to convert data into and from postgis to many data formats. ogr2ogr is part of the GDAL/OGR Software and has to be installed separately. To export a table from PostGIS to GML you can use this command:
 
 ```
 ogr2ogr -f GML export.gml PG:'dbname=<databasename> user=<username> host=<hostname>' <Name of PostGIS-Table>
