@@ -1,0 +1,90 @@
+Mapserver Training Notes
+
+(c) 2009 Linfiniti Consulting cc.
+
+%! target       : html
+%! style        : style.css
+%! Options      : --toc --toc-level 3 --enum-title --css-sugar --css-inside
+%! preproc      : TUT_URL   https://qgis.org
+%! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
+%! PostProc(html): '(?i)(</pre>)' '\1</div>'
+%! encoding: iso-8859-1
+% These are comments and will not be generated in any output
+% -------------------
+
+%This document is in text2tags format. You can generate html, plain text and
+%moinmoin formatted documentation by running txt2tags on this document. See the
+%txt2tags home page for more details.  Please insert manual line breaks in this
+%document as it makes diffing for changes much easier. To do this in vim 
+%automatically, select a section then issue (gq) command. Please dont
+%apply vim formatting to the whol document as it screws up some formatting
+%rather apply it selectively to paragraphs where needed.
+
+% To generate the text version of this document:
+% txt2tags -t txt -o django_training django_training.t2t
+% To generate the moinmoin version of this document
+% txt2tags -t moin -o django_training.moin  django_training.t2t
+% To generate the html version of this document
+% txt2tags -t html -o django_training.html django_training.t2t
+
+% End of comments
+% -------------------
+
+= Introducing Mapserver =
+
+== What is it? ==
+
+```
+MapServer is an Open Source platform for publishing spatial data and 
+interactive mapping applications to the web. Originally developed in 
+the mid-1990’s at the University of Minnesota, MapServer is released 
+under an MIT-style license, and runs on all major platforms (Windows, 
+Linux, Mac OS X).
+
+   -- http://mapserver.org/
+```
+
+
+
+== Installation ==
+
+Under ubuntu do :
+
+```
+sudo apt-get install cgi-mapserver python-mapscript
+```
+
+
+The python mapscript module above is not strictly needed - 
+it will be used for testing our map files.
+
+For the above mentioned testing, you should also install mapfile 
+tools plugin using the QGIS python plugin manager (you need to 
+enable 3rd party repositories first).
+
+== Installing some test data into PostGIS ==
+
+```
+#!/bin/bash
+createdb mapserver
+createlang plpgsql mapserver
+psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
+psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
+```
+
+== Making your first map file ==
+
+Lets dive right in!
+
+```
+
+```
+
+
+== Testing ==
+
+GetCapabilities
+
+```
+http://localhost/cgi-bin/mapserv?map=/tmp/world.map&request=getCapabilities&service=wms&version=1.1.0
+```

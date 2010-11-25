@@ -1,0 +1,54 @@
+MAP
+  NAME "WORLD"
+  SIZE 800 800
+  UNITS meters
+  EXTENT -180 -90 180 90
+  #Comment out the next line to disable debuggin for all map files
+  DEBUG 5 #debugging level between 1 and 5, 5 is the most detailed
+  CONFIG "MS_ERRORFILE" "/tmp/ms.log"
+  EXTENT -180 -90 180 90
+  PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+  END
+  IMAGECOLOR 230 230 230
+  IMAGETYPE PNG
+  
+  WEB
+    IMAGEPATH '/tmp/'
+    IMAGEURL '/tmp/'
+  END
+
+  LAYER
+    NAME 'Country'
+    TYPE POLYGON
+    DUMP true
+    EXTENT -180 -90 180 90
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='gis' host=localhost port=5432 user='readonly' password='readonly' sslmode=disable"
+    DATA 'the_geom FROM "world"."country" USING UNIQUE gid USING srid=4326'
+    METADATA
+      'ows_title' 'Country'
+    END
+    STATUS ON
+    TRANSPARENCY 30
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    CLASS
+      NAME 'country' 
+      STYLE
+        SYMBOL 0 
+        SIZE 2 
+        OUTLINECOLOR 0 0 0
+        COLOR 0 0 0
+      END
+    END
+  END
+END
+
