@@ -101,8 +101,8 @@ grant select on geometry_columns to ms_readonly;
 
 == Creating a connection to the database in QGIS ==
 
-Open QGIS and create a new postgres connection to your mapserver database using your 
-readonly account. 
+Open QGIS and create a new postgres connection to your mapserver database using
+your readonly account. 
 
 ```
 Layer -> Add PostGIS Layer -> New 
@@ -112,9 +112,9 @@ And then configure it to look like this:
 
 [doc/img/image01.jpeg]
 
-Now connect to your database. You may get an error like the one below, which you can 
-safely ignore - it appears because we (purposely) gave the ms_readonly account limited 
-permissions.
+Now connect to your database. You may get an error like the one below, which
+you can safely ignore - it appears because we (purposely) gave the ms_readonly
+account limited permissions.
 
 [doc/img/image02.jpeg]
 
@@ -130,45 +130,294 @@ Which should open with some random colours like this:
 
 == Making your first map file ==
 
-What is a map file? A map file is a simple text file that defines the options that you want mapserver to use when rendering your maps. It specifies the extents of your project, Coordinate Reference Systems (CRS), which map layers to use and what symbology to use for them. In many respects, it is just like a QGIS project file, but for web mapping.
+What is a map file? A map file is a simple text file that defines the options
+that you want mapserver to use when rendering your maps. It specifies the
+extents of your project, Coordinate Reference Systems (CRS), which map layers
+to use and what symbology to use for them. In many respects, it is just like a
+QGIS project file, but for web mapping.
 
 Lets dive right in! We are going to use two plugins to help us do our work.
 First install the Mapfile Tools plugin in QGIS (you must enabled 3rd party repositories first).
 
-```
 [doc/img/image05.jpeg]
-```
 
-Next use the plugin manager to enable the mapserver export tool - which we will use to create your initial map file. 
+Next use the plugin manager to enable the mapserver export tool - which we will
+use to create your initial map file. 
 
-```
 [doc/img/image06.jpeg]
+
+Save your qgis project - I called mine world.qgs and I placed it in a directory structure like this:
+
+```
+/home/web/mapserver-tut/
+`-- qgis-projects
+    `-- world.qgs
 ```
 
-Save your qgis project - I called mine world.qgs. Now use the Mapserver export tool by doing 
+Now run the mapserver export plugin:
 
 ```
 Plugins -> Mapserver Export -> Mapserver Export
 ```
 
-Accept the default options and save your map file. I have used the tmp directory, but you should use a more permanent location as we will be adding some additional files into the same location.
+Accept the default options and save your map file. I have placed mine here:
 
-[doc/img/image07.jpeg]
+```
+mapserver-tut/
+|-- mapfiles
+|   `-- world.map    <-- new map file created
+`-- qgis-projects
+    `-- world.qgs
+```
 
-Before it can be used, the map file as exported needs a few tweaks.
+""Note:"" The directory where you place the map file and the map file itself
+must be accessible to the apache www-data user.
+
+[doc/img/image08.jpeg]
+
+After the export you will see a message with some tips like this:
+
+[doc/img/image09.jpeg]
+
+
+Before it can be used, the map file as exported needs a few tweaks. Open it
+using your favourite editor e.g.
+
+```
+Accessories -> gedit
+```
+
+Now comment out the following lines by placing a hash before them:
+
+```
+ # FONTSET './fonts/fonts.txt'
+ # SYMBOLSET './symbols/symbols.txt'
+```
+
+And near the bottom comment out the line:
+
+```
+ # SYMBOL "circle"
+```          
+
+We will explain why we commented them out just now, but first lets test our 
+new map service!
 
 == Testing ==
 
-GetCapabilities
+The first thing I usually do when I set up a new map service is to test it. In
+this section we show the different ways you can manually contruct a request to
+the server. Although you won't use these on a day to day basis, understanding
+them can be very useful for diagnostics. If the service does not return the
+expected results, you can issue these low level commands and look at the xml
+documents returned to try to identify any inconsistencies. Also mapserver will
+sometimes add comments for you to the document indicating where the service
+specification can be improved.
+
+You will see later on in the trouble shooting section, that watching the apache
+logs to see which requests are being issued by your client (and if neccessary
+replaying those requests in your browser) can also help you to identify issues
+in your application architecture.
+
+=== GetCapabilities ===
+
+Your first port of call should be to issue a get capabilities request like this:
 
 ```
-http://localhost/cgi-bin/mapserv?map=/tmp/world.map&request=getCapabilities&service=wms&version=1.1.0
+http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/
+world.map&request=getCapabilities&service=wms&version=1.1.0
 ```
 
-GetMap
+""Note:"" For formatting purposes I will be breaking up urls into multiple
+lines in this tutorial, but you should write them into your browser location
+bar as a single line.
+
 
 ```
-http://localhost/cgi-bin/mapserv?mode=map&map=/tmp/world.map&request=getMap&service=wms&version=1.1.0&layers=Country,Cities
+<!-- end of DOCTYPE declaration -->
+<WMT_MS_Capabilities version="1.1.0">
+  <!--
+   MapServer version 5.6.5 OUTPUT=GIF OUTPUT=PNG OUTPUT=JPEG OUTPUT=WBMP
+   OUTPUT=SWF OUTPUT=SVG SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE
+   SUPPORTS=ICONV SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT
+   SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT SUPPORTS=WCS_SERVER
+   SUPPORTS=SOS_SERVER SUPPORTS=FASTCGI SUPPORTS=THREADS SUPPORTS=GEOS
+   SUPPORTS=RGBA_PNG INPUT=EPPL7 INPUT=POSTGIS INPUT=OGR INPUT=GDAL
+   INPUT=SHAPEFILE 
+  -->
+  <Service>
+  <Name>OGC:WMS</Name>
+  <Title>QGIS-MAP</Title>
+  <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+   map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+  <ContactInformation>
+    </ContactInformation>
+  </Service>
+  <Capability>
+    <Request>
+      <GetCapabilities>
+        <Format>application/vnd.ogc.wms_xml</Format>
+        <DCPType>
+        <HTTP>
+          <Get>
+            <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+              map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+            </Get>
+            <Post>
+            <OnlineResource xlink:href="http://localhost/cgi-bin/
+              mapserv?map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+            </Post>
+          </HTTP>
+        </DCPType>
+      </GetCapabilities>
+      <GetMap>
+        <Format>image/png; mode=24bit</Format>
+        <Format>image/gif</Format>
+        <Format>image/png</Format>
+        <Format>image/jpeg</Format>
+        <Format>image/vnd.wap.wbmp</Format>
+        <Format>image/tiff</Format>
+        <Format>image/svg+xml</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+            </Get>
+            <Post>
+              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+            </Post>
+          </HTTP>
+        </DCPType>
+      </GetMap>
+      <GetFeatureInfo>
+      <Format>text/plain</Format>
+      <Format>application/vnd.ogc.gml</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+            </Get>
+            <Post>
+              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+            </Post>
+          </HTTP>
+        </DCPType>
+      </GetFeatureInfo>
+      <DescribeLayer>
+        <Format>text/xml</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+            </Get>
+            <Post>
+              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
+            </Post>
+          </HTTP>
+        </DCPType>
+      </DescribeLayer>
+    </Request>
+    <Exception>
+    <Format>application/vnd.ogc.se_xml</Format>
+    <Format>application/vnd.ogc.se_inimage</Format>
+    <Format>application/vnd.ogc.se_blank</Format>
+    </Exception>
+    <VendorSpecificCapabilities/>
+    <UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0"/>
+    <Layer>
+      <Name>QGIS-MAP</Name>
+      <Title>QGIS-MAP</Title>
+      <Abstract>QGIS-MAP</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/>
+      <Layer queryable="1" opaque="0" cascaded="0">
+        <Name>Country</Name>
+        <Title>Country</Title>
+        <LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/>
+      </Layer>
+      <Layer queryable="1" opaque="0" cascaded="0">
+        <Name>Cities</Name>
+        <Title>Cities</Title>
+        <LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/>
+      </Layer>
+    </Layer>
+  </Capability>
+</WMT_MS_Capabilities>
 ```
 
+The capabilities document is a machine and human readable declaration from your
+map service describing all the things it can do. In this case it can:
 
+- Provide its name and title ""QGIS-MAP"".
+- Provide the contact details of the person responsible for the service if any.
+- Describe its capabilities and by which protocols (HTTP) they are available in
+  response to a ""GetCapabilities"" request (as listed above).
+- Provide a map (in various image formats) in response to a ""GetMap"" request.
+- Provide information about a given feature in response to a ""GetFeatureInfo"" request.
+- Provide details about one or more layers in response to a ""DescribeLayer"" request.
+- The document ends with a listing of all the layers available for the service.
+- 
+
+
+
+
+
+
+=== DescribeLayer ===
+
+The purpose of the describe layer request is to get a description for one or more
+layers offered by the map service:
+
+```
+http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map&
+request=DescribeLayer&service=wms&version=1.3.0&layers=Country&sld_version=1.1.0
+```
+
+Which produces something like:
+
+```
+<?xml version='1.0' encoding="ISO-8859-1"?>
+<DescribeLayerResponse xmlns="http://www.opengis.net/sld"
+  xmlns:ows="http://www.opengis.net/ows" xmlns:se="http://www.opengis.net/se"
+  xmlns:wfs="http://www.opengis.net/wfs"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xsi:schemaLocation="http://www.opengis.net/sld
+  http://schemas.opengis.net/sld/1.1.0/DescribeLayer.xsd">
+<Version>1.1.0</Version>
+  <LayerDescription>
+    <owsType>wfs</owsType>
+    <se:OnlineResource xlink:type="simple" 
+      xlink:href="http://localhost/cgi-bin/mapserv?
+      map=/home/web/mapserver-tut/mapfiles/world.map"/>
+    <TypeName>
+      <se:FeatureTypeName>Country</se:FeatureTypeName>
+    </TypeName>
+  </LayerDescription>
+</DescribeLayerResponse>
+```
+
+It doesn't tell us too much because there are not many properties defined for the layer at this stage.
+
+=== GetMap ===
+
+No doubt you have been waiting for this part - the part where we actually make
+a map:
+
+```
+http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map&SERVICE=WMS&
+VERSION=1.3.0&REQUEST=GetMap&BBOX=-86.962482,-182.818000,111.102000,194.678000&
+CRS=EPSG:4326&WIDTH=1561&HEIGHT=819&LAYERS=Cities,Country&STYLES=,&
+FORMAT=image/png&DPI=96&TRANSPARENT=true
+```
+
+It should return a pretty picture something like this:
+
+
+[doc/img/image10.jpeg]
