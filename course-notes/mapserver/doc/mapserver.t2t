@@ -1,6 +1,6 @@
 Mapserver Training Notes
 
-(c) 2009 Linfiniti Consulting cc.
+(c) 2010 Linfiniti Consulting cc.
 
 %! target       : html
 %! style        : style.css
@@ -21,7 +21,7 @@ Mapserver Training Notes
 %rather apply it selectively to paragraphs where needed.
 
 % To generate the text version of this document:
-% txt2tags -t txt -o django_training django_training.t2t
+% txt2tags -t txt -o django_traininelect on country to ms_readonly; django_training.t2t
 % To generate the moinmoin version of this document
 % txt2tags -t moin -o django_training.moin  django_training.t2t
 % To generate the html version of this document
@@ -30,7 +30,7 @@ Mapserver Training Notes
 % End of comments
 % -------------------
 
-= Introducing Mapserver =
+= Introducing Mapserver with QGIS =
 
 == What is it? ==
 
@@ -44,11 +44,17 @@ Linux, Mac OS X).
    -- http://mapserver.org/
 ```
 
+In this tutorial we will show you how to work with QGIS and mapserver to:
+
+ + generate mapfiles
+ + test mapfiles
+ + use mapserver as a portrayal service for maps and QGIS as a client (via wms)
+ +
 
 
 == Installation ==
 
-Under ubuntu do :
+We assume you have QGIS installed already. To install mapserver under ubuntu do :
 
 ```
 sudo apt-get install cgi-mapserver python-mapscript
@@ -79,15 +85,77 @@ pg_restore country.dmp | mapserver
 pg_restore cities.dmp | mapserver
 ```
 
+Now create a non-privaledged user for use from mapserver:
+
+```
+create role ms_readonly with password 'ms_readonly' LOGIN;
+```
+
+And assign read permissions to the tables we imported:
+
+```
+grant select on cities to ms_readonly;
+grant select on country to ms_readonly;
+grant select on geometry_columns to ms_readonly;
+```
+
+== Creating a connection to the database in QGIS ==
+
+Open QGIS and create a new postgres connection to your mapserver database using your 
+readonly account. 
+
+```
+Layer -> Add PostGIS Layer -> New 
+```
+
+And then configure it to look like this:
+
+[doc/img/image01.jpeg]
+
+Now connect to your database. You may get an error like the one below, which you can 
+safely ignore - it appears because we (purposely) gave the ms_readonly account limited 
+permissions.
+
+[doc/img/image02.jpeg]
+
+Once you have connected, open the countries and cities layers in QGIS:
+
+[doc/img/image03.jpeg]
+
+Which should open with some random colours like this:
+
+
+[doc/img/image04-thumb.jpeg]
+
 
 == Making your first map file ==
 
-Lets dive right in!
+What is a map file? A map file is a simple text file that defines the options that you want mapserver to use when rendering your maps. It specifies the extents of your project, Coordinate Reference Systems (CRS), which map layers to use and what symbology to use for them. In many respects, it is just like a QGIS project file, but for web mapping.
+
+Lets dive right in! We are going to use two plugins to help us do our work.
+First install the Mapfile Tools plugin in QGIS (you must enabled 3rd party repositories first).
 
 ```
-
+[doc/img/image05.jpeg]
 ```
 
+Next use the plugin manager to enable the mapserver export tool - which we will use to create your initial map file. 
+
+```
+[doc/img/image06.jpeg]
+```
+
+Save your qgis project - I called mine world.qgs. Now use the Mapserver export tool by doing 
+
+```
+Plugins -> Mapserver Export -> Mapserver Export
+```
+
+Accept the default options and save your map file. I have used the tmp directory, but you should use a more permanent location as we will be adding some additional files into the same location.
+
+[doc/img/image07.jpeg]
+
+Before it can be used, the map file as exported needs a few tweaks.
 
 == Testing ==
 
@@ -96,3 +164,11 @@ GetCapabilities
 ```
 http://localhost/cgi-bin/mapserv?map=/tmp/world.map&request=getCapabilities&service=wms&version=1.1.0
 ```
+
+GetMap
+
+```
+http://localhost/cgi-bin/mapserv?mode=map&map=/tmp/world.map&request=getMap&service=wms&version=1.1.0&layers=Country,Cities
+```
+
+
