@@ -127,6 +127,7 @@ Which should open with some random colours like this:
 
 [doc/img/image04-thumb.jpeg]
 
+""Note:"" Make sure that both layers are using 'Old Symbology'!
 
 == Making your first map file ==
 
@@ -421,3 +422,288 @@ It should return a pretty picture something like this:
 
 
 [doc/img/image10.jpeg]
+
+== Testing with QGIS ==
+
+=== Create a new WMS Connection ===
+
+You can use QGIS as a WMS client - it will display the rendered map just like
+any other layer.
+
+```
+Layer -> Add WMS Layer -> New
+```
+
+And then define your new WMS layer source as:
+
+""Name:" Localhost World
+"Url:"   
+```http://localhost/cgi-bin/mapserv?
+   map=/home/web/mapserver-tut/mapfiles/world.map```
+
+
+[doc/img/image11.jpeg]
+
+=== Adding a layer ===
+
+Now select 'Localhost World' from your connections list and click 'connect'.
+
+Then select the top level item on the tree then click 'add':
+
+
+[doc/img/image12.jpeg]
+
+You should see the same layer we saw previously in the web browser, but now 
+rendered in QGIS. But now you can pan and zoom around in the layer!
+
+[doc/img/image13.jpeg]
+
+
+== Beautifying you map ==
+
+The process we followed above is an easy way to get started, but it is just 
+that a starting point - from here on we will be manually editing the mapfile 
+and creating symbol files etc.
+
+You might have noticed that the cities layer doesnt really show up (in fact
+they are there but drawn as single black pixels). This is because we have not
+yet made a proper symbol for them. In this step we will show you how to define
+a new symbol and assign it to the cities layer.
+
+=== Creating a symbol definition ===
+
+To start with we need to create a neat directory structure for our symbols, so
+we will add a new directory so our tree looks like this:
+
+```
+mapserver-tut/
+|-- mapfiles
+|   |-- symbols
+|   |   `-- symbols.sym
+|   `-- world.map
+`-- qgis-projects
+    `-- world.qgs
+```
+
+So under the mapfiles directory, you need to create the symbols directory, and
+then create a text file called symbols.sym using your text editor. Now add the
+following to that file:
+
+```
+SYMBOLSET
+  SYMBOL
+    NAME 'circle'
+    TYPE ELLIPSE
+    FILLED TRUE
+    POINTS
+      1 1 
+    END 
+  END 
+END
+```
+
+We have created a simple symbolset and defined one symbol called 'circle' as an
+ellipse with radius and flattening equal (so it will make a perfect circle).
+
+Now lets uncomment and tweak a few lines in our map file that I had you comment
+out before:
+
+Uncomment your symbolset line near the top of the map file and make it look like this:
+
+```
+SYMBOLSET './symbols/symbols.sym'
+```
+
+
+Uncomment at around line 120:
+
+```
+         SYMBOL "circle"
+```         
+
+Now refresh your map view in QGIS and you should see something like this:
+
+[doc/img/image14.jpeg]
+
+The symbolset file is used to define any symbols you want to use. The process
+of creating symbols is described in the
+[http://mapserver.org/mapfile/symbol.html Mapserver Symbol Reference] and the
+[http://mapserver.org/mapfile/symbology/construction.html construction of
+cartographic symbols reference].
+
+=== Creating multiple classes for a layer ===
+
+Sometimes you want to do things like assign multiple symbols to a layer based
+on an attribute. For example, lets make our cities vary in size based on the
+population they host.
+
+In QGIS I can load the cities layer and then create graduated symbology for it
+(make sure you are using the 'old' symbology) based on the population.
+
+[doc/img/image15.jpeg]
+
+When you click ok, your map should now look like this:
+
+[doc/img/image16.jpeg]
+
+Now save your project and run the mapserver export tool again, but this time
+tick the 'LAYER information only' box and set the map file name to a temporary
+file e.g. /tmp/test.map. Doing this will create a map file with only layer
+definitions in it, which we can then use to overwrite the existing cities layer
+definition in our map file:
+
+[doc/img/image17.jpeg]
+
+Now use a text editor to cut the 'cities' layer definition from the
+/tmp/test.map file you made and overwrite the cities definition in the
+world.map file with it.
+
+So this:
+
+```
+  LAYER
+    NAME 'Cities'
+    TYPE POINT
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+  EXTENT -182.818000 -86.052507 194.678000 111.102207
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' password='ms_readonly' sslmode=disable"
+    DATA 'the_geom FROM "cities" USING UNIQUE gid USING srid=4326'
+    FILTER ( GeometryType("the_geom") IN ('POINT','MULTIPOINT') )
+    METADATA
+      'ows_title' 'Cities'
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    CLASS
+       NAME 'Cities' 
+       STYLE
+         SYMBOL "circle" 
+         SIZE 7.0 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 0 0
+       END
+    END
+  END
+```
+
+Gets replaced with this:
+
+```
+  LAYER
+    NAME 'Cities'
+    TYPE POINT
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+  EXTENT -218.847506 -191.606995 236.654187 165.517114
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' password='ms_readonly' sslmode=disable"
+    DATA 'the_geom FROM "cities" USING UNIQUE gid USING srid=4326'
+    FILTER ( GeometryType("the_geom") IN ('POINT','MULTIPOINT') )
+    METADATA
+      'ows_title' 'Cities'
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    CLASSITEM 'POPULATION'
+    CLASS
+      NAME '-99.000 < POPULATION < 186521.000'
+      EXPRESSION ( ([POPULATION] >= -99.000) AND ([POPULATION] <= 186521.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 3.5 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 255 0
+       END
+    END
+    CLASS
+      NAME '186521.000 < POPULATION < 538300.000'
+      EXPRESSION ( ([POPULATION] >= 186521.000) AND ([POPULATION] <= 538300.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 5.25 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 203 52
+       END
+    END
+    CLASS
+      NAME '538300.000 < POPULATION < 1030000.000'
+      EXPRESSION ( ([POPULATION] >= 538300.000) AND ([POPULATION] <= 1030000.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 7.0 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 152 103
+       END
+    END
+    CLASS
+      NAME '1030000.000 < POPULATION < 1850000.000'
+      EXPRESSION ( ([POPULATION] >= 1030000.000) AND ([POPULATION] <= 1850000.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 8.75 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 101 154
+       END
+    END
+    CLASS
+      NAME '1850000.000 < POPULATION < 23620000.000'
+      EXPRESSION ( ([POPULATION] >= 1850000.000) AND ([POPULATION] <= 23620000.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 10.5 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 50 205
+       END
+    END
+  END
+
+```
+
+There are two important changes here. Firstly the 'CLASSITEM' option was added
+that tells mapserver which field we are going to classify cities by. Secondly,
+each CLASS has an EXPRESSION defined which designates the upper and lower
+limits for that class.
+
+
+Lets add our mapserver layer back into QGIS and test what the result looks like:
+
+[doc/img/image18.jpeg]
+
+=== Now you try ===
+
+Use the techniques we have learned above to create distinct classes on the
+country layer based on the population size in each country. We want to achieve
+something like this:
+
+[doc/img/image19.jpeg]
+
+
+== An exercise ==
+
+Lets recap what we have learned so for by adding another layer to our project.
+This time we will add roads to our map so that we have some line features to
+work with.
+
++ Use the supplied roads.dmp to load the roads layer into your database
++ Set the permissions on the roads table so that the ms_readonly user has access to it
++ Add the roads layer to your GIS project twice
++ Give the first layer a scale visibility range of 500000 to 5000000 
++ Give the second layer a scale visibility range of 0 to 500000
++ Save your project
++ Export the roads layers to a temporary map file and merge them into the world.map file.
++
+
