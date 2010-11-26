@@ -1786,7 +1786,7 @@ table:
 
 ```
 insert into geometry_columns values 
-  ('','public','people','the_geom',2,4326,'POINT');
+  ('','public','people','the_geom',2,,'POINT');
 ```
 
 Why? ```geometry_columns``` is used by certain applications to be aware of
@@ -1821,7 +1821,7 @@ Solution:
 
 ```
 insert into geometry_columns values 
-      ('','public','cities','the_geom',2,4326,'POLYGON');
+      ('','public','cities','the_geom',2,,'POLYGON');
 ```
 
 
@@ -2048,7 +2048,7 @@ table.
 
 Exercise: 
  - Modify the streets table so that it has a geometry column of type
-   LINESTRING. 
+   ST_LineString. 
  - Don't forget to do the accompanying update to the geometry columns
    table! 
  - Also add a constraint to prevent any geometries being added that are 
@@ -2085,8 +2085,8 @@ Solution:
 ```
 alter table streets add column the_geom geometry;
 alter table streets add constraint streets_geom_point_chk check 
-     (st_geometrytype(the_geom) = 'LINESTRING'::text OR the_geom IS NULL);
-insert into geometry_columns values ('','public','streets','the_geom',2,4326,'LINESTRING');
+     (st_geometrytype(the_geom) = 'ST_LineString'::text OR the_geom IS NULL);
+insert into geometry_columns values ('','public','streets','the_geom',2,,'LINESTRING');
 create index streets_geo_idx
   on streets
   using gist                                         
