@@ -1015,3 +1015,340 @@ END
 
 ```
 
+== Adding Rasters ==
+
+The procedure for adding rasters is much the same. The easiest is to simply add
+them to a blank QGIS project and them export the mapserver layer definitions,
+then graft them into your map file. I am going to create a raster subfolder
+under my mapserver tutorial directory and place a NASA global mosaic image into
+it:
+
+```
+mapserver-tut/
+|-- mapfiles
+|   |-- symbols
+|   `-- world.map
+`-- raster
+    |-- BlueMarbleWorldJan2004.jgw
+    `-- BlueMarbleWorldJan2004.jpg
+```
+
+The Raster folder contains two files - the Blue Marble mosaic for January 2004
+and its world file.
+
+Lets add this raster to QGIS then export its layer definitions as we have done
+before with vector data:
+
+[doc/img/image20.jpeg]
+
+It should have produced something that looks like this:
+
+```
+  LAYER
+    NAME 'BlueMarbleWorldJan2004'
+    TYPE RASTER
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+  EXTENT -190.799649 -94.528565 190.854979 94.509235
+    DATA '/home/web/mapserver-tut/raster/BlueMarbleWorldJan2004.jpg'
+    METADATA
+      'ows_title' 'BlueMarbleWorldJan2004'
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+  END
+```
+
+If you prefer (and I do), you can substitute the absolute file path for a
+relative path so:
+
+```
+    DATA '../raster/BlueMarbleWorldJan2004.jpg'
+```
+
+Test again in the usual way - by adding a wms layer to QGIS and including all
+layers from the service:
+
+[doc/img/image21.jpeg]
+
+
+== Transparency ==
+
+As you can see from the previous screenshot, having a raster background is not
+much use if you can't actually see it because all your polygons are opaque. You
+can make any layer semi-transparent in mapserver by assiging it a value of <100.
+Lets make all our countries have a semi-transparent fill:
+
+```
+  LAYER
+    NAME 'Country'
+    TYPE POLYGON
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    EXTENT -189.000000 -101.897171 189.000000 95.520767
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='mapserver' host=localhost port=5432 
+                user='ms_readonly' password='ms_readonly' sslmode=disable"
+    DATA 'the_geom FROM "country" USING UNIQUE gid USING srid=4326'
+    FILTER ( GeometryType("the_geom") IN ('POLYGON','MULTIPOLYGON') )
+    METADATA
+      'ows_title' 'Country'
+    END 
+    STATUS OFF 
+    TRANSPARENCY 50  # <-- make the layer semi-transparent
+```
+
+When specifying colours, you can also use 
+
+```
+-1 -1 -1
+```
+
+to indicate transparency. For example we can make the map background transparent by changing this:
+
+```
+  # Background color for the map canvas -- change as desired
+    IMAGECOLOR 255 255 255
+```
+
+to this:
+
+```
+  # Background color for the map canvas -- change as desired
+    IMAGECOLOR -1 -1 -1
+```
+
+To test it you will need to add just the non-raster layers to QGIS and then put
+something (like our raster) as a separate backdrop.
+
+
+== Understanding the mapfile structure == 
+
+Until now we have just dived into capabilities documents and adding layers
+without really taking a look at the structure of the mapfile itself. I did this
+on purpose to let you first get a feel for what can be achieved with mapserver.
+
+Lets look at the structure of the map file:
+
+```
+MAP
+  PROJECTION
+  OUTPUTFORMAT
+  LEGEND
+  WEB
+    METADATA
+    TEMPLATE
+  LAYER 1
+  LAYER 2
+  ...
+  LAYER N
+```
+
+The mapfile is a structured document that is described very nicely in the
+[http://mapserver.org/mapfile/index.html mapserver mapfile] documentation. As
+such we won't try to repeat everything they describe there. Rather we will
+highlight a few important points to bear in mind and create a few examples to
+illustrate what you can do with mapserver and a nice map file.
+
+The purpose of the map file is to describe all the elements of your web mapping
+service. With the map file you can create different kinds of services (simple
+mapserver cgi, WMS, WFS, WCS).
+
+The first thing to understand about the map file is that it is made up of
+nested sections that start with a section name and end with the keyword 'END'.
+The outermost or toplevel section is always the 'MAP' section, so the most
+basic possible map file you could make would look like this:
+
+```
+MAP
+END
+```
+
+Within each section, more sections can exist. Each section can have various
+properties.
+
+The MAP section describes general properties relating to the Coordinate
+Reference System, the image output format(s) supported, the image background
+colours etc.
+
+The LEGEND section describes how a getLegendGraphic image should look if it is
+requested.
+
+The WEB section provides some control for limiting zoom in an out activites,
+provides templating options and probably most importantly has a METADATA
+subsection which describes your web service using keywords.
+
+The PROJECTION section is used to define the Coordinate Reference System for
+the service. As we will see below, mapserver supports on the fly projection
+too.
+
+
+== Creating a legend ==
+
+The legend clause allows your service to support getLegendGraphic requests.
+
+For example you can make a request like this (spread over many lines to ease
+digestion):
+
+```
+http://localhost/cgi-bin/mapserv? 
+       map=/home/web/mapserver-tut/mapfiles/world.map&
+       request=getLegendGraphic&
+       layer=Cities&version=1.3.0&
+       format=image/png&
+       sld_version=1.1.0
+```
+
+and it will produce a graphic like this:
+
+[doc/img/image21.png]
+
+== On the Fly Projection (OTFP) ==
+
+Mapserver supports on the fly projection - including for rasters! This is very
+handy since it means you can specify an arbitrary list of CRS's and have your
+map delivered in any one of them.
+
+Enabling OTFP is simply a matter of declaring additional CRSes in the WEB
+metadata section:
+
+```
+    METADATA
+      'wms_title'           'Mapserver Tut'
+      'wms_onlineresource'  'http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map'
+      'wms_srs'             'EPSG:4326 EPSG:900913'
+    END
+```
+
+
+
+== Get feature info ==
+
+In order to support 'getFeatureInfo' requests
+
+== Troubleshooting and debugging ==
+
+Trouble shooting mapserver is an ordered activity:
+
+""Q:"" Is the client using a valid URL for the map service? 
+
+""A:"" Copy the url used into your browser and try to open it - does it give a
+404 or similar error?
+
+""Q:"" Is your client making valid WMS requests?
+
+""A:"" If the URL is valid, the request parameters may not be. Once again, find
+out what the actual request URLS that are being generated look like and test
+one manually in your browser. There are a few ways to check what URLS are being
+used, but the simplest is to watch your apache logs as you make a request e.g.:
+
+```
+sudo tail -f /var/log/apache2/access.log
+```
+
+""Q:"" Is the map file configuration correct?
+
+""A:"" It could be that the url being used is correct, but the actual map file
+is broken. For example you may have the incorrect database password for your
+connection parameters, or you may have a syntax error in the map file.
+Mapserver by default will try to print the error information into the image it
+renders back for you. Better (and more secure) is to log any errors to a
+mapserver log file by adding a few lines like this to your map file:
+
+```
+DEBUG 5 #debugging level between 1 and 5, 5 is the most detailed
+CONFIG "MS_ERRORFILE" "/tmp/ms.log"
+```
+
+Now watch that log file using tail and watch for any errors while making a
+fresh request:
+
+```
+tail -f /tmp/ms.log
+```
+
+If you do notice an error in the log file, it will typically tell you the line
+number for the error and some (hopefully) diagnostic information.
+
+""Note:"" Be careful of the INCLUDE directive as it will throw your line
+numbers off.
+
+== Where to next? ==
+
+Once you have your mapserver web service successfully set up, you can use it to
+serve up maps via the OGC WMS, WFS and WCS services. You can also use it as the 
+backend for a tilecache if you are concerned about maximising performance. In
+the final section of this tutorial we will briefly describe how to set up and
+test such a tiled map service.
+
+=== Setting up tilecache ===
+
+Tile cache works by making successive WMS getMap requests to your service, at a
+range of scales and storing the results as images on the server file system.
+When the client requests a map scene, TileCache looks to see if it has been
+pre-rendered. If it has it delivers it directly to the client from the cache.
+If it has not been cached yet, it requests the image from the upstream WMS
+server, caches for future use and delivers it to the client.
+
+To install TileCache, simply do:
+
+```
+sudo apt-get install tilecache
+```
+
+Next you need to configure tilecache's configuration file with the details of
+your service. Under Ubuntu this configuration file is stored as /etc/tilecache.cfg.
+For our world.map file we can add the following entry (you must do it as sudo user):
+
+```
+[mapserver-tut]
+type=WMS
+layers=Country,Cities
+url=http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map
+extension=png
+bbox=-180,-90,180,90
+metatile=yes
+levels=16
+srs=EPSG:4326
+extent_type=loose
+```
+
+Note that it simply references the existing mapserver service we have set up
+and passes it a list of layers that should be rendered.
+
+Also noteworthy is that since this is a ""cache"" we are building, it is not
+suitable to use for often changing layers, since the maps are pre-rendered and
+you will need to regenerate all the maps each time a layer changes.
+
+We can test our tilecache services by creating a new QGIS WMS connection that
+points to it:
+
+
+[doc/img/image22.png]
+
+Note that the connection points now to:
+
+```
+http://localhost/cgi-bin/tilecache.cgi
+```
+
+Rather than directly to our mapserver instance. Now go ahead and connect to the
+service
+
+
+[doc/img/image23.png]
+
+You will notice that the tilesets tab is activated (there must be no layers
+selected on the layers tab).
+
+Click on the Tilesets tab and you will then be able to select your
+mapserver-tut tileset. Click add and it should appear in the map canvas. If you
+zoom in and out you should see the individual tiles being rendered - they are
+being taken from the cache if present or rendered and cached if not.
+
