@@ -700,10 +700,318 @@ work with.
 
 + Use the supplied roads.dmp to load the roads layer into your database
 + Set the permissions on the roads table so that the ms_readonly user has access to it
-+ Add the roads layer to your GIS project twice
-+ Give the first layer a scale visibility range of 500000 to 5000000 
-+ Give the second layer a scale visibility range of 0 to 500000
++ Add the roads layer to your GIS project three times
++ Give the first layer a scale visibility range of 0 to 500000
++ Give the second layer a scale visibility range of 500000 to 5000000 
++ Give the third layer a scale visibility range of 5000000 to 50000000 
 + Save your project
 + Export the roads layers to a temporary map file and merge them into the world.map file.
 +
+
+Solution:
+
+You map file should now be looking something like this:
+
+```
+# Map file created from QGIS project file /home/web/mapserver-tut/qgis-projects/world.qgs
+# Edit this file to customize for your map interface
+# (Created with PyQgis MapServer Export plugin)
+MAP
+  NAME "QGIS-MAP"
+  # Map image size
+  SIZE 100 100
+  UNITS meters
+
+
+  EXTENT -182.818000 -86.052507 194.678000 111.102207
+  #FONTSET './fonts/fonts.txt'
+  SYMBOLSET './symbols/symbols.sym'
+  PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+  END
+
+  # Background color for the map canvas -- change as desired
+  IMAGECOLOR 255 255 255
+  IMAGEQUALITY 95
+  IMAGETYPE agg
+
+  OUTPUTFORMAT
+    NAME agg
+    DRIVER AGG/PNG
+    IMAGEMODE RGB
+  END
+  # Legend
+  LEGEND
+      IMAGECOLOR 255 255 255
+    STATUS ON
+    KEYSIZE 18 12
+    LABEL
+      TYPE BITMAP
+      SIZE MEDIUM
+      COLOR 0 0 89
+    END
+  END
+
+  # Web interface definition. Only the template parameter
+  # is required to display a map. See MapServer documentation
+  WEB
+    # Set IMAGEPATH to the path where MapServer should
+    # write its output.
+    IMAGEPATH '/tmp/'
+
+    # Set IMAGEURL to the url that points to IMAGEPATH
+    # as defined in your web server configuration
+    IMAGEURL '/tmp/'
+
+    # WMS server settings
+    METADATA
+      'ows_title'           'QGIS-MAP'
+      'ows_onlineresource'  'http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map'
+      'ows_srs'             'EPSG:4326'
+    END
+
+    #Scale range at which web interface will operate
+    # Template and header/footer settings
+    # Only the template parameter is required to display a map. See MapServer documentation
+    TEMPLATE 'fooOnlyForWMSGetFeatureInfo'
+  END
+
+  LAYER
+    NAME 'Cities'
+    TYPE POINT
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+  EXTENT -218.847506 -191.606995 236.654187 165.517114
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' 
+                password='ms_readonly' sslmode=disable"
+    DATA 'the_geom FROM "cities" USING UNIQUE gid USING srid=4326'
+    FILTER ( GeometryType("the_geom") IN ('POINT','MULTIPOINT') )
+    METADATA
+      'ows_title' 'Cities'
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    CLASSITEM 'POPULATION'
+    CLASS
+      NAME '-99.000 < POPULATION < 186521.000'
+      EXPRESSION ( ([POPULATION] >= -99.000) AND ([POPULATION] <= 186521.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 3.5 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 255 0
+       END
+    END
+    CLASS
+      NAME '186521.000 < POPULATION < 538300.000'
+      EXPRESSION ( ([POPULATION] >= 186521.000) AND ([POPULATION] <= 538300.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 5.25 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 203 52
+       END
+    END
+    CLASS
+      NAME '538300.000 < POPULATION < 1030000.000'
+      EXPRESSION ( ([POPULATION] >= 538300.000) AND ([POPULATION] <= 1030000.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 7.0 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 152 103
+       END
+    END
+    CLASS
+      NAME '1030000.000 < POPULATION < 1850000.000'
+      EXPRESSION ( ([POPULATION] >= 1030000.000) AND ([POPULATION] <= 1850000.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 8.75 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 101 154
+       END
+    END
+    CLASS
+      NAME '1850000.000 < POPULATION < 23620000.000'
+      EXPRESSION ( ([POPULATION] >= 1850000.000) AND ([POPULATION] <= 23620000.000) )
+       STYLE
+         SYMBOL "circle" 
+         SIZE 10.5 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 50 205
+       END
+    END
+  END
+  LAYER
+    NAME 'Africa_roads'
+    TYPE LINE
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    EXTENT 19.840697 -33.528569 30.975147 -22.423970
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' 
+                 password='ms_readonly' sslmode=disable"
+    DATA 'the_geom FROM "africa_roads" USING UNIQUE gid USING srid=4326'
+    METADATA
+      'ows_title' 'Africa_roads'
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    MINSCALE 1
+    MAXSCALE 500000
+    CLASS
+       NAME 'Africa_roads' 
+       STYLE
+         WIDTH 1.61 
+         COLOR 189 0 189
+       END
+    END
+  END
+  LAYER
+    NAME 'Africa_roads2'
+    TYPE LINE
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    EXTENT 19.840697 -33.528569 30.975147 -22.423970
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' 
+                password='ms_readonly' sslmode=disable"
+    DATA 'the_geom FROM "africa_roads" USING UNIQUE gid USING srid=4326'
+    METADATA
+      'ows_title' 'Africa_roads2'
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    MINSCALE 500000
+    MAXSCALE 5000000
+    CLASS
+       NAME 'Africa_roads2' 
+       STYLE
+         WIDTH 1.61 
+         COLOR 0 0 189
+       END
+    END
+  END
+  LAYER
+    NAME 'Africa_roads3'
+    TYPE LINE
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    EXTENT 19.840697 -33.528569 30.975147 -22.423970
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' 
+                password='ms_readonly' sslmode=disable"
+    DATA 'the_geom FROM "africa_roads" USING UNIQUE gid USING srid=4326'
+    METADATA
+      'ows_title' 'Africa_roads3'
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    MINSCALE 5000000
+    MAXSCALE 50000000
+    CLASS
+       NAME 'Africa_roads3' 
+       STYLE
+         WIDTH 3.61 
+         COLOR 0 189 0
+       END
+    END
+  END
+  LAYER
+    NAME 'Country'
+    TYPE POLYGON
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    EXTENT -189.000000 -101.897171 189.000000 95.520767
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='mapserver' host=localhost port=5432 
+                user='ms_readonly' password='ms_readonly' sslmode=disable"
+    DATA 'the_geom FROM "country" USING UNIQUE gid USING srid=4326'
+    FILTER ( GeometryType("the_geom") IN ('POLYGON','MULTIPOLYGON') )
+    METADATA
+      'ows_title' 'Country'
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    CLASSITEM 'pop_cntry'
+    CLASS
+      NAME '-99999.000 < pop_cntry < 62920.000'
+      EXPRESSION ( ([pop_cntry] >= -99999.000) AND ([pop_cntry] <= 62920.000) )
+       STYLE
+         WIDTH 0.91 
+         COLOR 155 255 155
+       END
+    END
+    CLASS
+      NAME '62920.000 < pop_cntry < 1085777.000'
+      EXPRESSION ( ([pop_cntry] >= 62920.000) AND ([pop_cntry] <= 1085777.000) )
+       STYLE
+         WIDTH 0.91 
+         COLOR 123 203 143
+       END
+    END
+    CLASS
+      NAME '1085777.000 < pop_cntry < 5245515.000'
+      EXPRESSION ( ([pop_cntry] >= 1085777.000) AND ([pop_cntry] <= 5245515.000) )
+       STYLE
+         WIDTH 0.91 
+         COLOR 92 152 132
+       END
+    END
+    CLASS
+      NAME '5245515.000 < pop_cntry < 17827520.000'
+      EXPRESSION ( ([pop_cntry] >= 5245515.000) AND ([pop_cntry] <= 17827520.000) )
+       STYLE
+         WIDTH 0.91 
+         COLOR 93 134 154
+       END
+    END
+    CLASS
+      NAME '17827520.000 < pop_cntry < 1281008318.000'
+      EXPRESSION ( ([pop_cntry] >= 17827520.000) AND ([pop_cntry] <= 1281008318.000) )
+       STYLE
+         WIDTH 0.91 
+         COLOR 125 145 205
+       END
+    END
+  END
+
+END
+
+```
 
