@@ -70,15 +70,19 @@ enable 3rd party repositories first).
 
 == Installing some test data into PostGIS ==
 
+We are going to create a database first. We assume here that you already have
+postgresql and a database user account.
+
+At the bash prompt do:
+
 ```
-#!/bin/bash
 createdb mapserver
 createlang plpgsql mapserver
 psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
 psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 ```
 
-Now load our sample datasets:
+Now load our sample datasets (also from bash):
 
 ```
 pg_restore country.dmp | psql mapserver
@@ -207,6 +211,67 @@ And near the bottom comment out the line:
 
 We will explain why we commented them out just now, but first lets test our 
 new map service!
+
+== Understanding the mapfile structure == 
+
+Until now we have just dived into capabilities documents and adding layers
+without really taking a look at the structure of the mapfile itself. I did this
+on purpose to let you first get a feel for what can be achieved with mapserver.
+
+Lets look at the structure of the map file:
+
+```
+MAP
+  PROJECTION
+  OUTPUTFORMAT
+  LEGEND
+  WEB
+    METADATA
+    TEMPLATE
+  LAYER 1
+  LAYER 2
+  ...
+  LAYER N
+```
+
+The mapfile is a structured document that is described very nicely in the
+[http://mapserver.org/mapfile/index.html mapserver mapfile] documentation. As
+such we won't try to repeat everything they describe there. Rather we will
+highlight a few important points to bear in mind and create a few examples to
+illustrate what you can do with mapserver and a nice map file.
+
+The purpose of the map file is to describe all the elements of your web mapping
+service. With the map file you can create different kinds of services (simple
+mapserver cgi, WMS, WFS, WCS).
+
+The first thing to understand about the map file is that it is made up of
+nested sections that start with a section name and end with the keyword 'END'.
+The outermost or toplevel section is always the 'MAP' section, so the most
+basic possible map file you could make would look like this:
+
+```
+MAP
+END
+```
+
+Within each section, more sections can exist. Each section can have various
+properties.
+
+The MAP section describes general properties relating to the Coordinate
+Reference System, the image output format(s) supported, the image background
+colours etc.
+
+The LEGEND section describes how a getLegendGraphic image should look if it is
+requested.
+
+The WEB section provides some control for limiting zoom in an out activites,
+provides templating options and probably most importantly has a METADATA
+subsection which describes your web service using keywords.
+
+The PROJECTION section is used to define the Coordinate Reference System for
+the service. As we will see below, mapserver supports on the fly projection
+too.
+
 
 == Testing ==
 
@@ -1194,66 +1259,6 @@ To test it you will need to add just the non-raster layers to QGIS and then put
 something (like our raster) as a separate backdrop.
 
 
-== Understanding the mapfile structure == 
-
-Until now we have just dived into capabilities documents and adding layers
-without really taking a look at the structure of the mapfile itself. I did this
-on purpose to let you first get a feel for what can be achieved with mapserver.
-
-Lets look at the structure of the map file:
-
-```
-MAP
-  PROJECTION
-  OUTPUTFORMAT
-  LEGEND
-  WEB
-    METADATA
-    TEMPLATE
-  LAYER 1
-  LAYER 2
-  ...
-  LAYER N
-```
-
-The mapfile is a structured document that is described very nicely in the
-[http://mapserver.org/mapfile/index.html mapserver mapfile] documentation. As
-such we won't try to repeat everything they describe there. Rather we will
-highlight a few important points to bear in mind and create a few examples to
-illustrate what you can do with mapserver and a nice map file.
-
-The purpose of the map file is to describe all the elements of your web mapping
-service. With the map file you can create different kinds of services (simple
-mapserver cgi, WMS, WFS, WCS).
-
-The first thing to understand about the map file is that it is made up of
-nested sections that start with a section name and end with the keyword 'END'.
-The outermost or toplevel section is always the 'MAP' section, so the most
-basic possible map file you could make would look like this:
-
-```
-MAP
-END
-```
-
-Within each section, more sections can exist. Each section can have various
-properties.
-
-The MAP section describes general properties relating to the Coordinate
-Reference System, the image output format(s) supported, the image background
-colours etc.
-
-The LEGEND section describes how a getLegendGraphic image should look if it is
-requested.
-
-The WEB section provides some control for limiting zoom in an out activites,
-provides templating options and probably most importantly has a METADATA
-subsection which describes your web service using keywords.
-
-The PROJECTION section is used to define the Coordinate Reference System for
-the service. As we will see below, mapserver supports on the fly projection
-too.
-
 
 == Creating a legend ==
 
@@ -1292,6 +1297,15 @@ metadata section:
     END
 ```
 
+Note: There are three places where CRS's are defined in the mapfile:
++ ""The map section:"" This is the CRS that is used by default and all other
+layers are converted to in the absence of any CRS being defined.
++ ""Layer sections:"" Each layer can define its own CRS which specifies what
+specific CRS the layer is in.
++ ""The web->metadata section:"" This is a list of allowed CRS's that the WMS
+client can request. Mapserver will reproject all data to that CRS on the fly as
+needed.
++
 
 
 == Get feature info ==
