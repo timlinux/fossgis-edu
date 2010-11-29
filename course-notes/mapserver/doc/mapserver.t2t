@@ -57,7 +57,7 @@ In this tutorial we will show you how to work with QGIS and mapserver to:
 We assume you have QGIS installed already. To install mapserver under ubuntu do :
 
 ```
-sudo apt-get install cgi-mapserver python-mapscript
+sudo apt-get install apache2 cgi-mapserver python-mapscript
 ```
 
 
@@ -81,17 +81,19 @@ psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.s
 Now load our sample datasets:
 
 ```
-pg_restore country.dmp | mapserver
-pg_restore cities.dmp | mapserver
+pg_restore country.dmp | psql mapserver
+pg_restore cities.dmp | psql mapserver
 ```
 
-Now create a non-privaledged user for use from mapserver:
+Now create a non-privaledged user for use from mapserver (from the psql
+prompt):
 
 ```
 create role ms_readonly with password 'ms_readonly' LOGIN;
 ```
 
-And assign read permissions to the tables we imported:
+And assign read permissions to the tables we imported (again from the psql
+prompt):
 
 ```
 grant select on cities to ms_readonly;
@@ -138,7 +140,8 @@ to use and what symbology to use for them. In many respects, it is just like a
 QGIS project file, but for web mapping.
 
 Lets dive right in! We are going to use two plugins to help us do our work.
-First install the Mapfile Tools plugin in QGIS (you must enabled 3rd party repositories first).
+First install the Mapfile Tools plugin in QGIS (you must enabled 3rd party
+repositories first).
 
 [doc/img/image05.jpeg]
 
@@ -147,7 +150,8 @@ use to create your initial map file.
 
 [doc/img/image06.jpeg]
 
-Save your qgis project - I called mine world.qgs and I placed it in a directory structure like this:
+Save your qgis project - I called mine world.qgs and I placed it in a directory
+structure like this:
 
 ```
 /home/web/mapserver-tut/
@@ -225,8 +229,11 @@ in your application architecture.
 Your first port of call should be to issue a get capabilities request like this:
 
 ```
-http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/
-world.map&request=getCapabilities&service=wms&version=1.1.0
+http://localhost/cgi-bin/mapserv?
+    map=/home/web/mapserver-tut/mapfiles/world.map&
+    request=getCapabilities&
+    service=wms&
+    version=1.1.0
 ```
 
 ""Note:"" For formatting purposes I will be breaking up urls into multiple
@@ -376,8 +383,13 @@ The purpose of the describe layer request is to get a description for one or mor
 layers offered by the map service:
 
 ```
-http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map&
-request=DescribeLayer&service=wms&version=1.3.0&layers=Country&sld_version=1.1.0
+http://localhost/cgi-bin/mapserv?
+   map=/home/web/mapserver-tut/mapfiles/world.map&
+   request=DescribeLayer&
+   service=wms&
+   version=1.3.0&
+   layers=Country&
+   sld_version=1.1.0
 ```
 
 Which produces something like:
@@ -404,7 +416,8 @@ Which produces something like:
 </DescribeLayerResponse>
 ```
 
-It doesn't tell us too much because there are not many properties defined for the layer at this stage.
+It doesn't tell us too much because there are not many properties defined for
+the layer at this stage.
 
 === GetMap ===
 
@@ -412,10 +425,20 @@ No doubt you have been waiting for this part - the part where we actually make
 a map:
 
 ```
-http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map&SERVICE=WMS&
-VERSION=1.3.0&REQUEST=GetMap&BBOX=-86.962482,-182.818000,111.102000,194.678000&
-CRS=EPSG:4326&WIDTH=1561&HEIGHT=819&LAYERS=Cities,Country&STYLES=,&
-FORMAT=image/png&DPI=96&TRANSPARENT=true
+http://localhost/cgi-bin/mapserv?
+   map=/home/web/mapserver-tut/mapfiles/world.map&
+   SERVICE=WMS&
+   VERSION=1.3.0&
+   REQUEST=GetMap&
+   BBOX=-86.962482,-182.818000,111.102000,194.678000&
+   CRS=EPSG:4326&
+   WIDTH=1561&
+   HEIGHT=819&
+   LAYERS=Cities,Country&
+   STYLES=,&
+   FORMAT=image/png&
+   DPI=96&
+   TRANSPARENT=true
 ```
 
 It should return a pretty picture something like this:
@@ -479,7 +502,7 @@ we will add a new directory so our tree looks like this:
 mapserver-tut/
 |-- mapfiles
 |   |-- symbols
-|   |   `-- symbols.sym
+|   |   `-- symbols.txt
 |   `-- world.map
 `-- qgis-projects
     `-- world.qgs
@@ -1014,7 +1037,50 @@ MAP
 END
 
 ```
+== Symbol Overlays ==
 
+You can overlay one or more symbols in a class:
+
+```
+       STYLE
+         SYMBOL "circle" 
+         SIZE 10.25 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 203 52
+       END
+       STYLE
+         SYMBOL "circle" 
+         SIZE 5.25 
+         OUTLINECOLOR 0 0 0
+         COLOR 0 0 0
+       END
+
+```
+
+Note that the render order is top down.
+
+== Image Symbols ==
+
+You can create image symbols too by putting the image into symbols directory
+and symbol definition in your symbols/symbols.txt file:
+
+```
+SYMBOL
+  NAME "blob"
+  TYPE PIXMAP
+  IMAGE "blob.png"
+  TRANSPARENT 8
+END
+```
+
+Save the image as symbols/blob.png. Now in your map file define the style
+
+```
+       STYLE
+         SYMBOL "blob" 
+         SIZE 5.25 
+       END
+```
 == Adding Rasters ==
 
 The procedure for adding rasters is much the same. The easiest is to simply add
@@ -1307,11 +1373,16 @@ your service. Under Ubuntu this configuration file is stored as /etc/tilecache.c
 For our world.map file we can add the following entry (you must do it as sudo user):
 
 ```
+sudo gedit /etc/tilecache.cfg
+```
+Now add an entry like this:
+
+```
 [mapserver-tut]
 type=WMS
-layers=Country,Cities
+layers=Country,Cities,BlueMarbleWorldJan2004
 url=http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map
-extension=png
+extension=jpg
 bbox=-180,-90,180,90
 metatile=yes
 levels=16
