@@ -80,91 +80,174 @@ Now that we have an overview in place, lets dive in and try Django out!
 
 = Django Installation =
 
+== Creating the top level working dir ==
+
 Django is available in apt, but this will be one of the few times I break my
 rule about preferring apt installed packages over hand installed.
 
+Instead we will use something called a 'python virtual environment' - which is 
+considered to be the best practice for deploying a django project.
+
+We will begin by creating a top level working directory e.g.
+
 ```
-cd installers/
-wget http://www.djangoproject.com/download/1.1/tarball/
-cd /tmp/
-tar xfz ~/installers/Django-1.1.tar.gz 
-cd Django-1.1/
-sudo python setup.py install
+mkdir -p ${HOME}/dev/python/django
+cd ${HOME}/dev/python/django
+```
+
+== Understanding the directory structure ==
+
+In our next step we will set up our virtual environment. We are aiming to end up 
+with something like this :
+
+```
+django
+|-- project1
+|   |-- app1
+|   `-- app2
+|-- project2
+|   |-- app1
+|   `-- app2
+`-- python   <-- virtual environment for python
+```
+
+Django divides your work into projects and applications. A ''project'' provides 
+shared templates, media (images, logos etc) to its applications and a shared
+user database and so on.
+
+An ''application'' provides some specific functionality. You can also install 
+third party applications under your project directory to provide things like 
+login frameworks etc.
+
+We will get on to how projects and applications are created in a minute, but first 
+lets get our python virtual environment set up...
+
+== Creating the virtual environment ==
+
+To create your virtual environment, make sure you are in the 
+django directory we created above first and then do:
+
+```
+sudo apt-get install python-setuptools
+sudo easy_install virtualenv
+virtualenv --no-site-packages python
+source python/bin/activate
+easy_install pip
+```          
+
+What have we just done? We have set up a virtual environment (think of it 
+as a simplified version of a virtual machine). In the virtual environment,
+we have a repeatable, easily backed up and independent set of python 
+libraries used to drive the django web site we are going to create.
+
+ + Repeatable : you can easily deploy your application to another machine
+ + Easily backed up : you just backup the whole of your django dir and
+     then you have a backup of not only your django project, but also 
+     the python libs needed to run it.
+ + Independent : If the system libraries change, it should not affect 
+     your web site.
+ +
+
+== Install Django into the Virtual Environment ==
+
+Now we want to install django and a few other pre-requisites into the 
+virtual environment.
+
+```
+pip install django
+pip install django-registration
+pip install django-debug-toolbar
+pip install django-extensions
+pip install psycopg2
 
 ```
 
-For good measure, add the following to your path in ~/.bashrc
+You need to be connected to the internet for the above commands to work. 
+The above commands install django, psycopg2 (which lets python connect to 
+postgresql databases) and a few other useful django applications which 
+we will use later in this tutuorial.
+
+In case you are wondering, pip is a package management tool for python.
+
+Following the above steps, your directory structure should now look like this:
 
 ```
-export PATH=/usr/local/lib/python2.6/dist-packages/django/bin/:$PATH
+django
+`-- python
+    |-- bin
+    |   |-- activate
+    |   |-- activate_this.py
+    |   |-- django-admin.py
+    |   |-- easy_install
+    |   |-- easy_install-2.6
+    |   |-- pip
+    |   `-- python
+    |-- include
+    |   `-- python2.6 -> /usr/include/python2.6
+    `-- lib
+    `-- python2.6
 ```
+
+
+== Activate the virtual env ==
+
+Whenever you start a shell session, you need to source the activate script to
+enabled the python virtual environment:
+
+```
+source python/bin/activate
+```
+
+This sets up the system search path for python to look into your virtual env. 
+in preference over using the system libs under /usr/lib/python.
+
+== Setup Postgresql ==
+
+You don't need to use postgresql with django - it supports a variety of 
+other databases. But its a good choice for a backend especially in light 
+of the support for spatial datasets via PostGIS, so lets install and use it:
+
+```
+sudo apt-get install postgresql-8.4-postgis
+```
+
+
 
 
 = Initial project setup =
 
 A project can contain one or more applications. We will use 
 the postgis backend here though various other backends are 
-supported and more are on the way...
+supported and more are on the way. Lets create our first project:
+
 
 ```
-export PATH=/usr/local/lib/python2.6/dist-packages/django/bin/:$PATH
-cd ~/dev/python
-django-admin.py startproject django_projects
-cd django_projects/
-createdb django_projects
-createlang plpgsql django_projects
-psql django_projects < /usr/share/postgresql-8.3-postgis/lwpostgis.sql
-psql django_projects < /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql 
+cd ~/dev/python/django
+source python/bin/activate
+django-admin.py startproject django_project
+cd django_project/
+createdb django_project
+createlang plpgsql django_project
+psql django_project < /usr/share/postgresql-8.3-postgis/lwpostgis.sql
+psql django_project < /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql 
 ```
 
-== Checking your project into SVN ==
-
-Now is the time to check your project into subversion (username:
-<yourfirstname> password: <yourfirstname>):
+''Note:'' If you are using postgresql 8.4 those last two lines should look like this 
+rather:
 
 ```
-cd ~/dev/python
-mv django_projects django_projects_presvn
-svn co https://192.168.1.1/svn/trunk/<yourname> django_projects
-mv django_projects_presvn/* django_projects
-cd django_projects
-mv settings.py settings.py.templ
-svn add *
-svn commit -m "Initial import of my django_projects"
-cp settings.py.templ settings.py
+psql django_project </usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql 
+psql django_project </usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 ```
 
-What did we just do? We moved the generated project directory aside, and
-checked out your personal svn workspace into a directory of the same name as
-your project. Then we moved the generated project files into you svn enabled
-directory. Before committing your initial project to svn I also renamed
-settings.py to settings.py.templ. Settings.py contains sensitive data such as
-database connection passwords and so on that you wouldn't typically want inside
-of subversion. Once the project has been committed to svn, I create then a
-settings.pl file from the versioned one, which we will edit below.
 
-**Note** if you make any changes to settings.py (e.g. adding new logic to it)
-you should mirror those changes in both settings.py and settings.py.templ, but
-keep the templ version redacted always so that it doesnt contain any sensitive
-data.
-
-The rest of this tutorial assumes you use svn to commit each of your changes as
-they are made (you will be prompted to do this regularly). You can visit the
-local trac instance to browse your commit history and also compare notes with
-other participants if you can't get things to work.
-
-To browse the svn repo using trac, go to:
-
-```
-https://192.168.1.1/browser/trunk
-```
 == Setup your Database connection ==
 
-At this point you should fill in the database connection settings e.g.(settings.py):
+At this point you should fill in the database connection settings (in settings.py):
 
 ```
 DATABASE_ENGINE = 'postgresql_psycopg2'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'django_projects'             # Or path to database file if using sqlite3.
+DATABASE_NAME = 'django_project'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'foouser'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'foopassword'         # Not used with sqlite3.
 DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
@@ -199,53 +282,107 @@ Congratulations on your first Django-powered page.
 
 Of course, you haven't actually done any work yet. Here's what to do next:
 
-  * If you plan to use a database, edit the DATABASE_* settings in django_projects/settings.py.
-  * Start your first app by running python django_projects/manage.py startapp [appname].
+  * If you plan to use a database, edit the DATABASE_* settings in django_project/settings.py.
+  * Start your first app by running python django_project/manage.py startapp [appname].
 
 You're seeing this message because you have DEBUG = True in your Django
 settings file and you haven't configured any URLs. Get to work!
 ```
 
+Lets take another look at our directory structure now:
+
+```
+django
+|-- django_project
+|   |-- __init__.py
+|   |-- manage.py
+|   |-- settings.py
+|   `-- urls.py
+`-- python
+    |-- bin
+    |-- include
+    `-- lib
+```
+
+As you can see from the above diagram, django has created a basic project 
+framework for us under the directory entitled 'django_project'.
+
 = Make an application =
 
-As we said in step one, a project contains one or more 
-applications. All apps in the project use a global 
-settings and urls file (which we will look at in more 
+As we said above, a project contains one or more applications. All apps in the
+project use a global settings and urls file (which we will look at in more
 detail just now). First we will create a simple application.
 
 First kill the server by pressing ctrl-c and then do:
 
 ```
+cd ~/dev/python/django/django_project/
 python manage.py startapp doodle
 ```
 
-Doing that creates a new directory under our project 
-called doodle:
+Doing that creates a new directory under our project called doodle:
 
 ```
-[django_projects] ls doodle/
-__init__.py  models.py  views.py
+django
+|-- django_project
+|   |-- doodle
+|   |   |-- __init__.py
+|   |   |-- models.py
+|   |   |-- tests.py
+|   |   `-- views.py
+|   |-- __init__.py
+|   |-- __init__.pyc
+|   |-- manage.py
+|   |-- settings.py
+|   |-- settings.pyc
+|   `-- urls.py
+`-- python
+    |-- bin
+    |   |-- activate
+    |-- include
+    `-- lib
+
 ```
 
-**models.py** - where we define our models
-**views.py** - where we define our views
+You can see the creation of our doodle app introduced some new 
+files into our directory tree:
 
-Where is the controller? urls.py in the 
-top level project dir is our controller - 
-it decodes urls and sends requests on to the 
-correct view class.
+- **models.py** - where we define our models
+- **views.py** - where we define our views
+-
 
-Now we have an application we can visit it like this:
+
+Where is the controller? urls.py in the top level project dir is our controller
+- it decodes urls and sends requests on to the correct view class.
+
+Now we have an application - we can visit it like this:
+
+Make sure the test server is running first:
+
+```
+cd ~/dev/python/django/django_project/
+source ../python/bin/activate
+python manage.py runserver
+```
+
+''Note:'' The source and cd commands above are only needed if you have started 
+a new shell session and or changed to a different directory in the meantime.
+
+
+Now point your browser at the app:
 
 ```
 http://localhost:8000/doodle/
 ```
 
+You should see a basic placeholder message.
+% Todo - Sam take a screenie...
+% we will need to runserver before viewing?  what are we meant to see?
+
 == Create a model ==
 
-Now the fun starts. Django has a fun, intuitive and 
-powerful way to define models. Each model is a 
-python class. Edit doodle/models.py and add:
+Now the fun starts. Django has a fun, intuitive and powerful way to define
+models. Each model is a python class. Edit doodle/models.py and add:
 
 ```
 # our base class
@@ -268,8 +405,8 @@ class Doodle(models.Model):
     verbose_name_plural = ('Doodle')
     ordering = ('doodle_date',)
 ```
-Next we must be sure our application is registered in 
-the project settings.py:
+
+Next we must be sure our application is registered in the project settings.py:
 
 ```
 INSTALLED_APPS = (
@@ -315,12 +452,11 @@ Installing index for auth.Permission model
 Installing index for auth.Message model
 ```
 
-What just happened? Django just created the backend 
-tables for the Object Relational Mapping (ORM) between 
-our model and the backend:
+What just happened? Django just created the backend tables for the Object
+Relational Mapping (ORM) between our model and the backend:
 
 ```
-[django_projects] psql django_projects
+[django_project] psql django_project
 Welcome to psql 8.3.5, the PostgreSQL interactive terminal.
 
 \copyright for distribution terms
@@ -378,13 +514,12 @@ Check constraints:
 
 == Test drive the model ==
 
-Django provides a python shell for interactive testing of 
-models. This is the same as a normal python shell but it sets up 
-all the environment variables / python path etc. needed to find 
-your classes.
+Django provides a python shell for interactive testing of models. This is the
+same as a normal python shell but it sets up all the environment variables /
+python path etc. needed to find your classes.
 
 ```
-[django_projects] python manage.py shell
+[django_project] python manage.py shell
 Python 2.5.2 (r252:60911, Oct  5 2008, 19:29:17) 
 [GCC 4.3.2] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
@@ -420,7 +555,7 @@ quit()
 Lets see what the above code does in the backend:
 
 ```
-psql django_projects
+psql django_project
 doodle=# select id,name,doodle_date,asText(doodle) as doodle from doodle;
 id | name |          doodle_date          |        doodle         
 ---+------+-------------------------------+-----------------------
@@ -429,13 +564,12 @@ id | name |          doodle_date          |        doodle
 ```
 
 So in a few minutes we have created an object relational mapped 
-code base that you can use from any python context (not just Django web apps.
+code base that you can use from any python context (not just Django web apps).
 
 == Create a default admin view for the doodle model ==
 
-Django has a powerful autogenerated admin interface that 
-you can use to manage the data in your models. Lets add 
-the admin view for our doodle model:
+Django has a powerful autogenerated admin interface that you can use to manage
+the data in your models. Lets add the admin view for our doodle model:
 
 ```
 vim doodle/admin.py
@@ -499,8 +633,7 @@ Lastly edit settings adding admin and gis apps to the installed apps list:
  )
 ```
 
-We need to tell django about our new admin model so we re-run 
-syncdb:
+We need to tell django about our new admin model so we re-run syncdb:
 
 ```
 python manage.py syncdb
@@ -613,7 +746,7 @@ class Doodle(models.Model):
     verbose_name_plural = ('Fantastic Doodles')
     # Column ordering to be used by default if a collection of model instances is
     # obtained.
-    ordering = ('doodle_date',)
+    ordering = ('doodle_date','name',)
 
 ```
 
@@ -751,14 +884,14 @@ that may be in a table if you need to replace it with one that contains
 existing functionality:
 
 ```
-echo "drop table doodle;" > psql django_projects
+echo "drop table doodle;" > psql django_project
 python manage.py syncdb
 ```
 
 or
 
 ```
-python manage.py sqlreset doodle | psql django_projects
+python manage.py sqlreset doodle | psql django_project
 ```
 
 Finally to test, we need to add a new entry to doodle/admin.py...:
@@ -802,7 +935,7 @@ list of names in the DoodleType model.
 If you were alert, you might have wondered what is to prevent the same DoodleType name being added twice. In fact django automatically added a unique constraint to that field:
 
 ```
-django_projects=# \d doodletype
+django_project=# \d doodletype
 Table "public.doodletype"
  Column |          Type          |                        Modifiers                        
 --------+------------------------+---------------------------------------------------------
@@ -818,13 +951,13 @@ So you will see in the next snippet what would happen if you try to insert a
 duplicate record:
 
 ```
-django_projects=# select * from doodletype;
+django_project=# select * from doodletype;
  id | name 
 ----+------
   1 | Test
 (1 row)
 
-   django_projects=# insert into doodletype (name) values ('Test');
+   django_project=# insert into doodletype (name) values ('Test');
    ERROR:  duplicate key value violates unique constraint "doodletype_name_key"
 
 ```
@@ -893,7 +1026,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
-    # (r'^django_projects/', include('django_projects.foo.urls')),
+    # (r'^django_project/', include('django_project.foo.urls')),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
@@ -1597,7 +1730,7 @@ static html and dynamically generated content which you can pass to the
 template using your view.
 
 Application specific templates are saved under <project>/<appname>/templates/ -
-e.g. django_projects/doodle/templates/foo.html
+e.g. django_project/doodle/templates/foo.html
 
 == A simple example ==
 
@@ -1635,7 +1768,7 @@ template as a variable called 'myData'.
 == Project-wide Templates ==
 
 Project wide templates can also be created under <project>/templates/ - e.g.
-django_projects/templates/foo.html
+django_project/templates/foo.html
 
 One really neat thing about django templates is that they support inheritance
 so you can make a master template in your <project>/templates/ folder and then
@@ -1646,7 +1779,7 @@ Simply define your css and top level page layout in the
 templates you worry about things that are specific to your application
 requirements only.
 
-Here is another template which I will save under django_projects/templates:
+Here is another template which I will save under django_project/templates:
 
 ```
 <html>
