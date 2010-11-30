@@ -128,7 +128,7 @@ To create your virtual environment, make sure you are in the
 django directory we created above first and then do:
 
 ```
-sudo apt-get install python-setuptools build-essential python-dev
+sudo apt-get install python-setuptools build-essential python-dev libpq-dev
 sudo easy_install virtualenv
 virtualenv --no-site-packages python
 source python/bin/activate
