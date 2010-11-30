@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vim docs/django_training.t2t
+${EDITOR} docs/django_training.t2t
 txt2tags -t html -o django_training.html docs/django_training.t2t
 txt2tags -t lout -o django_training.lout docs/django_training.t2t
 
@@ -9,4 +9,4 @@ txt2tags -t lout -o django_training.lout docs/django_training.t2t
 # lout -o django_training.pdf -PDF django_training.lout
 lout -o django_training.eps -EPS django_training.lout
 ps2pdf django_training.eps
-firefox-3.5 django_training.html
+firefox django_training.html
