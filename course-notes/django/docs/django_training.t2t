@@ -91,8 +91,8 @@ considered to be the best practice for deploying a django project.
 We will begin by creating a top level working directory e.g.
 
 ```
-mkdir -p ${HOME}/dev/python/django
-cd ${HOME}/dev/python/django
+mkdir -p /home/web/django
+cd /home/web/django
 ```
 
 == Understanding the directory structure ==
@@ -222,7 +222,7 @@ supported and more are on the way. Lets create our first project:
 
 
 ```
-cd ~/dev/python/django
+cd /home/web/django
 source python/bin/activate
 django-admin.py startproject django_project
 cd django_project/
@@ -246,6 +246,7 @@ psql django_project </usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_s
 At this point you should fill in the database connection settings (in settings.py):
 
 ```
+# Note delete django.db.backends.
 DATABASE_ENGINE = 'postgresql_psycopg2'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'django_project'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'foouser'             # Not used with sqlite3.
@@ -316,7 +317,7 @@ detail just now). First we will create a simple application.
 First kill the server by pressing ctrl-c and then do:
 
 ```
-cd ~/dev/python/django/django_project/
+cd /home/web/django/django_project/
 python manage.py startapp doodle
 ```
 
@@ -360,7 +361,7 @@ Now we have an application - we can visit it like this:
 Make sure the test server is running first:
 
 ```
-cd ~/dev/python/django/django_project/
+cd /home/web/django/django_project/
 source ../python/bin/activate
 python manage.py runserver
 ```
@@ -402,7 +403,7 @@ class Doodle(models.Model):
   class Meta:
     db_table = 'doodle'
     verbose_name = ('Doodle')
-    verbose_name_plural = ('Doodle')
+    verbose_name_plural = ('Doodles')
     ordering = ('doodle_date',)
 ```
 
@@ -614,7 +615,7 @@ admin.autodiscover()
 
 ```
 # Uncomment the next line to enable the admin:
-(r'^admin/(.*)', admin.site.root),
+(r'^admin/', include(admin.site.urls)),
 ```
 
 Lastly edit settings adding admin and gis apps to the installed apps list:
@@ -809,8 +810,8 @@ GeometryCollectionField
 == Verbose Names ==
 
 You can use verbose_name to give the model field a more friendly name that will
-be shown on forms etc. **Note:** for foreign key and other relationship fields, you
-must place the verbose name **after** the relation name. e.g.
+be shown on forms etc. **Note:** for foreign key and other relationship fields,
+you must place the verbose name **after** the relation name. e.g.
 
 ```
 status = models.ForeignKey(Status,verbose_name="Order Status")
@@ -876,6 +877,14 @@ And add doodle.type like this:
   type = models.ForeignKey(DoodleType)
 ```
 
+''Note:'' if you want to, you can specify a default value across the ForeignKey relate by doing e.g.
+
+```
+doodle_type = models.ForeignKey(DoodleType, default=DoodleType.objects.get(id=1))
+```
+
+(which uses the first instance of doodle type as the default value).
+
 To register the changes in our models, you need to run syncdb again. However we
 have changed an existing model's field type (Doodle.name) which means that
 model's table definition also needs to be synced to the database. Before we can
@@ -922,7 +931,8 @@ it does not contain any geometry fields. Django only needs the line
 admin.site.register(DoodleType, DoodleTypeAdmin)
 ```
 
-added to admin.py and it will do all the rest. If you go back to your doodle admin interface now it should look something like this:
+added to admin.py and it will do all the rest. If you go back to your doodle
+admin interface now it should look something like this:
 
 [img/doodleadmin.png]
 
@@ -932,7 +942,9 @@ list of names in the DoodleType model.
 
 == One last thing ==
 
-If you were alert, you might have wondered what is to prevent the same DoodleType name being added twice. In fact django automatically added a unique constraint to that field:
+If you were alert, you might have wondered what is to prevent the same
+DoodleType name being added twice. In fact django automatically added a unique
+constraint to that field:
 
 ```
 django_project=# \d doodletype
