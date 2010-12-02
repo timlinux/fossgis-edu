@@ -1786,6 +1786,76 @@ template, and a dictionary of parameters to pass to the template. In this case
 we are passing only the 'myResult' string, which will be visible to the
 template as a variable called 'myData'.
 
+== A simple example with OpenLayers ==
+
+We are putting together all the building blocks now to show spatial data in our
+django application. Look at this example that adds a 'showDoodle'
+implementation with mapping support:
+
+```
+<html>
+  <head>
+    <title>My Doodle</title>
+    <style>
+      #map-id {
+        width: 512px;
+        height: 256px;
+      }
+    </style>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script> 
+  </head>
+  <body>
+    <h1>My Doodle</h1>
+    <h2>Name: {{ myDoodle.name }} </h2>
+    <div id="map-id"></div>
+    <div id="scaleline-id"></div>
+    <script>
+      OpenLayers.ImgPath = "http://js.mapbox.com/theme/dark/";
+      var map = new OpenLayers.Map("map-id");
+        var country = new OpenLayers.Layer.WMS(
+        "Country",
+        "http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
+        {layers: "Country", format : "image/png; mode=24bit"}
+      );
+      map.addLayer(country);
+
+      var cities = new OpenLayers.Layer.WMS(
+        "Cities",
+        "http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
+        {layers: "Cities", 
+        format : "image/png; mode=24bit",
+        transparent: 'true'}
+      );
+      map.addLayer(cities);
+      var myLayerStyle = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
+      myLayerStyle.fillOpacity = 0;
+      myLayerStyle.graphicOpacity = 1;
+      myLayerStyle.strokeColor = "red";
+      myLayerStyle.strokeWidth = 1;
+      var format = new OpenLayers.Format.WKT();
+      var stylemap1 = new OpenLayers.StyleMap(myLayerStyle);
+      var layer = new OpenLayers.Layer.Vector("Doodle {{ myDoodle.name }}",
+        {styleMap: stylemap1});
+      var feature = format.read('{{ myDoodle.doodle }}');
+      layer.addFeatures(feature);
+      map.addLayer(layer);
+  
+      map.addControl(new OpenLayers.Control.LayerSwitcher());
+
+      var scaleline = new OpenLayers.Control.ScaleLine({
+        div: document.getElementById("scaleline-id")
+      });
+      map.addControl(scaleline); 
+      map.zoomToMaxExtent();
+    </script>
+  </body>
+</html>
+
+```
+
+Easy-peasy eh? The WKT reader simply created the feature from the geometry from
+the doodle and we add it to the OpenLayers vector layer!
+
 == Project-wide Templates ==
 
 Project wide templates can also be created under <project>/templates/ - e.g.
