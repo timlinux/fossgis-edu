@@ -1399,6 +1399,15 @@ complicated forms using the simple rest parameter approach. Never fear though,
 Django has a robust form handling infrastructure that will let you deal with
 user submitted data in a much more elegant way.
 
+== Before you begin ==
+
+Add these lines to your settings.py middleware list:
+
+```
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
+```
+
 == A first form ==
 
 Lets update that addDoodleType view a little to make use of the forms
