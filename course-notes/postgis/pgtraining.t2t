@@ -1490,7 +1490,9 @@ Some other resources:
 Postgis is easily installed from apt.
 
 ```
-sudo apt-get install postgis postgresql-8.4-postgis
+sudo apt-get install postgis 
+sudo apt-get install postgresql-8.4-postgis
+
 ```
 
 Really, its that easy...
