@@ -2,4 +2,10 @@
 *.lout
 *.eps
 *.*~
+django/django_training.pdf
+mapserver/mapserver.log
+mapserver/mapserver.pdf
+mapserver/mapserver.tex
+mapserver/texput.log
+
 
