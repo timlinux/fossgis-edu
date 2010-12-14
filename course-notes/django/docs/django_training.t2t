@@ -2111,6 +2111,8 @@ To create a custom tag, first we make a package:
 ```
 mkdir <yourapp>/templatetags
 touch <yourapp>/templatetags/__init__.py
+cd <yourapp>
+touch __init__.py
 ```
 
 == A simple example ==
