@@ -2,10 +2,10 @@
 *.lout
 *.eps
 *.*~
-django/django_training.pdf
-mapserver/mapserver.log
-mapserver/mapserver.pdf
-mapserver/mapserver.tex
-mapserver/texput.log
+course-notes/django/django_training.pdf
+course-notes/mapserver/mapserver.log
+course-notes/mapserver/mapserver.pdf
+course-notes/mapserver/mapserver.tex
+course-notes/mapserver/texput.log
 
 
