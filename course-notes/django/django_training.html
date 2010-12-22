@@ -1,106 +1,246 @@
-Django Training Notes
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.sf.net">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Django Training Notes</TITLE>
 
-(c) 2009 Linfiniti Consulting cc.
+<!-- Included docs/style.css -->
+<STYLE TYPE="text/css">
+body {
+  padding: 2em 1em 2em 70px;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+  background: white;
+}
+:link { color: #00C; background: transparent }
+:visited { color: #609; background: transparent }
+a:active { color: #C00; background: transparent }
 
-%! target       : html
-%! style        : style.css
-%! Options      : --toc --toc-level 3 --enum-title --css-sugar --css-inside
-%! preproc      : TUT_URL   https://qgis.org
-%! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
-%! PostProc(html): '(?i)(</pre>)' '\1</div>'
-%! encoding: iso-8859-1
-% These are comments and will not be generated in any output
-% -------------------
+a:link img, a:visited img { border-style: none } 
 
-%This document is in text2tags format. You can generate html, plain text and
-%moinmoin formatted documentation by running txt2tags on this document. See the
-%txt2tags home page for more details.  Please insert manual line breaks in this
-%document as it makes diffing for changes much easier. To do this in vim 
-%automatically, select a section then issue (gq) command. Please dont
-%apply vim formatting to the whol document as it screws up some formatting
-%rather apply it selectively to paragraphs where needed.
 
-% To generate the text version of this document:
-% txt2tags -t txt -o django_training django_training.t2t
-% To generate the moinmoin version of this document
-% txt2tags -t moin -o django_training.moin  django_training.t2t
-% To generate the html version of this document
-% txt2tags -t html -o django_training.html django_training.t2t
+h1, h2, h3, h4, h5, h6 { text-align: left }
+h1, h2, h3 { color: #005A9C; background: white }
+h1 { font: 170% sans-serif }
+h2 { font: 140% sans-serif }
+h3 { font: 120% sans-serif }
+h4 { font: bold 100% sans-serif }
+h5 { font: italic 100% sans-serif }
+h6 { font: small-caps 100% sans-serif }
 
-% End of comments
-% -------------------
+pre { margin-left: 2em;
+      border: 1;
+      padding: 4px;
+      background: #ececec; }
+pre, code { font-family: monospace } 
 
-= High Level Overview of Django =
 
-[img/overview.png]
+</STYLE>
 
+</HEAD>
+<BODY>
+
+<DIV CLASS="header" ID="header">
+<H1>Django Training Notes</H1>
+<H3>(c) 2009 Linfiniti Consulting cc.</H3>
+</DIV>
+
+<DIV CLASS="toc" ID="toc">
+  <OL>
+  <LI><A HREF="#toc1">High Level Overview of Django</A>
+  <LI><A HREF="#toc2">Django Installation</A>
+    <UL>
+    <LI><A HREF="#toc3">2.1. Creating the top level working dir</A>
+    <LI><A HREF="#toc4">2.2. Understanding the directory structure</A>
+    <LI><A HREF="#toc5">2.3. Creating the virtual environment</A>
+    <LI><A HREF="#toc6">2.4. Install Django into the Virtual Environment</A>
+    <LI><A HREF="#toc7">2.5. Activate the virtual env</A>
+    <LI><A HREF="#toc8">2.6. Setup Postgresql</A>
+    </UL>
+  <LI><A HREF="#toc9">Initial project setup</A>
+    <UL>
+    <LI><A HREF="#toc10">3.1. Setup your Database connection</A>
+    </UL>
+  <LI><A HREF="#toc11">Make an application</A>
+    <UL>
+    <LI><A HREF="#toc12">4.1. Create a model</A>
+    <LI><A HREF="#toc13">4.2. Test drive the model</A>
+    <LI><A HREF="#toc14">4.3. Create a default admin view for the doodle model</A>
+    </UL>
+  <LI><A HREF="#toc15">Models</A>
+    <UL>
+    <LI><A HREF="#toc16">5.1. Field Types</A>
+    <LI><A HREF="#toc17">5.2. Verbose Names</A>
+    <LI><A HREF="#toc18">5.3. Choices</A>
+    <LI><A HREF="#toc19">5.4. Relationship fields</A>
+    <LI><A HREF="#toc20">5.5. One last thing</A>
+    </UL>
+  <LI><A HREF="#toc21">Views</A>
+    <UL>
+    <LI><A HREF="#toc22">6.1. Hello World</A>
+    <LI><A HREF="#toc23">6.2. A view that takes a parameter</A>
+    <LI><A HREF="#toc24">6.3. A view that works with models</A>
+    <LI><A HREF="#toc25">6.4. A view of a single object</A>
+    <LI><A HREF="#toc26">6.5. Dealing with errors</A>
+    <LI><A HREF="#toc27">6.6. Deleting an object</A>
+    <LI><A HREF="#toc28">6.7. Creating a model</A>
+    <LI><A HREF="#toc29">6.8. Last but not least, update a model</A>
+    <LI><A HREF="#toc30">6.9. CRUD !</A>
+    <LI><A HREF="#toc31">6.10. Now you try!</A>
+    </UL>
+  <LI><A HREF="#toc32">Forms</A>
+    <UL>
+    <LI><A HREF="#toc33">7.1. Before you begin</A>
+    <LI><A HREF="#toc34">7.2. A first form</A>
+    <LI><A HREF="#toc35">7.3. Customising the form experience - Form Field Parameters</A>
+    <LI><A HREF="#toc36">7.4. Customising the form experience - Form Field Widgets</A>
+    <LI><A HREF="#toc37">7.5. Specifying Widget Attributes</A>
+    <LI><A HREF="#toc38">7.6. Now you try!</A>
+    <LI><A HREF="#toc39">7.7. Custom Form Widgets</A>
+    </UL>
+  <LI><A HREF="#toc40">Using Templates</A>
+    <UL>
+    <LI><A HREF="#toc41">8.1. A simple example</A>
+    <LI><A HREF="#toc42">8.2. A simple example with OpenLayers</A>
+    <LI><A HREF="#toc43">8.3. Project-wide Templates</A>
+    <LI><A HREF="#toc44">8.4. Template Block Inheritance</A>
+    <LI><A HREF="#toc45">8.5. Template Programming</A>
+    <LI><A HREF="#toc46">8.6. Now you try</A>
+    </UL>
+  <LI><A HREF="#toc47">Custom Template Tags</A>
+    <UL>
+    <LI><A HREF="#toc48">9.1. A new package</A>
+    <LI><A HREF="#toc49">9.2. A simple example</A>
+    <LI><A HREF="#toc50">9.3. Passing a template variable to a custom tag</A>
+    <LI><A HREF="#toc51">9.4. Now you try</A>
+    </UL>
+  <LI><A HREF="#toc52">CSS and other media resources</A>
+    <UL>
+    <LI><A HREF="#toc53">10.1. Creating the media root</A>
+    <LI><A HREF="#toc54">10.2. Installing openlayers into your media_root</A>
+    <LI><A HREF="#toc55">10.3. Installing jquery and jquery-ui into your media_root</A>
+    </UL>
+  <LI><A HREF="#toc56">A little ajax example</A>
+    <UL>
+    <LI><A HREF="#toc57">11.1. Adding includes for jquery</A>
+    <LI><A HREF="#toc58">11.2. Creating a menu</A>
+    <LI><A HREF="#toc59">11.3. Including the menu in our base template</A>
+    <LI><A HREF="#toc60">11.4. Creating the landing page</A>
+    <LI><A HREF="#toc61">11.5. Setting CSS for the site</A>
+    </UL>
+  <LI><A HREF="#toc62">Authentication</A>
+    <UL>
+    <LI><A HREF="#toc63">12.1. User Registration</A>
+    <LI><A HREF="#toc64">12.2. Users and permissions</A>
+    </UL>
+  <LI><A HREF="#toc65">Creating custom decorators</A>
+    <UL>
+    <LI><A HREF="#toc66">13.1. Doing it the non-decorator way</A>
+    <LI><A HREF="#toc67">13.2. Doing it the decorator way</A>
+    <LI><A HREF="#toc68">13.3. Now you try</A>
+    </UL>
+  <LI><A HREF="#toc69">Middleware</A>
+    <UL>
+    <LI><A HREF="#toc70">14.1. Strip white space</A>
+    <LI><A HREF="#toc71">14.2. Html Tidy</A>
+    <LI><A HREF="#toc72">14.3. Now you try - Logging Middleware</A>
+    </UL>
+  <LI><A HREF="#toc73">Querying and Filtering</A>
+  <LI><A HREF="#toc74">Spatial filters and queries</A>
+  <LI><A HREF="#toc75">Fixtures</A>
+  <LI><A HREF="#toc76">Unit Tests</A>
+  <LI><A HREF="#toc77">Deploying on apache</A>
+  <LI><A HREF="#toc78">Things you can't do in Django</A>
+  <LI><A HREF="#toc79">Setting up the SVN repository</A>
+  <LI><A HREF="#toc80">Ideas</A>
+  </OL>
+
+</DIV>
+<DIV CLASS="body" ID="body">
+<A NAME="toc1"></A>
+<H1>1. High Level Overview of Django</H1>
+<P>
+<IMG ALIGN="middle" SRC="img/overview.png" BORDER="0" ALT="">
+</P>
+<P>
 Django is an application framework based on the Model, View, Controller (MVC)
 concept.
-
+</P>
+<P>
 As we can see in the above diagram, a typical application workflow is as
 follows:
-
-- A user opens their browser and points it at a django url
-- The url **request** is transported via the http:// protocol to a host
-- The host runs a web server such as apache with the **mod_python** module
+</P>
+<UL>
+<LI>A user opens their browser and points it at a django url
+<LI>The url <B>request</B> is transported via the http:// protocol to a host
+<LI>The host runs a web server such as apache with the <B>mod_python</B> module
   installed receives the request and passes it into the django application
-- Before django does anything with the request, it passes it through 0 or more
-  **middleware layers** which  if needed clean up or pre-parse the http request
-- The middleware then forwards the request to the **controller**
-- The controller looks at the url structure (e.g.
-  http://somehost.com/doodle/makedoodle/) and determines which **view** is
+<LI>Before django does anything with the request, it passes it through 0 or more
+  <B>middleware layers</B> which  if needed clean up or pre-parse the http request
+<LI>The middleware then forwards the request to the <B>controller</B>
+<LI>The controller looks at the url structure (e.g.
+  <A HREF="http://somehost.com/doodle/makedoodle/">http://somehost.com/doodle/makedoodle/</A>) and determines which <B>view</B> is
   associated with the request
-- The view (e.g. makedoodle) typically will create or instantiate a **model**
+<LI>The view (e.g. makedoodle) typically will create or instantiate a <B>model</B>
   (e.g.  a doodle model)
-- The view then typically will use a **template** to render the model as an
+<LI>The view then typically will use a <B>template</B> to render the model as an
   html web page
-- The template may include reusable snippets called **templatetags** for
+<LI>The template may include reusable snippets called <B>templatetags</B> for
   commonly repeated html phrases
-- If the view requires user input, it can do this by creating a **form**
+<LI>If the view requires user input, it can do this by creating a <B>form</B>
   instance and rendering the form into the template
-- Forms are autogenerated using standard widgets (button, input, select etc) or
-  you can create **custom widgets**
-- Once the response is rendered by the view, it is passed on to the 
-  **middleware** layer
-- The middleware can post-parse the response (e.g. to format it nicely) before
-  sending it back to the **web server**
-- The web server passes the response over the http:// protocol to the client
+<LI>Forms are autogenerated using standard widgets (button, input, select etc) or
+  you can create <B>custom widgets</B>
+<LI>Once the response is rendered by the view, it is passed on to the 
+  <B>middleware</B> layer
+<LI>The middleware can post-parse the response (e.g. to format it nicely) before
+  sending it back to the <B>web server</B>
+<LI>The web server passes the response over the http:// protocol to the client
   browser
-- The user sees a page appear in the browser
--
+<LI>The user sees a page appear in the browser
+</UL>
 
+<P></P>
+<P>
 You will notice quite a few 'typically' and 'can' qualifiers in the above
 scenario. This is because, Django is extremely flexible and you can adapt this
 work flow according to your needs. This includes e.g. having a view return a
 response without using any models, any forms, any templates. Similarly
 templates need not use custom templatetags, forms need not use custom widgets
 etc.
-
+</P>
+<P>
 Now that we have an overview in place, lets dive in and try Django out!
-
-= Django Installation =
-
-== Creating the top level working dir ==
-
+</P>
+<A NAME="toc2"></A>
+<H1>2. Django Installation</H1>
+<A NAME="toc3"></A>
+<H2>2.1. Creating the top level working dir</H2>
+<P>
 Django is available in apt, but this will be one of the few times I break my
 rule about preferring apt installed packages over hand installed.
-
+</P>
+<P>
 Instead we will use something called a 'python virtual environment' - which is 
 considered to be the best practice for deploying a django project.
-
+</P>
+<P>
 We will begin by creating a top level working directory e.g.
-
-```
+</P>
+<div class="code"><PRE>
 mkdir -p /home/web/django
 cd /home/web/django
-```
-
-== Understanding the directory structure ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc4"></A>
+<H2>2.2. Understanding the directory structure</H2>
+<P>
 In our next step we will set up our virtual environment. We are aiming to end up 
 with something like this :
-
-```
+</P>
+<div class="code"><PRE>
 django
 |-- project1
 |   |-- app1
@@ -108,70 +248,81 @@ django
 |-- project2
 |   |-- app1
 |   `-- app2
-`-- python   <-- virtual environment for python
-```
-
+`-- python   &lt;-- virtual environment for python
+</PRE></div>
+<P></P>
+<P>
 Django divides your work into projects and applications. A ''project'' provides 
 shared templates, media (images, logos etc) to its applications and a shared
 user database and so on.
-
+</P>
+<P>
 An ''application'' provides some specific functionality. You can also install 
 third party applications under your project directory to provide things like 
 login frameworks etc.
-
+</P>
+<P>
 We will get on to how projects and applications are created in a minute, but first 
 lets get our python virtual environment set up...
-
-== Creating the virtual environment ==
-
+</P>
+<A NAME="toc5"></A>
+<H2>2.3. Creating the virtual environment</H2>
+<P>
 To create your virtual environment, make sure you are in the 
 django directory we created above first and then do:
-
-```
+</P>
+<div class="code"><PRE>
 sudo apt-get install python-setuptools build-essential python-dev libpq-dev
 sudo easy_install virtualenv
 virtualenv --no-site-packages python
 source python/bin/activate
 easy_install pip
-```          
-
+</PRE></div>
+<P></P>
+<P>
 What have we just done? We have set up a virtual environment (think of it 
 as a simplified version of a virtual machine). In the virtual environment,
 we have a repeatable, easily backed up and independent set of python 
 libraries used to drive the django web site we are going to create.
-
- + Repeatable : you can easily deploy your application to another machine
- + Easily backed up : you just backup the whole of your django dir and
+</P>
+ <OL>
+ <LI>Repeatable : you can easily deploy your application to another machine
+ <LI>Easily backed up : you just backup the whole of your django dir and
      then you have a backup of not only your django project, but also 
      the python libs needed to run it.
- + Independent : If the system libraries change, it should not affect 
+ <LI>Independent : If the system libraries change, it should not affect 
      your web site.
- +
+ </OL>
 
-== Install Django into the Virtual Environment ==
-
+<P></P>
+<A NAME="toc6"></A>
+<H2>2.4. Install Django into the Virtual Environment</H2>
+<P>
 Now we want to install django and a few other pre-requisites into the 
 virtual environment.
-
-```
+</P>
+<div class="code"><PRE>
 pip install django
 pip install django-registration
 pip install django-debug-toolbar
 pip install django-extensions
 pip install psycopg2
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 You need to be connected to the internet for the above commands to work. 
 The above commands install django, psycopg2 (which lets python connect to 
 postgresql databases) and a few other useful django applications which 
 we will use later in this tutuorial.
-
+</P>
+<P>
 In case you are wondering, pip is a package management tool for python.
-
+</P>
+<P>
 Following the above steps, your directory structure should now look like this:
-
-```
+</P>
+<div class="code"><PRE>
 django
 `-- python
     |-- bin
@@ -183,69 +334,69 @@ django
     |   |-- pip
     |   `-- python
     |-- include
-    |   `-- python2.6 -> /usr/include/python2.6
+    |   `-- python2.6 -&gt; /usr/include/python2.6
     `-- lib
         `-- python2.6
-```
-
-
-== Activate the virtual env ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc7"></A>
+<H2>2.5. Activate the virtual env</H2>
+<P>
 Whenever you start a shell session, you need to source the activate script to
 enabled the python virtual environment:
-
-```
+</P>
+<div class="code"><PRE>
 source python/bin/activate
-```
-
+</PRE></div>
+<P></P>
+<P>
 This sets up the system search path for python to look into your virtual env. 
 in preference over using the system libs under /usr/lib/python.
-
-== Setup Postgresql ==
-
+</P>
+<A NAME="toc8"></A>
+<H2>2.6. Setup Postgresql</H2>
+<P>
 You don't need to use postgresql with django - it supports a variety of 
 other databases. But its a good choice for a backend especially in light 
 of the support for spatial datasets via PostGIS, so lets install and use it:
-
-```
+</P>
+<div class="code"><PRE>
 sudo apt-get install postgresql-8.4-postgis
-```
-
-
-
-
-= Initial project setup =
-
+</PRE></div>
+<P></P>
+<A NAME="toc9"></A>
+<H1>3. Initial project setup</H1>
+<P>
 A project can contain one or more applications. We will use 
 the postgis backend here though various other backends are 
 supported and more are on the way. Lets create our first project:
-
-
-```
+</P>
+<div class="code"><PRE>
 cd /home/web/django
 source python/bin/activate
 django-admin.py startproject django_project
 cd django_project/
 createdb django_project
 createlang plpgsql django_project
-psql django_project < /usr/share/postgresql-8.3-postgis/lwpostgis.sql
-psql django_project < /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql 
-```
-
+psql django_project &lt; /usr/share/postgresql-8.3-postgis/lwpostgis.sql
+psql django_project &lt; /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql 
+</PRE></div>
+<P></P>
+<P>
 ''Note:'' If you are using postgresql 8.4 those last two lines should look like this 
 rather:
-
-```
-psql django_project </usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql 
-psql django_project </usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
-```
-
-
-== Setup your Database connection ==
-
+</P>
+<div class="code"><PRE>
+psql django_project &lt;/usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql 
+psql django_project &lt;/usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
+</PRE></div>
+<P></P>
+<A NAME="toc10"></A>
+<H2>3.1. Setup your Database connection</H2>
+<P>
 At this point you should fill in the database connection settings (in settings.py):
-
-```
+</P>
+<div class="code"><PRE>
 # Note delete django.db.backends.
 DATABASE_ENGINE = 'postgresql_psycopg2'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'django_project'             # Or path to database file if using sqlite3.
@@ -253,31 +404,35 @@ DATABASE_USER = 'foouser'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'foopassword'         # Not used with sqlite3.
 DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = '5432'             # Set to empty string for default. Not used with sqlite3.
-```
+</PRE></div>
+<P>
 Also set the time zone:
-
-```
+</P>
+<div class="code"><PRE>
 TIME_ZONE = 'Africa/Johannesburg'
-```
-
+</PRE></div>
+<P></P>
+<P>
 Then save and close the settings.py file and do:
-
-```
+</P>
+<div class="code"><PRE>
 python manage.py runserver
-```
-
+</PRE></div>
+<P></P>
+<P>
 You should now be able to visit your project here:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000
-```
-
+</PRE></div>
+<P></P>
+<P>
 Note you can use any port you like.
-
-
+</P>
+<P>
 Your browser should show a message something like this:
-
-```
+</P>
+<div class="code"><PRE>
 It worked!
 Congratulations on your first Django-powered page.
 
@@ -288,11 +443,12 @@ Of course, you haven't actually done any work yet. Here's what to do next:
 
 You're seeing this message because you have DEBUG = True in your Django
 settings file and you haven't configured any URLs. Get to work!
-```
-
+</PRE></div>
+<P></P>
+<P>
 Lets take another look at our directory structure now:
-
-```
+</P>
+<div class="code"><PRE>
 django
 |-- django_project
 |   |-- __init__.py
@@ -303,27 +459,31 @@ django
     |-- bin
     |-- include
     `-- lib
-```
-
+</PRE></div>
+<P></P>
+<P>
 As you can see from the above diagram, django has created a basic project 
 framework for us under the directory entitled 'django_project'.
-
-= Make an application =
-
+</P>
+<A NAME="toc11"></A>
+<H1>4. Make an application</H1>
+<P>
 As we said above, a project contains one or more applications. All apps in the
 project use a global settings and urls file (which we will look at in more
 detail just now). First we will create a simple application.
-
+</P>
+<P>
 First kill the server by pressing ctrl-c and then do:
-
-```
+</P>
+<div class="code"><PRE>
 cd /home/web/django/django_project/
 python manage.py startapp doodle
-```
-
+</PRE></div>
+<P></P>
+<P>
 Doing that creates a new directory under our project called doodle:
-
-```
+</P>
+<div class="code"><PRE>
 django
 |-- django_project
 |   |-- doodle
@@ -343,49 +503,55 @@ django
     |-- include
     `-- lib
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 You can see the creation of our doodle app introduced some new 
 files into our directory tree:
+</P>
+<UL>
+<LI><B>models.py</B> - where we define our models
+<LI><B>views.py</B> - where we define our views
+</UL>
 
-- **models.py** - where we define our models
-- **views.py** - where we define our views
--
-
-
+<P></P>
+<P>
 Where is the controller? urls.py in the top level project dir is our controller
-- it decodes urls and sends requests on to the correct view class.
-
+</P>
+<UL>
+<LI>it decodes urls and sends requests on to the correct view class.
+<P></P>
 Now we have an application - we can visit it like this:
-
+<P></P>
 Make sure the test server is running first:
-
-```
+<P></P>
+<div class="code"><PRE>
 cd /home/web/django/django_project/
 source ../python/bin/activate
 python manage.py runserver
-```
-
+</PRE></div>
+<P></P>
 ''Note:'' The source and cd commands above are only needed if you have started 
 a new shell session and or changed to a different directory in the meantime.
+</UL>
 
-
+<P>
 Now point your browser at the app:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/doodle/
-```
-
+</PRE></div>
+<P></P>
+<P>
 You should see a basic placeholder message.
-% Todo - Sam take a screenie...
-% we will need to runserver before viewing?  what are we meant to see?
-
-== Create a model ==
-
+</P>
+<A NAME="toc12"></A>
+<H2>4.1. Create a model</H2>
+<P>
 Now the fun starts. Django has a fun, intuitive and powerful way to define
 models. Each model is a python class. Edit doodle/models.py and add:
-
-```
+</P>
+<div class="code"><PRE>
 # our base class
 from django.db import models
 # import GeoDjango stuff to support spatial data types
@@ -405,11 +571,12 @@ class Doodle(models.Model):
     verbose_name = ('Doodle')
     verbose_name_plural = ('Doodles')
     ordering = ('doodle_date',)
-```
-
+</PRE></div>
+<P></P>
+<P>
 Next we must be sure our application is registered in the project settings.py:
-
-```
+</P>
+<div class="code"><PRE>
 INSTALLED_APPS = (
   'django.contrib.auth',
   'django.contrib.contenttypes',
@@ -420,17 +587,19 @@ INSTALLED_APPS = (
   'doodle',
   )
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Nifty - now lets deploy our new model!
-
-```
+</P>
+<div class="code"><PRE>
 python manage.py syncdb
-```
-
+</PRE></div>
+<P></P>
+<P>
 You will see output something like this:
-
-```
+</P>
+<div class="code"><PRE>
 Creating table auth_permission
 Creating table auth_group
 Creating table auth_user
@@ -451,12 +620,13 @@ Password (again):
 Superuser created successfully.
 Installing index for auth.Permission model
 Installing index for auth.Message model
-```
-
+</PRE></div>
+<P></P>
+<P>
 What just happened? Django just created the backend tables for the Object
 Relational Mapping (ORM) between our model and the backend:
-
-```
+</P>
+<div class="code"><PRE>
 [django_project] psql django_project
 Welcome to psql 8.3.5, the PostgreSQL interactive terminal.
 
@@ -488,14 +658,15 @@ public | django_content_type_id_seq        | sequence | timlinux
 public | django_session                    | table    | timlinux
 public | django_site                       | table    | timlinux
 public | django_site_id_seq                | sequence | timlinux
-public | doodle                            | table    | timlinux <-- w00t!
+public | doodle                            | table    | timlinux &lt;-- w00t!
 public | geometry_columns                  | table    | timlinux
 public | spatial_ref_sys                   | table    | timlinux
-```
-
+</PRE></div>
+<P></P>
+<P>
 Lets take a look at the table it created:
-
-```
+</P>
+<div class="code"><PRE>
 doodle=# \d doodle
 Table "public.doodle"
 Column    |           Type           |                      Modifiers                      
@@ -511,37 +682,39 @@ Check constraints:
 "enforce_dims_doodle" CHECK (ndims(doodle) = 2)
 "enforce_geotype_doodle" CHECK (geometrytype(doodle) = 'LINESTRING'::text OR doodle IS NULL)
 "enforce_srid_doodle" CHECK (srid(doodle) = 4326)
-```
-
-== Test drive the model ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc13"></A>
+<H2>4.2. Test drive the model</H2>
+<P>
 Django provides a python shell for interactive testing of models. This is the
 same as a normal python shell but it sets up all the environment variables /
 python path etc. needed to find your classes.
-
-```
+</P>
+<div class="code"><PRE>
 [django_project] python manage.py shell
 Python 2.5.2 (r252:60911, Oct  5 2008, 19:29:17) 
 [GCC 4.3.2] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 (InteractiveConsole)
->>> from doodle.models import *
->>> myDoodle = Doodle()
->>> myDoodle.name = "foo"
->>> print myDoodle.name
->>> myDoodle.doodle = 'LINESTRING(0 0, 10 10)'
->>> print myDoodle.doodle
+&gt;&gt;&gt; from doodle.models import *
+&gt;&gt;&gt; myDoodle = Doodle()
+&gt;&gt;&gt; myDoodle.name = "foo"
+&gt;&gt;&gt; print myDoodle.name
+&gt;&gt;&gt; myDoodle.doodle = 'LINESTRING(0 0, 10 10)'
+&gt;&gt;&gt; print myDoodle.doodle
 LINESTRING (0.0000000000000000 0.0000000000000000, 10.0000000000000000 10.0000000000000000)
->>> myDoodle.save()
->>> myDoodle2=Doodle.objects.get(id=1)
->>> myDoodle2.name
+&gt;&gt;&gt; myDoodle.save()
+&gt;&gt;&gt; myDoodle2=Doodle.objects.get(id=1)
+&gt;&gt;&gt; myDoodle2.name
 u'foo'
->>> quit()
-```
-
+&gt;&gt;&gt; quit()
+</PRE></div>
+<P></P>
+<P>
 Here are the commands again without the shell output:
-
-```
+</P>
+<div class="code"><PRE>
 python manage.py shell
 from doodle.models import *
 myDoodle = Doodle()
@@ -551,34 +724,38 @@ myDoodle.save()
 myDoodle2=Doodle.objects.get(id=1)
 myDoodle2.name
 quit()
-```
-
+</PRE></div>
+<P></P>
+<P>
 Lets see what the above code does in the backend:
-
-```
+</P>
+<div class="code"><PRE>
 psql django_project
 doodle=# select id,name,doodle_date,asText(doodle) as doodle from doodle;
 id | name |          doodle_date          |        doodle         
 ---+------+-------------------------------+-----------------------
  1 | foo  | 2009-02-08 00:29:47.961586+02 | LINESTRING(0 0,10 10)
 (1 row)
-```
-
+</PRE></div>
+<P></P>
+<P>
 So in a few minutes we have created an object relational mapped 
 code base that you can use from any python context (not just Django web apps).
-
-== Create a default admin view for the doodle model ==
-
+</P>
+<A NAME="toc14"></A>
+<H2>4.3. Create a default admin view for the doodle model</H2>
+<P>
 Django has a powerful autogenerated admin interface that you can use to manage
 the data in your models. Lets add the admin view for our doodle model:
-
-```
+</P>
+<div class="code"><PRE>
 vim doodle/admin.py
-```
-
+</PRE></div>
+<P></P>
+<P>
 Now add this:
-
-```
+</P>
+<div class="code"><PRE>
 from django.contrib.gis import admin
 from models import *
 
@@ -591,36 +768,43 @@ class DoodleAdmin(admin.GeoModelAdmin):
 
 #Register each model with its associated admin class
 admin.site.register(Doodle, DoodleAdmin)
-```
-
+</PRE></div>
+<P></P>
+<P>
 Note that our model inherits from admin.GeoModelAdmin which will enable 
 the admin environment to generate maps for the admin user interface.
-
-[see full admin docs online http://docs.djangoproject.com/en/dev/ref/contrib/admin/]
-
+</P>
+<P>
+<A HREF="http://docs.djangoproject.com/en/dev/ref/contrib/admin/">see full admin docs online</A>
+</P>
+<P>
 Lastly, register the django admin app with the controller:
-
-```
+</P>
+<div class="code"><PRE>
 vim urls.py
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 And uncomment these lines near the top:
-```
+</P>
+<div class="code"><PRE>
 from django.contrib import admin
 admin.autodiscover()
-```
-
+</PRE></div>
+<P></P>
+<P>
 ....and uncomment the admin root...
-
-```
+</P>
+<div class="code"><PRE>
 # Uncomment the next line to enable the admin:
 (r'^admin/', include(admin.site.urls)),
-```
-
+</PRE></div>
+<P></P>
+<P>
 Lastly edit settings adding admin and gis apps to the installed apps list:
-
-```
+</P>
+<div class="code"><PRE>
  INSTALLED_APPS = (
   'django.contrib.auth',
   'django.contrib.contenttypes',
@@ -632,92 +816,107 @@ Lastly edit settings adding admin and gis apps to the installed apps list:
   'django.contrib.gis',
   'doodle',
  )
-```
-
+</PRE></div>
+<P></P>
+<P>
 We need to tell django about our new admin model so we re-run syncdb:
-
-```
+</P>
+<div class="code"><PRE>
 python manage.py syncdb
-```
-
+</PRE></div>
+<P></P>
+<P>
 It should report something like this:
-
-
-```
+</P>
+<div class="code"><PRE>
 Creating table django_admin_log
 Installing index for admin.LogEntry model
-```
-
-
+</PRE></div>
+<P></P>
+<P>
 Now kill and restart the django server:
-
-```
+</P>
+<div class="code"><PRE>
 ctrl-c
 python manage.py runserver
-```
-
-If you point your browser to : http://localhost:8000/admin/ you should now get a 
+</PRE></div>
+<P></P>
+<P>
+If you point your browser to : <A HREF="http://localhost:8000/admin/">http://localhost:8000/admin/</A> you should now get a 
 log in prompt and after that see the doodle model listed.
-
+</P>
+<P>
 You can play around adding and deleting doodles using the admin interface.
-
+</P>
+<P>
 In practice we probably won't use the admin interface very much since we will
 spend most of the time on this course learning to build our own custom user
 interfaces. However it is good to remember the admin functionality exists because
 its really quick and easy to slap a simple web application together using only
 models and the web admin interface.
-
-= Models =
-
+</P>
+<A NAME="toc15"></A>
+<H1>5. Models</H1>
+<P>
 In our quickstart run through in the previous section we created a simple model
 and saw how you can manipulate the model using the django python console. We
 also saw that you can create a user interface for the model quickly by using
 the admin application that comes as a standard part of django.
-
+</P>
+<P>
 The heart of Django is the Object Relational Mapping (ORM) functionality it
 provides. With Django, you program and think in python and the application
 framework does all the nuts and bolts stuff behind the scenes or serialising
 your saved models into the database and deserialising the models again when you
 need to access them.
-
+</P>
+<P>
 We saw a simple example of this, for example by doing:
-
-```
+</P>
+<div class="code"><PRE>
 myDoodle.save()
-```
-
+</PRE></div>
+<P></P>
+<P>
 A record was created in the database representing the model. And when we did:
-
-```
+</P>
+<div class="code"><PRE>
 myDoodle2 = Doodle.objects.get(id=1)
-```
-
+</PRE></div>
+<P></P>
+<P>
 The django framework took care of deserialising the model from the database and
 making it available to us as a python object.
-
-Models are always defined in //<yourapp>/models.py//.
-
+</P>
+<P>
+Models are always defined in <I>&lt;yourapp&gt;/models.py</I>.
+</P>
+<P>
 Defining a model is simply a matter of adding a new class to the above file.
-
+</P>
+<P>
 The model creation consists of four steps:
-
-+ Create a **new class** that inherits from //models.Model// in
-  //<yourapp>/models.py//.  This class will be mapped to a table entity on the
+</P>
+<OL>
+<LI>Create a <B>new class</B> that inherits from <I>models.Model</I> in
+  <I>&lt;yourapp&gt;/models.py</I>.  This class will be mapped to a table entity on the
   database backend.
-+ Add the **property definitions** to your class. These will be mapped to
+<LI>Add the <B>property definitions</B> to your class. These will be mapped to
   fields in the table on the database backend.
-+ Define the **metadata inner class**. This provides you a way to specify how 
+<LI>Define the <B>metadata inner class</B>. This provides you a way to specify how 
   the models should be shown to the users and created in the database. For 
   example, you can use the metadata inner class to specify a non-default 
   backend table name.
-+ Use the manage.py **syncdb** command to create the backend database model 
+<LI>Use the manage.py <B>syncdb</B> command to create the backend database model 
   and perform an integrity check of the model.
-+
+</OL>
 
+<P></P>
+<P>
 Lets look again at the model definition we created earlier, but with some extra
 comments:
-
-```
+</P>
+<div class="code"><PRE>
 # Our base class
 from django.db import models
 # import GeoDjango stuff to support spatial data types
@@ -749,19 +948,22 @@ class Doodle(models.Model):
     # obtained.
     ordering = ('doodle_date','name',)
 
-```
-
-== Field Types ==
-
-[Django field documentation http://docs.djangoproject.com/en/dev/ref/models/fields/]
-
+</PRE></div>
+<P></P>
+<A NAME="toc16"></A>
+<H2>5.1. Field Types</H2>
+<P>
+<A HREF="http://docs.djangoproject.com/en/dev/ref/models/fields/">Django field documentation</A>
+</P>
+<P>
 There are a number of different field types you can use, including special
 types that will build foriegn key constraints, multikey join tables, lookup
 lists and so on. Here is a complete list of allowed types:
-
+</P>
+<P>
 Standard field types:
-
-```
+</P>
+<div class="code"><PRE>
 AutoField
 BooleanField
 CharField
@@ -785,19 +987,21 @@ TextField
 TimeField
 URLField
 XMLField
-```
-
+</PRE></div>
+<P></P>
+<P>
 Relationship fields:
-
-```
+</P>
+<div class="code"><PRE>
 ForeignKey
 ManyToManyField
 OneToOneField
-```
-
+</PRE></div>
+<P></P>
+<P>
 Spatial field types:
-
-```
+</P>
+<div class="code"><PRE>
 PointField
 LineStringField
 PolygonField
@@ -805,50 +1009,55 @@ MultiPointField
 MultiLineStringField
 MultiPolygonField
 GeometryCollectionField
-```
-
-== Verbose Names ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc17"></A>
+<H2>5.2. Verbose Names</H2>
+<P>
 You can use verbose_name to give the model field a more friendly name that will
-be shown on forms etc. **Note:** for foreign key and other relationship fields,
-you must place the verbose name **after** the relation name. e.g.
-
-```
+be shown on forms etc. <B>Note:</B> for foreign key and other relationship fields,
+you must place the verbose name <B>after</B> the relation name. e.g.
+</P>
+<div class="code"><PRE>
 status = models.ForeignKey(Status,verbose_name="Order Status")
-```
-
-== Choices ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc18"></A>
+<H2>5.3. Choices</H2>
+<P>
 If you want to restrict the values that a user can choose from in order to
 populate the field. You can do this using a list e.g.:
-
-```
+</P>
+<div class="code"><PRE>
 myChoices = (("a" , "Pothole"), ("b" , "Road Sign"), ("c" , "Vagrants"))
-```
-
+</PRE></div>
+<P></P>
+<P>
 Then when you create your field you would do:
-
-```
+</P>
+<div class="code"><PRE>
 name = models.CharField(max_length=255,choices=myChoices)
-```
-
+</PRE></div>
+<P></P>
+<P>
 If you open the doodle model in the admin web interface, you should see that
 the text field for name is now replaced with a combo with the items listed in
 myChoices in it.
-
+</P>
+<P>
 Personally I think using the choices option is usually better implemented using
 a separate model and then using a relationship field. If you are really sure
 the choices list will never change, you could use it. Let me show you how we
 would rather implement the choice using a second model and a relationship
 field.
-
-== Relationship fields ==
-
+</P>
+<A NAME="toc19"></A>
+<H2>5.4. Relationship fields</H2>
+<P>
 First delete the myChoices... line we created above. Next add a new class to
 models.py (put it before the doodle class) that looks like this:
-
-
-```
+</P>
+<div class="code"><PRE>
 class DoodleType(models.Model):
   name = models.CharField(max_length=255)
   objects = models.Manager()
@@ -863,49 +1072,56 @@ class DoodleType(models.Model):
     verbose_name_plural = ('Doodle Types')
     ordering = ('name',)
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Next, change the doodle.name field from a charfield to one that looks like this:
-
-```
+</P>
+<div class="code"><PRE>
   name = models.CharField(max_length=255)
-```
-
+</PRE></div>
+<P></P>
+<P>
 And add doodle.type like this:
-
-```
+</P>
+<div class="code"><PRE>
   type = models.ForeignKey(DoodleType)
-```
-
+</PRE></div>
+<P></P>
+<P>
 ''Note:'' if you want to, you can specify a default value across the ForeignKey relate by doing e.g.
-
-```
+</P>
+<div class="code"><PRE>
 doodle_type = models.ForeignKey(DoodleType, default=DoodleType.objects.get(id=1))
-```
-
+</PRE></div>
+<P></P>
+<P>
 (which uses the first instance of doodle type as the default value).
-
+</P>
+<P>
 To register the changes in our models, you need to run syncdb again. However we
 have changed an existing model's field type (Doodle.name) which means that
 model's table definition also needs to be synced to the database. Before we can
 do that we need to drop its table. We will discuss later how to deal with data
 that may be in a table if you need to replace it with one that contains
 existing functionality:
-
-```
-echo "drop table doodle;" > psql django_project
+</P>
+<div class="code"><PRE>
+echo "drop table doodle;" &gt; psql django_project
 python manage.py syncdb
-```
-
+</PRE></div>
+<P></P>
+<P>
 or
-
-```
+</P>
+<div class="code"><PRE>
 python manage.py sqlreset doodle | psql django_project
-```
-
+</PRE></div>
+<P></P>
+<P>
 Finally to test, we need to add a new entry to doodle/admin.py...:
-
-```
+</P>
+<div class="code"><PRE>
 from django.contrib.gis import admin
 from models import *
 
@@ -922,31 +1138,36 @@ class DoodleAdmin(admin.GeoModelAdmin):
 #Register each model with its associated admin class
 admin.site.register(DoodleType, DoodleTypeAdmin)
 admin.site.register(Doodle, DoodleAdmin)
-```
-
+</PRE></div>
+<P></P>
+<P>
 Registering the DoodleType model in the admin interface is much simpler since
 it does not contain any geometry fields. Django only needs the line 
-
-```
+</P>
+<div class="code"><PRE>
 admin.site.register(DoodleType, DoodleTypeAdmin)
-```
-
+</PRE></div>
+<P></P>
+<P>
 added to admin.py and it will do all the rest. If you go back to your doodle
 admin interface now it should look something like this:
-
-[img/doodleadmin.png]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/doodleadmin.png" BORDER="0" ALT="">
+</P>
+<P>
 You will notice there is now a little + icon next to the Name field. If you
 click on it, the admin interface will pop up a form where you can manage the
 list of names in the DoodleType model.
-
-== One last thing ==
-
+</P>
+<A NAME="toc20"></A>
+<H2>5.5. One last thing</H2>
+<P>
 If you were alert, you might have wondered what is to prevent the same
 DoodleType name being added twice. In fact django automatically added a unique
 constraint to that field:
-
-```
+</P>
+<div class="code"><PRE>
 django_project=# \d doodletype
 Table "public.doodletype"
  Column |          Type          |                        Modifiers                        
@@ -957,12 +1178,13 @@ Indexes:
 "doodletype_pkey" PRIMARY KEY, btree (id)
 "doodletype_name_key" UNIQUE, btree (name)
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 So you will see in the next snippet what would happen if you try to insert a
 duplicate record:
-
-```
+</P>
+<div class="code"><PRE>
 django_project=# select * from doodletype;
  id | name 
 ----+------
@@ -972,62 +1194,72 @@ django_project=# select * from doodletype;
    django_project=# insert into doodletype (name) values ('Test');
    ERROR:  duplicate key value violates unique constraint "doodletype_name_key"
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Once again django just takes care of stuff for you in the background and you
 don't need to worry about too many small details...
-
-= Views =
-
+</P>
+<A NAME="toc21"></A>
+<H1>6. Views</H1>
+<P>
 Ok by now you should understand the basic concept of a model - you define it
 using a python class, synchronise the database to your model definitions, and
 then you can add the model to the admin user interface if you want to get a
-quick & dirty UI for your models.
-
+quick &amp; dirty UI for your models.
+</P>
+<P>
 Invariably however, you will want to create your own views and forms. In other
 words, you will want your site to have its own unique look and feel and user
 interactions, rather than the canned environment of the admin interface.
-
+</P>
+<P>
 To do that will start by delving into views a little.
-
-== Hello World ==
-
+</P>
+<A NAME="toc22"></A>
+<H2>6.1. Hello World</H2>
+<P>
 I bet you have been waiting for this moment :-) While a model represents an
 object or entity, a view represents a particular 'view' of an object or group
 of objects. We can also have a view that does not reflect the state of any
 particular object, but rather just some hard coded information - which is what
 we will look at first...
-
+</P>
+<P>
 Open up your doodle/views.py file. It should contain something like this:
-
-```
+</P>
+<div class="code"><PRE>
 # Create your views here.
-```
-
+</PRE></div>
+<P></P>
+<P>
 Looks like someone was here before us then eh? The views stub was created when
 we created our application. Views in django are simply function definitions so
 we can create one like this:
-
-```
+</P>
+<div class="code"><PRE>
 from django.http import HttpResponse
 
 def helloWorld(theRequest):
-  return HttpResponse("<h1>Hello World</h1>")
-```
-
+  return HttpResponse("&lt;h1&gt;Hello World&lt;/h1&gt;")
+</PRE></div>
+<P></P>
+<P>
 Thats about the simplest view you can make. The HttpResponse class knows how to
 return any string you give it as a web page back to the clients browser.
-
+</P>
+<P>
 You will notice that the helloWorld view takes a single parameter 'theRequest'
 which is an object containing all of the request context information from the
 client. For example it has any form post variables, the user agent (which
 browser is being used) etc. Since this is a really simple view the request
 parameter is actually ignored, but we will see later how to make good use of
 it.
-
+</P>
+<P>
 So how does the client (i.e. you operating your web browser) get to see the view? You need to add a rule to our controller. This is done in the urls.py file:
-
-```
+</P>
+<div class="code"><PRE>
 from django.conf.urls.defaults import *
 # So we can find our hello world views
 from doodle.views import *
@@ -1050,192 +1282,215 @@ urlpatterns = patterns('',
     (r'^helloWorld/', helloWorld),
 )
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Earlier we used our urls.py file to configure support for the admin interface.
 Now I have added the following two lines to support our hello world view:
-
-```
+</P>
+<div class="code"><PRE>
 # So we can find our hello world views
 from doodle.views import *
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 ...and...
-
-```
+</P>
+<div class="code"><PRE>
     # For our hellow world view
     (r'^helloWorld/', helloWorld),
-```
-
+</PRE></div>
+<P></P>
+<P>
 The first new line just lets the controller (urls.py) know where to find our
 views (doodle.views). The second addition adds a rule to urlpatterns. The rule
 is a regular expression saying 'if the url starts with helloWorld, render the
 helloWorld view'. Simple eh?
-
+</P>
+<P>
 Try pointing your browser to your django instance now and see if you get a
 hello world message back:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/helloWorld/
-```
-
+</PRE></div>
+<P></P>
+<P>
 should show:
-
-```
+</P>
+<div class="code"><PRE>
 Hello World
-```
-
-== A view that takes a parameter ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc23"></A>
+<H2>6.2. A view that takes a parameter</H2>
+<P>
 Django uses restful style urls to pass instructions and parameters to the
 controller. Say, for example, you want to get a personalised greeting when you
 connect to a view e.g.:
-
-```
+</P>
+<div class="code"><PRE>
 Hello Tim!
-```
-
+</PRE></div>
+<P></P>
+<P>
 First we would defined a new view that takes a parameter (in doodle/views.py):
-
-```
+</P>
+<div class="code"><PRE>
 def helloPerson(theRequest,thePerson):
-  return HttpResponse("<h1>Hello " + str(thePerson) + "!</h1>")
-```
-
+  return HttpResponse("&lt;h1&gt;Hello " + str(thePerson) + "!&lt;/h1&gt;")
+</PRE></div>
+<P></P>
+<P>
 So that will take an extra parameter and print it in the response. Of course we
 still need to add a rule to our controller...(in urls.py):
-
-```
+</P>
+<div class="code"><PRE>
 # For our hello person view
-(r'^helloPerson/(?P<thePerson>[a-zA-Z]+)/$', helloPerson),
-```
-
+(r'^helloPerson/(?P&lt;thePerson&gt;[a-zA-Z]+)/$', helloPerson),
+</PRE></div>
+<P></P>
+<P>
 Ok that looks a bit greek like? Lets break it down:
-
-```
-r                        <-- what follows in quotes is a regular expression
-^                        <-- carat means 'start of the line' 
+</P>
+<div class="code"><PRE>
+r                        &lt;-- what follows in quotes is a regular expression
+^                        &lt;-- carat means 'start of the line' 
                              note the http://localhost:8000/
                              part of the url is ignored in url matching
-helloPerson/             <-- the literal string is matched here
-(?P<thePerson>[a-zA-Z]+) <-- match any number of upper case or lower case
+helloPerson/             &lt;-- the literal string is matched here
+(?P&lt;thePerson&gt;[a-zA-Z]+) &lt;-- match any number of upper case or lower case
                              letters to the view parameter 'thePerson'
-/$                       <-- end of the line
-```
-
+/$                       &lt;-- end of the line
+</PRE></div>
+<P></P>
+<P>
 So in plain english it means 'if the url starts with /helloPerson/ followed by
 any sequence of upper or lower case characters, assign that character sequence
 to a variable called "thePerson" and pass it on to the helloPerson view.
-
+</P>
+<P>
 Make sense? It will make more sense as you get a bit more experience with
 django. Lets test out our new view:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/helloPerson/Tim/
-```
-
+</PRE></div>
+<P></P>
+<P>
 ...should show this...
-
-```
+</P>
+<div class="code"><PRE>
 Hello Tim!
-```
-
-== A view that works with models ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc24"></A>
+<H2>6.3. A view that works with models</H2>
+<P>
 Ok thats very nifty but in the real world, nine times out of ten you want your view to interact with model data. First add a few more entries to your DoodleType table using the admin web interface. Now lets make a view that shows a list of DoodleTypes (in doodle/views.py):
-
-```
+</P>
+<div class="code"><PRE>
 from doodle.models import *
 def listDoodleTypes(theRequest):
   myObjects = DoodleType.objects.all()
   # Optional - sort descending:
   #myObjects = DoodleType.objects.all().order_by("-name")
-  myResult = "<h1>doodle types</h1>"
+  myResult = "&lt;h1&gt;doodle types&lt;/h1&gt;"
   for myObject in myObjects:
-    myResult = myResult +str(myObject.id) + " : " + str(myObject.name) + "<br />"
+    myResult = myResult +str(myObject.id) + " : " + str(myObject.name) + "&lt;br /&gt;"
   return HttpResponse(myResult)
-```
-
+</PRE></div>
+<P></P>
+<P>
 The view simply gets all the DoodleType objects (remember django's ORM
 seamlessly pulls these from the database backend for you) and the loops through
 them building up a string. The string is then returned to the browser using the
 HttpResponse call.
-
+</P>
+<P>
 Before we can see the view, you need to add a new rule to the controller.
 Sensing a ryhthmn here? Good it is the same process over and over - create
 models, make views on to your models, define controller rules so that you can
 get to your views. So to make our new controller rule, we add a line in
 urls.py:
-
-```
+</P>
+<div class="code"><PRE>
 # For our list doodle types view
 (r'^listDoodleTypes/', listDoodleTypes),
-```
-
+</PRE></div>
+<P></P>
+<P>
 Now point your browser at the new view:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/listDoodleTypes/
-```
-
+</PRE></div>
+<P></P>
+<P>
 and you should see something like this:
-
-```
+</P>
+<div class="code"><PRE>
 Doodle Types
 Test Type 1
 Test Type 2
-```
-
-== A view of a single object ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc25"></A>
+<H2>6.4. A view of a single object</H2>
+<P>
 Ok so now we have a view that is driven by the data in our model. What if we
 want to see just a specific model instance? We can use the get() call to do
 that (in doodle/views.py):
-
-```
+</P>
+<div class="code"><PRE>
 def showDoodleType(theRequest, theId):
   myObject = DoodleType.objects.get(id=theId)
-  myResult = "<h1>Doodle Type Details</h1>"
-  myResult = myResult + "Id: " + str(myObject.id) + "<br />"
-  myResult = myResult + "Name: " + str(myObject.name) + "<br />"
+  myResult = "&lt;h1&gt;Doodle Type Details&lt;/h1&gt;"
+  myResult = myResult + "Id: " + str(myObject.id) + "&lt;br /&gt;"
+  myResult = myResult + "Name: " + str(myObject.name) + "&lt;br /&gt;"
   return HttpResponse(myResult)
-```
-
+</PRE></div>
+<P></P>
+<P>
 And a rule to our controller (urls.py):
-
-```
+</P>
+<div class="code"><PRE>
 # For our show doodle type view
-(r'^showDoodleType/(?P<theId>\d+)/$', showDoodleType),
-```
-
+(r'^showDoodleType/(?P&lt;theId&gt;\d+)/$', showDoodleType),
+</PRE></div>
+<P></P>
+<P>
 Test by going to:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/showDoodleType/1/
-```
-
+</PRE></div>
+<P></P>
+<P>
 ...which should show something like :
-
-```
+</P>
+<div class="code"><PRE>
 Doodle Type Details
 Id: 1
 Name: Test Type 1
-```
-
-== Dealing with errors ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc26"></A>
+<H2>6.5. Dealing with errors</H2>
+<P>
 One common error you may encounter is a url asking for a non existant object e.g.:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/showDoodleType/999/
-```
-
+</PRE></div>
+<P></P>
+<P>
 You can use normal python error checking to deal with this, but django provides
 a shortcut to deal with these situations in its aptly named shortcuts module.
 Lets adapt our showDoodleType view to be a little more robust:
-
-```
+</P>
+<div class="code"><PRE>
 from django.shortcuts import get_object_or_404
 
 def showDoodleType(theRequest, theId):
@@ -1243,142 +1498,158 @@ def showDoodleType(theRequest, theId):
   # myObject = DoodleType.objects.get(id=theId)
   # New way: 
   myObject = get_object_or_404(DoodleType, id=theId)
-  myResult = "<h1>Doodle Type Details</h1>"
-  myResult = myResult + "Id: " + str(myObject.id) + "<br />"
-  myResult = myResult + "Name: " + str(myObject.name) + "<br />"
+  myResult = "&lt;h1&gt;Doodle Type Details&lt;/h1&gt;"
+  myResult = myResult + "Id: " + str(myObject.id) + "&lt;br /&gt;"
+  myResult = myResult + "Name: " + str(myObject.name) + "&lt;br /&gt;"
   return HttpResponse(myResult)
-```
-
-== Deleting an object ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc27"></A>
+<H2>6.6. Deleting an object</H2>
+<P>
 To your views.py add:
-
-```
+</P>
+<div class="code"><PRE>
 def deleteDoodleType(theRequest, theId):
   myObject = get_object_or_404(DoodleType, id=theId)
-  myResult = "<h1>Doodle Type Deleted:</h1>"
-  myResult = myResult + "Id: " + str(myObject.id) + "<br />"
-  myResult = myResult + "Name: " + str(myObject.name) + "<br />"
+  myResult = "&lt;h1&gt;Doodle Type Deleted:&lt;/h1&gt;"
+  myResult = myResult + "Id: " + str(myObject.id) + "&lt;br /&gt;"
+  myResult = myResult + "Name: " + str(myObject.name) + "&lt;br /&gt;"
   myObject.delete()
   return HttpResponse(myResult)
-```
-
+</PRE></div>
+<P></P>
+<P>
 And to the urls.py add:
-
-```
+</P>
+<div class="code"><PRE>
 # For our delete doodle type view
-(r'^deleteDoodleType/(?P<theId>\d+)/$', deleteDoodleType),
-```
-
+(r'^deleteDoodleType/(?P&lt;theId&gt;\d+)/$', deleteDoodleType),
+</PRE></div>
+<P></P>
+<P>
 Then test:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/deleteDoodleType/1/
-```
-
+</PRE></div>
+<P></P>
+<P>
 Result:
-
-```
+</P>
+<div class="code"><PRE>
 Doodle Type Deleted:
 Id: 1
 Name: Test
-```
-
-== Creating a model ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc28"></A>
+<H2>6.7. Creating a model</H2>
+<P>
 To your views.py add:
-
-```
+</P>
+<div class="code"><PRE>
 def createDoodleType(theRequest, theName):
   myObject = DoodleType()
   myObject.name = theName
   myObject.save()
-  myResult = "<h1>Doodle Type Created:</h1>"
-  myResult = myResult + "Id: " + str(myObject.id) + "<br />"
-  myResult = myResult + "Name: " + str(myObject.name) + "<br />"
+  myResult = "&lt;h1&gt;Doodle Type Created:&lt;/h1&gt;"
+  myResult = myResult + "Id: " + str(myObject.id) + "&lt;br /&gt;"
+  myResult = myResult + "Name: " + str(myObject.name) + "&lt;br /&gt;"
   return HttpResponse(myResult)
-```
-
+</PRE></div>
+<P></P>
+<P>
 And to the urls.py add:
-
-```
+</P>
+<div class="code"><PRE>
 # For our delete doodle type view
-(r'^createDoodleType/(?P<theName>[a-zA-Z]+)/$', createDoodleType),
-```
-
+(r'^createDoodleType/(?P&lt;theName&gt;[a-zA-Z]+)/$', createDoodleType),
+</PRE></div>
+<P></P>
+<P>
 Then test:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/createDoodleType/Squiggle/
-```
-
+</PRE></div>
+<P></P>
+<P>
 Result:
-
-```
+</P>
+<div class="code"><PRE>
 Doodle Type Created:
 Id: 2
 Name: Squiggle
-```
-
-== Last but not least, update a model ==
-
-
+</PRE></div>
+<P></P>
+<A NAME="toc29"></A>
+<H2>6.8. Last but not least, update a model</H2>
+<P>
 To your views.py add:
-
-```
+</P>
+<div class="code"><PRE>
 def updateDoodleType(theRequest, theId, theName):
   myObject = get_object_or_404(DoodleType, id=theId)
   myObject.name = theName
   myObject.save()
-  myResult = "<h1>Doodle Type Updated:</h1>"
-  myResult = myResult + "Id: " + str(myObject.id) + "<br />"
-  myResult = myResult + "Name: " + str(myObject.name) + "<br />"
+  myResult = "&lt;h1&gt;Doodle Type Updated:&lt;/h1&gt;"
+  myResult = myResult + "Id: " + str(myObject.id) + "&lt;br /&gt;"
+  myResult = myResult + "Name: " + str(myObject.name) + "&lt;br /&gt;"
   return HttpResponse(myResult)
-```
-
+</PRE></div>
+<P></P>
+<P>
 And to the urls.py add:
-
-```
+</P>
+<div class="code"><PRE>
 # For our update doodle type view
-(r'^updateDoodleType/(?P<theId>\d+)/(?P<theName>[a-zA-Z]+)/$', updateDoodleType),
-```
-
+(r'^updateDoodleType/(?P&lt;theId&gt;\d+)/(?P&lt;theName&gt;[a-zA-Z]+)/$', updateDoodleType),
+</PRE></div>
+<P></P>
+<P>
 You will see above that we provide for two parameters to be passed to the URL -
 first the id, and then the new name for the doodle.
-
+</P>
+<P>
 Then test:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/updateDoodleType/2/Squaggle/
-```
-
+</PRE></div>
+<P></P>
+<P>
 Result:
-
-```
+</P>
+<div class="code"><PRE>
 Doodle Type Created:
 Id: 2
 Name: Squaggle
-```
-
-
-== CRUD !==
-
+</PRE></div>
+<P></P>
+<A NAME="toc30"></A>
+<H2>6.9. CRUD !</H2>
+<P>
 Now we have crud facilities in our application!:
+</P>
+<UL>
+<LI><B>c</B>reate objects
+<LI><B>r</B>ead objects
+<LI><B>u</B>pdate objects
+<LI><B>d</B>elete objects
+</UL>
 
-- **c**reate objects
-- **r**ead objects
-- **u**pdate objects
-- **d**elete objects
--
-
+<P></P>
+<P>
 CRUD is the basis for pretty much any data driven application so we are well on
 our way to being able to create something useful.
-
-== Now you try! ==
-
+</P>
+<A NAME="toc31"></A>
+<H2>6.10. Now you try!</H2>
+<P>
 To see just how well you have grasped everything so far here is a little challenge:
-
-```
+</P>
+<div class="code"><PRE>
 1) Create a new model definition, sync it to the database.
 2) Create controller rules to allow you to do CRUD with your model
 3) Implement the view logic to support CRUD
@@ -1388,35 +1659,38 @@ and for bonus points
 
 5) Create a controller rule and view method that will delete all 
    of your objects.
-```
-
-= Forms =
-
+</PRE></div>
+<P></P>
+<A NAME="toc32"></A>
+<H1>7. Forms</H1>
+<P>
 You may have realised by now that the system for updating and adding data
 outlined in the above examples is not very flexible. For example it is not
 possible to upload files or post large tracts of text or deal with long
 complicated forms using the simple rest parameter approach. Never fear though,
 Django has a robust form handling infrastructure that will let you deal with
 user submitted data in a much more elegant way.
-
-== Before you begin ==
-
+</P>
+<A NAME="toc33"></A>
+<H2>7.1. Before you begin</H2>
+<P>
 Add these lines to your settings.py middleware list:
-
-```
+</P>
+<div class="code"><PRE>
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.csrf.CsrfResponseMiddleware',
-```
-
-== A first form ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc34"></A>
+<H2>7.2. A first form</H2>
+<P>
 Lets update that addDoodleType view a little to make use of the forms
 capability. Before we can modify the view, we should first create our form.
-Forms are managed in the <yourapp>/forms.py file. Unlike the urls, models and
+Forms are managed in the &lt;yourapp&gt;/forms.py file. Unlike the urls, models and
 views files, the forms.py file is not created for you automatically by django
 when you create your app, so you need to create it yourself.
-
-```
+</P>
+<div class="code"><PRE>
 
 from doodle.models import *
 from django import forms
@@ -1426,28 +1700,31 @@ class DoodleTypeForm(forms.ModelForm):
   class Meta:
     model = DoodleType
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Pretty simple eh? Like models a form inherits from a base class and uses a Meta
 inner class to define some data - in this case what model is associated with
 the form.
-
+</P>
+<P>
 Now we need to adapt our existing view to make use of the form. Our original view looked like this:
-
-```
+</P>
+<div class="code"><PRE>
 def createDoodleType(theRequest, theName):
   myObject = DoodleType()
   myObject.name = theName
   myObject.save()
-  myResult = "<h1>Doodle Type Created:</h1>"
-  myResult = myResult + "Id: " + str(myObject.id) + "<br />"
-  myResult = myResult + "Name: " + str(myObject.name) + "<br />"
+  myResult = "&lt;h1&gt;Doodle Type Created:&lt;/h1&gt;"
+  myResult = myResult + "Id: " + str(myObject.id) + "&lt;br /&gt;"
+  myResult = myResult + "Name: " + str(myObject.name) + "&lt;br /&gt;"
   return HttpResponse(myResult)
-```
-
+</PRE></div>
+<P></P>
+<P>
 The logic for our new form based view looks like this:
-
-```
+</P>
+<div class="code"><PRE>
 from django.http import HttpResponseRedirect
 from doodle.forms import *
 
@@ -1455,8 +1732,8 @@ from doodle.forms import *
 def createDoodleType(theRequest):
   # Next two lines contain just enough html to create a form element
   # The action is left blank so the form will post back to itself
-  myStartString = """<form action="" method="post" accept-charset="utf-8" class="horizontal">"""
-  myEndString   = """<button type="submit">Save</button></form>"""
+  myStartString = """&lt;form action="" method="post" accept-charset="utf-8" class="horizontal"&gt;"""
+  myEndString   = """&lt;button type="submit"&gt;Save&lt;/button&gt;&lt;/form&gt;"""
 
   # Now we test to see if the http request is a POST request
   if theRequest.method == 'POST':
@@ -1479,45 +1756,53 @@ def createDoodleType(theRequest):
     myForm = DoodleTypeForm()
     # Show the form in the users browser
     return HttpResponse(myStartString + myForm.as_p() + myEndString)
-```
-
+</PRE></div>
+<P></P>
+<P>
 There is a bit more code here than our previous version, but the amount of code
 stays the same regarless of how many fields you have in your form, and also
 most of the above is just comments to explain what is going on.
-
-**Note:** You can also render your form using as_ul, as_table (or of course as_p)
-
+</P>
+<P>
+<B>Note:</B> You can also render your form using as_ul, as_table (or of course as_p)
+</P>
+<P>
 We need to make a small change to the contoller rule since we are no longer
 passing the DoodleType properties as part of the URL:
-
-```
-(r'^createDoodleType/(?P<theName>[a-zA-Z]+)/$', createDoodleType),
-```
-
+</P>
+<div class="code"><PRE>
+(r'^createDoodleType/(?P&lt;theName&gt;[a-zA-Z]+)/$', createDoodleType),
+</PRE></div>
+<P></P>
+<P>
 becomes
-
-```
+</P>
+<div class="code"><PRE>
 (r'^createDoodleType/$', createDoodleType),
-```
-
-
+</PRE></div>
+<P></P>
+<P>
 Now we can head back to our browser and give it a whirl:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/createDoodleType/
-```
-
+</PRE></div>
+<P></P>
+<P>
 Which should show you a visually stunning form, something like this:
-
-[img/createDoodleTypeForm.png]
-
-== Customising the form experience - Form Field Parameters ==
-
-[Django Form Field Documentation http://docs.djangoproject.com/en/dev/ref/forms/fields/]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/createDoodleTypeForm.png" BORDER="0" ALT="">
+</P>
+<A NAME="toc35"></A>
+<H2>7.3. Customising the form experience - Form Field Parameters</H2>
+<P>
+<A HREF="http://docs.djangoproject.com/en/dev/ref/forms/fields/">Django Form Field Documentation</A>
+</P>
+<P>
 Django will create default widgets for your form based on the model field type. If you leave the form field list blank as we have done in our example above, the field labels, help text etc are also all carried over from your model definitions, left blank, or defaults are applied. To improve the experience for your users you can customise the way each form field is presented to the user. Here is an example:
-
-```
+</P>
+<div class="code"><PRE>
 class DoodleTypeForm(forms.ModelForm):
   """ A form that creates a DoodleType """
   name = forms.CharField(label="Doodle Name:",
@@ -1529,30 +1814,31 @@ class DoodleTypeForm(forms.ModelForm):
                )
   class Meta:
     model = DoodleType
-```
-
-
-**Note:** You can have bound and unbound forms. Bound forms are linked to a
+</PRE></div>
+<P></P>
+<P>
+<B>Note:</B> You can have bound and unbound forms. Bound forms are linked to a
 model instance, whereas unbound forms aren't. Unbound forms can be useful when
 you want to collect data from a user, but don't want that data to be turned
 into a model instance. For the discussion in this tutorial though, we are going
 to stick with bound forms.
-
-
-== Customising the form experience - Form Field Widgets ==
-
-[Django Form Widget Documentation http://docs.djangoproject.com/en/dev/ref/forms/widgets]
-
+</P>
+<A NAME="toc36"></A>
+<H2>7.4. Customising the form experience - Form Field Widgets</H2>
+<P>
+<A HREF="http://docs.djangoproject.com/en/dev/ref/forms/widgets">Django Form Widget Documentation</A>
+</P>
+<P>
 What if you don't want to show the default widget type in your form. For
 example the forms.CharField will show a simple text entry box by default on
 your form. We can specify a different widget in the form definition - here I am
 electing to use a text area rather than a text input:
-
-```
+</P>
+<div class="code"><PRE>
 class DoodleTypeForm(forms.ModelForm):
   """ A form that creates a DoodleType """
   name = forms.CharField(label="Doodle Name:",
-               widget=forms.Textarea, # <-- specify the textarea widget!
+               widget=forms.Textarea, # &lt;-- specify the textarea widget!
                required=True,
                help_text="Please enter the name for this doodle type",
                error_messages={'required': 
@@ -1562,12 +1848,13 @@ class DoodleTypeForm(forms.ModelForm):
   class Meta:
     model = DoodleType
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Django provides quite a few widgets that can be dropped in - just bear in mind
 that the field type in your model must be appropriate to the widget!
-
-```
+</P>
+<div class="code"><PRE>
 # Basic Form Field Types
 
 BooleanField
@@ -1594,15 +1881,16 @@ URLField
 
 ModelChoiceField
 ModelMultipleChoiceField
-```
-
-== Specifying Widget Attributes ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc37"></A>
+<H2>7.5. Specifying Widget Attributes</H2>
+<P>
 Django renders the widgets in a default way. If you want to give 
 each widget specific properties, you can do this by passing a 
 dictionary of attributes like this:
-
-```
+</P>
+<div class="code"><PRE>
 class DoodleTypeForm(forms.ModelForm):
   """ A form that creates a DoodleType """
   name = forms.CharField(label="Doodle Name:", 
@@ -1616,41 +1904,46 @@ class DoodleTypeForm(forms.ModelForm):
       )
   class Meta:
     model = DoodleType
-```
-
+</PRE></div>
+<P></P>
+<P>
 In the above example, I have added the 'attrs' parameter to the widget and then I could specify arbitary parameters. In this case I told django to make the text area 40 chars and set the css style for it. The rendered output for the form looks like this:
-
-```
-<form action="" method="post" accept-charset="utf-8" class="horizontal">
-  <p>
-    <label for="id_name">Doodle Name:</label> 
-    <textarea style="background: cyan; height: 20px; display: block;" 
+</P>
+<div class="code"><PRE>
+&lt;form action="" method="post" accept-charset="utf-8" class="horizontal"&gt;
+  &lt;p&gt;
+    &lt;label for="id_name"&gt;Doodle Name:&lt;/label&gt; 
+    &lt;textarea style="background: cyan; height: 20px; display: block;" 
      rows="10" name="name" id="id_name" 
-     cols="40" size="40"></textarea> 
+     cols="40" size="40"&gt;&lt;/textarea&gt; 
     Please enter the name for this doodle type
-  </p>
-  <button type="submit">Save</button>
-</form>
-```
-
-[customisedform.png]
-
+  &lt;/p&gt;
+  &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+</PRE></div>
+<P></P>
+<P>
+<IMG ALIGN="middle" SRC="customisedform.png" BORDER="0" ALT="">
+</P>
+<P>
 Ok that is no thing of beauty, but is should give you the idea!
-
-== Now you try! ==
-
+</P>
+<A NAME="toc38"></A>
+<H2>7.6. Now you try!</H2>
+<P>
 At the end of the section on views, I tasked you to create a custom 
 model and view. Now see if you can implement a spiffy looking form!
-
-
-== Custom Form Widgets ==
-
+</P>
+<A NAME="toc39"></A>
+<H2>7.7. Custom Form Widgets</H2>
+<P>
 Sometimes the built in form widgets won't suit your needs. In this 
 case you can create your own widgets!
-
+</P>
+<P>
 Here is a simple example (saved to doodle/superwidget.py):
-
-```
+</P>
+<div class="code"><PRE>
 from django.forms import ModelForm
 from django import forms
 from django.utils.safestring import mark_safe
@@ -1678,17 +1971,18 @@ class SuperWidget(forms.TextInput):
     else:
       attrs['style'] = "font-size: 30px;"
     # Now we write our widget into a string
-    myResult = '<div><input%s />%s</div>' % (forms.util.flatatt(attrs), value)
+    myResult = '&lt;div&gt;&lt;input%s /&gt;%s&lt;/div&gt;' % (forms.util.flatatt(attrs), value)
     # Mark the widget html as safe - e.g. by escaping any special chars etc
     # and then return it
     return mark_safe(myResult)
-```
-
+</PRE></div>
+<P></P>
+<P>
 I've commented in the example above so it should be clear what is going on if
 you read the comments. How do we use our widget then? In our form class we need
 to import the widget and then specify our custom widget for the form field:
-
-```
+</P>
+<div class="code"><PRE>
 from doodle.models import *
 # Import our super widget!
 from doodle.superwidget import *
@@ -1709,16 +2003,17 @@ class DoodleTypeForm(forms.ModelForm):
       )
   class Meta:
     model = DoodleType
-```
-
+</PRE></div>
+<P></P>
+<P>
 Our modified form will now generate html that looks something like this:
-
-```
-<form action="" method="post" accept-charset="utf-8" class="horizontal">
-  <p>
-    <label for="id_name">Doodle Name:</label> 
-    <div>
-      <input 
+</P>
+<div class="code"><PRE>
+&lt;form action="" method="post" accept-charset="utf-8" class="horizontal"&gt;
+  &lt;p&gt;
+    &lt;label for="id_name"&gt;Doodle Name:&lt;/label&gt; 
+    &lt;div&gt;
+      &lt;input 
       style="font-weight: bold; 
              font-size: 30px; 
              background: cyan; 
@@ -1728,56 +2023,63 @@ Our modified form will now generate html that looks something like this:
              name="name" 
              type="text" 
              id="id_name" 
-             size="40" />
-    </div> 
+             size="40" /&gt;
+    &lt;/div&gt; 
     Please enter the name for this doodle type
-  </p>
-  <button type="submit">Save</button>
-</form>
-```
-
+  &lt;/p&gt;
+  &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+</PRE></div>
+<P></P>
+<P>
 Your html will probably render everything in one straight line - I've formatted
 it a little for clarity. Here is a screenie of what the (still ugly) widget looks like:
-
-[img/superwidget.png]
-
-= Using Templates =
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/superwidget.png" BORDER="0" ALT="">
+</P>
+<A NAME="toc40"></A>
+<H1>8. Using Templates</H1>
+<P>
 So far we have hand crafted the html we return from each view as an
 HTTPResponse. Obviously this can get a bit laborious, especially if you are
 designing a complex web site. Naturally, the Django developers thought of this
 and cae up with a neat solution - templates. Django templates allow you to mix
 static html and dynamically generated content which you can pass to the
 template using your view.
-
-Application specific templates are saved under <project>/<appname>/templates/ -
+</P>
+<P>
+Application specific templates are saved under &lt;project&gt;/&lt;appname&gt;/templates/ -
 e.g. django_project/doodle/templates/foo.html
-
-== A simple example ==
-
+</P>
+<A NAME="toc41"></A>
+<H2>8.1. A simple example</H2>
+<P>
 Lets look at a simple template (doodle/templates/doodle.html):
-
-```
-<div id="heading">Welcome to Doodle App!</div>
-<div id="viewdata">{{ myData|safe }}</div>
-<div id="footer">---</div>
-```
-
+</P>
+<div class="code"><PRE>
+&lt;div id="heading"&gt;Welcome to Doodle App!&lt;/div&gt;
+&lt;div id="viewdata"&gt;{{ myData|safe }}&lt;/div&gt;
+&lt;div id="footer"&gt;---&lt;/div&gt;
+</PRE></div>
+<P></P>
+<P>
 We also need to tell our view (doodle/views.py) to use the template. I will
 update the listDoodleTypes view to use our new template:
-
-```
+</P>
+<div class="code"><PRE>
 from django.shortcuts import render_to_response
 
 def listDoodleTypes(theRequest):
   myObjects = DoodleType.objects.all()
-  myResult = "<h1>Doodle Types</h1>"
+  myResult = "&lt;h1&gt;Doodle Types&lt;/h1&gt;"
   for myObject in myObjects:
-    myResult = myResult +str(myObject.id) + " : " + str(myObject.name) + "<br />"
+    myResult = myResult +str(myObject.id) + " : " + str(myObject.name) + "&lt;br /&gt;"
   # Use our nifty template to render our response rather!
   return render_to_response("doodle.html", {'myData' : myResult})
-```
-
+</PRE></div>
+<P></P>
+<P>
 As you can see there are only two things we changed in order to make use of our
 new template - adding the render_to_response import in the header section of
 the views.py file, and returning a render_to_response for our listDoodleTypes
@@ -1785,31 +2087,32 @@ method. The render to response method takes two parameters - the name of a
 template, and a dictionary of parameters to pass to the template. In this case
 we are passing only the 'myResult' string, which will be visible to the
 template as a variable called 'myData'.
-
-== A simple example with OpenLayers ==
-
+</P>
+<A NAME="toc42"></A>
+<H2>8.2. A simple example with OpenLayers</H2>
+<P>
 We are putting together all the building blocks now to show spatial data in our
 django application. Look at this example that adds a 'showDoodle'
 implementation with mapping support:
-
-```
-<html>
-  <head>
-    <title>My Doodle</title>
-    <style>
+</P>
+<div class="code"><PRE>
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;My Doodle&lt;/title&gt;
+    &lt;style&gt;
       #map-id {
         width: 512px;
         height: 256px;
       }
-    </style>
-    <script src="http://openlayers.org/api/OpenLayers.js"></script> 
-  </head>
-  <body>
-    <h1>My Doodle</h1>
-    <h2>Name: {{ myDoodle.name }} </h2>
-    <div id="map-id"></div>
-    <div id="scaleline-id"></div>
-    <script>
+    &lt;/style&gt;
+    &lt;script src="http://openlayers.org/api/OpenLayers.js"&gt;&lt;/script&gt; 
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;My Doodle&lt;/h1&gt;
+    &lt;h2&gt;Name: {{ myDoodle.name }} &lt;/h2&gt;
+    &lt;div id="map-id"&gt;&lt;/div&gt;
+    &lt;div id="scaleline-id"&gt;&lt;/div&gt;
+    &lt;script&gt;
       OpenLayers.ImgPath = "http://js.mapbox.com/theme/dark/";
       var map = new OpenLayers.Map("map-id");
         var country = new OpenLayers.Layer.WMS(
@@ -1847,76 +2150,84 @@ implementation with mapping support:
       });
       map.addControl(scaleline); 
       map.zoomToMaxExtent();
-    </script>
-  </body>
-</html>
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Easy-peasy eh? The WKT reader simply created the feature from the geometry from
 the doodle and we add it to the OpenLayers vector layer!
-
-== Project-wide Templates ==
-
-Project wide templates can also be created under <project>/templates/ - e.g.
+</P>
+<A NAME="toc43"></A>
+<H2>8.3. Project-wide Templates</H2>
+<P>
+Project wide templates can also be created under &lt;project&gt;/templates/ - e.g.
 django_project/templates/foo.html
-
+</P>
+<P>
 One really neat thing about django templates is that they support inheritance
-so you can make a master template in your <project>/templates/ folder and then
+so you can make a master template in your &lt;project&gt;/templates/ folder and then
 have all your application level templates inherit from this. By doing this you
 can simply create a site-wide look and feel accross all your applications.
 Simply define your css and top level page layout in the
-<projects>/templates/base.html for example, and then in your application
+&lt;projects&gt;/templates/base.html for example, and then in your application
 templates you worry about things that are specific to your application
 requirements only.
-
+</P>
+<P>
 Here is another template which I will save under django_project/templates:
-
-```
-<html>
-  <head>
-    <style type="text/css">
+</P>
+<div class="code"><PRE>
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style type="text/css"&gt;
         body {color:sienna}
         #heading {font-size: 3em;}
         div {margin-left:20px; border-top: solid 1px;}
-    </style>
-  </head>
-  <body>
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
     {% block content %}{% endblock %}
-  </body>
-</html>
-```
-
+  &lt;/body&gt;
+&lt;/html&gt;
+</PRE></div>
+<P></P>
+<P>
 So that gives us a simple page structure with a few lines of css thrown in. The
 interesting part here is the {% block content %}{% endblock %} tag added to the
 body. Django templates are just normal html with {% %} and {{ }} tags mixed in.
 The {% %} tags can be thought of as methods - they call some python logic
 internally. The {{ }} can be thought of as variables - the value of the
 variable named between {{ }} will be inserted into the generated html.
-
+</P>
+<P>
 When you add a block tag to a template, an inheriting template can override it.
 Let's modify the doodle/templates/doodle.hml template to see how this is done:
-
-```
+</P>
+<div class="code"><PRE>
 {% extends "base.html" %}
 {% block content %}
-<div id="heading">Welcome to Doodle App!</div>
-<div id="viewdata">{{ myData|safe }}</div>
-<div id="footer"></div>
+&lt;div id="heading"&gt;Welcome to Doodle App!&lt;/div&gt;
+&lt;div id="viewdata"&gt;{{ myData|safe }}&lt;/div&gt;
+&lt;div id="footer"&gt;&lt;/div&gt;
 {% endblock %}
-```
-
-The |safe appended to our variable name is a **template filter** that will
+</PRE></div>
+<P></P>
+<P>
+The |safe appended to our variable name is a <B>template filter</B> that will
 allow injection of literal html into the rendered template. If you don't use
 it, any html elements inside myData will be printed as text rather than used as
 html markup.
-
+</P>
+<P>
 Before we can test drive our hierachical template structure, there is one more
-thing we need to do. Django knows to look in your <appname>/templates/
+thing we need to do. Django knows to look in your &lt;appname&gt;/templates/
 directory for templates, but we need to 'register' the projects-wide template
 directory in our settings file.
-
-```
+</P>
+<div class="code"><PRE>
 import os
 ROOT_PROJECT_FOLDER = os.path.dirname(__file__)
 
@@ -1928,75 +2239,86 @@ TEMPLATE_DIRS = (
     os.path.join(ROOT_PROJECT_FOLDER, 'templates'),
 )
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 The above just computes what the django project directory is and adds the
 project templates directory to the template search path.
-
+</P>
+<P>
 Now we are ready to test drive our templates:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/listDoodleTypes/
-```
-
+</PRE></div>
+<P></P>
+<P>
 You should land up with something looking like this:
-
-[img/heirachicaltemplate.png]
-
-== Template Block Inheritance ==
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/heirachicaltemplate.png" BORDER="0" ALT="">
+</P>
+<A NAME="toc44"></A>
+<H2>8.4. Template Block Inheritance</H2>
+<P>
 If you want your child template to append to, rather than replace the content of
 the parent templates block, you can do something like this:
-
+</P>
+<P>
 Parent Block:
-
-```
+</P>
+<div class="code"><PRE>
 {% block content %}
   Content for the parent
 {% end block %}
-```
-
+</PRE></div>
+<P></P>
+<P>
 Child Block:
-
-```
+</P>
+<div class="code"><PRE>
 {% block content %}
   {{ block.super }}
   Content for the child
 {% end block %}
-```
-
+</PRE></div>
+<P></P>
+<P>
 If you render that you will see output like this:
-
-```
+</P>
+<div class="code"><PRE>
 Content for the parent
 Content for the child
-```
-
-== Template Programming ==
-
-[Detailed Template Reference http://docs.djangoproject.com/en/dev/ref/templates/builtins/]
-
+</PRE></div>
+<P></P>
+<A NAME="toc45"></A>
+<H2>8.5. Template Programming</H2>
+<P>
+<A HREF="http://docs.djangoproject.com/en/dev/ref/templates/builtins/">Detailed Template Reference</A>
+</P>
+<P>
 The templating language can do more than insert blocks and do variable
 substitution. It's a mini programming language - designed to be simple to learn
 so that non-technical people (==designers) can use it. Lets rewrite our
 doodleTypesList view so that we make better use of the template and separate
 presentation and markup from 'business logic'. First the view can be rewritten
 from this:
-
-```
+</P>
+<div class="code"><PRE>
 def listDoodleTypes(theRequest):
   myObjects = DoodleType.objects.all()
-  myResult = "<h1>Doodle Types</h1>"
+  myResult = "&lt;h1&gt;Doodle Types&lt;/h1&gt;"
   for myObject in myObjects:
-    myResult = myResult +str(myObject.id) + " : " + str(myObject.name) + "<br />"
+    myResult = myResult +str(myObject.id) + " : " + str(myObject.name) + "&lt;br /&gt;"
   # Use our nifty template to render our response rather!
   return render_to_response("doodle.html", {'myData' : myResult})
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 to this:
-
-```
+</P>
+<div class="code"><PRE>
 def listDoodleTypes(theRequest):
   myTitle = "Doodle Types"
   myObjects = DoodleType.objects.all()
@@ -2005,200 +2327,225 @@ def listDoodleTypes(theRequest):
     'myObjects' : myObjects,
     })
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Can you see that firstly our code is much simpler now (always a good thing in
 programming!) and secondly the view itself doesn't deal with the presentation
-itself, only with **what** should be presented. It then hands that data over to
+itself, only with <B>what</B> should be presented. It then hands that data over to
 the template.
-
+</P>
+<P>
 We need to adjust our template too so that it can accommodate our refactored
 view. So we change the template (doodle/templates/doodle.html) from this:
-
-```
+</P>
+<div class="code"><PRE>
 {% extends "base.html" %}
 {% block content %}
-<div id="heading">Welcome to Doodle App!</div>
-<div id="viewdata">{{ myData|safe }}</div>
-<div id="footer"></div>
+&lt;div id="heading"&gt;Welcome to Doodle App!&lt;/div&gt;
+&lt;div id="viewdata"&gt;{{ myData|safe }}&lt;/div&gt;
+&lt;div id="footer"&gt;&lt;/div&gt;
 {% endblock %}
-```
-
+</PRE></div>
+<P></P>
+<P>
 to this:
-
-```
+</P>
+<div class="code"><PRE>
 {% extends "base.html" %}
 {% block content %}
-  <div id="heading">{{ myTitle }}</div>
-  <div id="viewdata">
+  &lt;div id="heading"&gt;{{ myTitle }}&lt;/div&gt;
+  &lt;div id="viewdata"&gt;
     {% for myObject in myObjects %}
-    <p>{{ myObject.name }}</p>
+    &lt;p&gt;{{ myObject.name }}&lt;/p&gt;
     {% endfor %}
-  </div>
-  <div id="footer"></div>
+  &lt;/div&gt;
+  &lt;div id="footer"&gt;&lt;/div&gt;
 {% endblock %}
-```
-
+</PRE></div>
+<P></P>
+<P>
 You can see that we have constructed a simple for loop using template tags, and
 then iterated through the list of objects. We can get any property of the
 objects simply by using the '.' reference to it. Note that you can't invoke
 methods on the object in this way, only retrieve its properties. We also
 accessed the myTitle variable that was passed to the template. 
-
+</P>
+<P>
 Using some more tags and filters we can extend our template to look like this:
-
-```
+</P>
+<div class="code"><PRE>
 {% extends "base.html" %}
 {% block content %}
-  <div id="heading">{{ myTitle }}</div>
-  <div id="viewdata">
+  &lt;div id="heading"&gt;{{ myTitle }}&lt;/div&gt;
+  &lt;div id="viewdata"&gt;
     {% for myObject in myObjects %}
-    <p  class="{% cycle 'oddrow' 'evenrow' %}">{{forloop.counter}}){{ myObject.name }}</p>
+    &lt;p  class="{% cycle 'oddrow' 'evenrow' %}"&gt;{{forloop.counter}}){{ myObject.name }}&lt;/p&gt;
     {% endfor %}
-  </div>
-  <div id="footer">
-    <p>{{ myObjects|length }} items in total.</p>
-  </div>
+  &lt;/div&gt;
+  &lt;div id="footer"&gt;
+    &lt;p&gt;{{ myObjects|length }} items in total.&lt;/p&gt;
+  &lt;/div&gt;
 {% endblock %}
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 I also added a couple of css class rules to the templates/base.html file:
-
-```
+</P>
+<div class="code"><PRE>
         .oddrow {background: #fcfcfc;}
         .evenrow {background: #ededed;}
-```
-
+</PRE></div>
+<P></P>
+<P>
 These are just a few of the tags and filters you can use which can be quickly explained:
-
-- {{myTitle}} - Simply substitutes in the title passed in from our view. The
+</P>
+<UL>
+<LI>{{myTitle}} - Simply substitutes in the title passed in from our view. The
   css in our base template will ensure that it comes out in nice large text.
-- {% for myObject in myObjects %} - This will iterate through the objects
+<LI>{% for myObject in myObjects %} - This will iterate through the objects
   passed to the template from the view.
-- {% cycle 'oddrow' 'evenrow' %} - This will substitute with the strings
+<LI>{% cycle 'oddrow' 'evenrow' %} - This will substitute with the strings
   'oddrow' and 'evenrow' on alternating iterations of the loop. You can have
   more than two options listed in this way.
-- {{forloop.counter}} - This prints the iteration number for the for loop,
+<LI>{{forloop.counter}} - This prints the iteration number for the for loop,
   starting at base 1 (you can use forloop.counter0) for a base 0 counter.
-- {{ object.name }} - This will be substituted with the property 'name' of the
+<LI>{{ object.name }} - This will be substituted with the property 'name' of the
   current object iteration.
-- {{ myObjects|length }} - Is substituted with the number of objects in the
+<LI>{{ myObjects|length }} - Is substituted with the number of objects in the
   myObjects collection.
-- 
+</UL>
 
+<P></P>
+<P>
 The end product from the above looks like this:
-
-[img/templatefilters.png]
-
-== Now you try ==
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="img/templatefilters.png" BORDER="0" ALT="">
+</P>
+<A NAME="toc46"></A>
+<H2>8.6. Now you try</H2>
+<P>
 Implement CRUD views, templates etc for the Doodle model. Don't worry about
 displaying the geometry field as a map at this stage, we will be getting there
 shortly.
-
-= Custom Template Tags =
-
+</P>
+<A NAME="toc47"></A>
+<H1>9. Custom Template Tags</H1>
+<P>
 As well as the out-of-the-box template tags and filters, you can create your
 template tags. The big advantage here is that you can put any python logic you
 like into your custom tage, whereas in the template you can only use the
 simplified template syntax.
-
-== A new package ==
-
+</P>
+<A NAME="toc48"></A>
+<H2>9.1. A new package</H2>
+<P>
 To create a custom tag, first we make a package:
-
-```
-mkdir <yourapp>/templatetags
-touch <yourapp>/templatetags/__init__.py
-cd <yourapp>
+</P>
+<div class="code"><PRE>
+mkdir &lt;yourapp&gt;/templatetags
+touch &lt;yourapp&gt;/templatetags/__init__.py
+cd &lt;yourapp&gt;
 touch __init__.py
-```
-
-== A simple example ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc49"></A>
+<H2>9.2. A simple example</H2>
+<P>
 There are various ways you can go about creating a custom tag, but if your
 requirements are simple, you can do it like this (e.g.
 doodle/templatetags/supertag.py):
-
-```
+</P>
+<div class="code"><PRE>
 from django import template
 from django.conf import settings
 register = template.Library()     
 @register.simple_tag
 def supertag( theText ):
-  return '''<div class="supertag">''' + theText + '''</div>'''
-```
-
+  return '''&lt;div class="supertag"&gt;''' + theText + '''&lt;/div&gt;'''
+</PRE></div>
+<P></P>
+<P>
 All this will do is wrap whatever text is passed to it inside a div of class
 'supertag'. The @register.simple_tag decoration will ensure the new tag is
 properly registered (its a syntactic shortcut).
-
+</P>
+<P>
 You can now use the custom tag in your templates like this:
-
-```
+</P>
+<div class="code"><PRE>
 {# Note don't use quotes below! #}
 {% load supertag %}
 
 {% supertag "Some Message" %}
-```
-
-
-== Passing a template variable to a custom tag ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc50"></A>
+<H2>9.3. Passing a template variable to a custom tag</H2>
+<P>
 Simply insert it without {{ }} surrounding it and then receive it like any
 other python parameter in your template code e.g.:
-
+</P>
+<P>
 In the view:
-
+</P>
+<P>
 {{{
 sampleView(theRequest):
   return render_to_response('example.html', 
   {'myLayers': [layer1,layer2,layer2]})
 }}}
-
+</P>
+<P>
 In the template:
-
-```
-{# Custom tag defined in <yourapp>/templatetags/ #}
+</P>
+<div class="code"><PRE>
+{# Custom tag defined in &lt;yourapp&gt;/templatetags/ #}
 {% load customtag %} 
 {# myLayers passed to form by the view
 {% CustomTag myLayers %}
-```
-
+</PRE></div>
+<P></P>
+<P>
 In the template tag:
-
-```
+</P>
+<div class="code"><PRE>
 from django import template
 from django.conf import settings
 register = template.Library()    
 @register.simple_tag
 def OpenLayersTag( theLayers ):
   // do stuff with theLayers
-```
-
-== Now you try ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc51"></A>
+<H2>9.4. Now you try</H2>
+<P>
 Write a custom tag that will return the number of doodles. The tag should take
 no parameters.
-
-= CSS and other media resources =
-
+</P>
+<A NAME="toc52"></A>
+<H1>10. CSS and other media resources</H1>
+<P>
 We are going to be moving on to some more complex examples shortly but before
 we do that we need to do some groundwork so that we can use image, css, js etc
 in our templates.
-
-== Creating the media root ==
-
-**Note** You can improve performance by serving these resources from the apache
-webserver itself rather than via django & mod_python, however the approach
+</P>
+<A NAME="toc53"></A>
+<H2>10.1. Creating the media root</H2>
+<P>
+<B>Note</B> You can improve performance by serving these resources from the apache
+webserver itself rather than via django &amp; mod_python, however the approach
 shown here makes for a simple configuration.
-
+</P>
+<P>
 You need to create a resources folder where we can store javascript, images and
 css files. To do this first edit settings.py and add (comment out the existing
 equivalent entries):
-
-```
+</P>
+<div class="code"><PRE>
 # We previously added these two lines
 # When setting up project wide templates
 import os
@@ -2206,181 +2553,193 @@ ROOT_PROJECT_FOLDER = os.path.dirname(__file__)
 # Now replace the values in settings with these
 MEDIA_ROOT = os.path.join(ROOT_PROJECT_FOLDER,'static')
 MEDIA_URL = '/static/'
-```
-
+</PRE></div>
+<P></P>
+<P>
 Now make a directory called static with css, js and img subfolders:
-
-```
+</P>
+<div class="code"><PRE>
 mkdir -p static/css
 mkdir -p static/js
 mkdir -p static/img
-```
-
+</PRE></div>
+<P></P>
+<P>
 Register the media dir with urls.py
-
-```
+</P>
+<div class="code"><PRE>
 from settings import MEDIA_ROOT
-```
-
+</PRE></div>
+<P></P>
+<P>
 In the urls list lower down, add:
-
-```
- (r'^static/(?P<path>.*)$', 'django.views.static.serve',
+</P>
+<div class="code"><PRE>
+ (r'^static/(?P&lt;path&gt;.*)$', 'django.views.static.serve',
    {'document_root': MEDIA_ROOT, 'show_indexes': True}),
-```
-
+</PRE></div>
+<P></P>
+<P>
 You should now be able to point your browser to this url and see a media
 listing:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/static/
-```
-
-
-== Installing openlayers into your media_root ==
-
-
+</PRE></div>
+<P></P>
+<A NAME="toc54"></A>
+<H2>10.2. Installing openlayers into your media_root</H2>
+<P>
 For serving up openlayers views we need to first  unpack openlayers into the js
 directory:
-
-```
+</P>
+<div class="code"><PRE>
 cd static/js
 wget http://openlayers.org/download/OpenLayers-2.8.tar.gz
 tar xfz OpenLayers-2.8.tar.gz
-```
-
-== Installing jquery and jquery-ui into your media_root ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc55"></A>
+<H2>10.3. Installing jquery and jquery-ui into your media_root</H2>
+<P>
 Jquery is a javascript library with many handy features. JQuery-ui adds some
 graphical user interface components to the jquery ui. In particular, jquery
 makes creating ajax enabled sites really easy, and it can also help to make it
 graphically pleasing since jquery-ui is themable via css.
-
-```
+</P>
+<div class="code"><PRE>
 cd static/
 wget http://jqueryui.com/download/jquery-ui-1.7.2.custom.zip
 unzip jquery-ui-1.7.2.custom.zip
 rm index.html
 rm -rf development_bundle
-```
-
+</PRE></div>
+<P></P>
+<P>
 Jquery-ui includes jquery so when you unzip the bundle, jquery and jquery-ui
 are placed in your js directory, the default 'smoothness' jquery css theme is
 placed in your css dir. An index.html file is placed in your static/ directory.
 If you open that in your web browser, you will get a preview of the various
-default ui widgets provided. You can get more widgets from http://jqueryui.com
+default ui widgets provided. You can get more widgets from <A HREF="http://jqueryui.com">http://jqueryui.com</A>
 so poke around there if you are looking for something more. There is also a
-really nice theme builder on http://jqueryui.com so you can create a theme that
+really nice theme builder on <A HREF="http://jqueryui.com">http://jqueryui.com</A> so you can create a theme that
 matches the look and feel of your site and drop it into your css directory. If
 you do that your jqueryui widgets will blend in nicely with the rest of your
 site.
-
-
-= A little ajax example =
-
-== Adding includes for jquery ==
-
+</P>
+<A NAME="toc56"></A>
+<H1>11. A little ajax example</H1>
+<A NAME="toc57"></A>
+<H2>11.1. Adding includes for jquery</H2>
+<P>
 Lets take our newly added static resources infrastructure for a little test
 drive by making a simple ajax menu. The first thing we need to do is include
 our jquery lib, jqueryui lib and jquery css into our top level template's
-<head> section (templates/base.html):
-
-```
+&lt;head&gt; section (templates/base.html):
+</P>
+<div class="code"><PRE>
     {# Jquery css #}
-    <link rel="stylesheet" 
+    &lt;link rel="stylesheet" 
           href="/static/css/smoothness/jquery-ui-1.7.2.custom.css" 
           type="text/css" media="screen" 
-          title="no title" charset="utf-8"/>
+          title="no title" charset="utf-8"/&gt;
     {# Jquery lib #}
-    <script type="text/javascript" 
+    &lt;script type="text/javascript" 
             charset="utf-8" 
-            src="/static/js/jquery-1.3.2.min.js"></script>
+            src="/static/js/jquery-1.3.2.min.js"&gt;&lt;/script&gt;
     {# Jquery-ui lib #}
-    <script type="text/javascript" 
+    &lt;script type="text/javascript" 
             charset="utf-8" 
-            src="/static/js/jquery-ui-1.7.2.custom.min.js"></script>  
+            src="/static/js/jquery-ui-1.7.2.custom.min.js"&gt;&lt;/script&gt;  
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 You won't immediately see any difference when you load one of your views but we
 have added the infrastructure to allow us to use jquery on any of our pages.
-
-== Creating a menu ==
-
+</P>
+<A NAME="toc58"></A>
+<H2>11.2. Creating a menu</H2>
+<P>
 Lets add a menu to our base template. Because I like to keep things neat, I'll
 keep the template in its own little template file and then include it into the
 base template. First our include snippet (templates/menu.html):
-
-```
-<div id="menu">
-  <p>
-    <a href="" 
+</P>
+<div class="code"><PRE>
+&lt;div id="menu"&gt;
+  &lt;p&gt;
+    &lt;a href="" 
         onclick='$("#content").load("/listDoodles/"); 
-        return false;'>
+        return false;'&gt;
         List Doodles
-    </a>
-  </p>
-  <p>
-    <a href="" 
+    &lt;/a&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;a href="" 
         onclick='$("#content").load("/listDoodleTypes/"); 
-        return false;'>
+        return false;'&gt;
         List Doodle Types
-    </a>
-  </p>
-</div>
+    &lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 So the onclick event when clicking the link will use jquery to load the view
 listDoodles (that you made in the CRUD now you try earlier) or listDoodleTypes
 into the element with id of 'content'. Simple eh?
-
+</P>
+<P>
 Of course since we are changing the way that list doodle types is used (it now
 will be an html snippet loaded into an existing page), we should not let its
 template inherit from base.html anymore otherwise we will see a page within a
 page and things can quickly become very recursive!
-
-
+</P>
+<P>
 So here is what our tweaked doodle.html template is going to look like:
-
-```
+</P>
+<div class="code"><PRE>
 {# no longer extends base... #}
 {% load supertag %} {# Custom tag defined in bees/templatetags/ #}
 {# no longer needs block content #}
-  <div id="heading">{{ myTitle }}</div>
+  &lt;div id="heading"&gt;{{ myTitle }}&lt;/div&gt;
   {% supertag "Supertag Example" %}
-  <div id="viewdata">
+  &lt;div id="viewdata"&gt;
     {% for myObject in myObjects %}
-    <p  class="{% cycle 'oddrow' 'evenrow' %}">
+    &lt;p  class="{% cycle 'oddrow' 'evenrow' %}"&gt;
       {{forloop.counter}}){{ myObject.name }}
-    </p>
+    &lt;/p&gt;
     {% endfor %}
-  </div>
-  <div id="footer">
-    <p>{{ myObjects|length }} items in total.</p>
-  </div>
+  &lt;/div&gt;
+  &lt;div id="footer"&gt;
+    &lt;p&gt;{{ myObjects|length }} items in total.&lt;/p&gt;
+  &lt;/div&gt;
 
-```
-
-== Including the menu in our base template ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc59"></A>
+<H2>11.3. Including the menu in our base template</H2>
+<P>
 We will tell base to include our new menu snippet:
-
-```
-  <body>
+</P>
+<div class="code"><PRE>
+  &lt;body&gt;
     {% include "menu.html" %}
-    <div id="content">
+    &lt;div id="content"&gt;
       {% block content %}{% endblock %}
-    </div>
-  </body>
+    &lt;/div&gt;
+  &lt;/body&gt;
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 We also created a div element with an id of 'content' so that our ajax load
 request has a destination container that exists.
-
-== Creating the landing page ==
-
+</P>
+<A NAME="toc60"></A>
+<H2>11.4. Creating the landing page</H2>
+<P>
 Since none the doodletypes view now no longer will render inside the base
 template, we need a new way to manage user interactions. We will create a new
 view that will be our 'landing page'. The landing page will display a short
@@ -2390,75 +2749,87 @@ thanks to our ajax goodness. To create the landing page we need a controller
 (urls.py) entry, a view (doodle/views.py) and a template
 (doodle/templates/index.html). Notice we have no model since the landing page
 won't be displaying any application data.
-
+</P>
+<P>
 urls.py:
-
-```
+</P>
+<div class="code"><PRE>
     # For our landing page
     (r'^$', landingPage),
-```
-
+</PRE></div>
+<P></P>
+<P>
 views.py:
-
-```
+</P>
+<div class="code"><PRE>
 def landingPage(theRequest):
   return render_to_response("index.html")
-```
-
+</PRE></div>
+<P></P>
+<P>
 index.html:
-
-```
+</P>
+<div class="code"><PRE>
 {% extends "base.html" %}
 {% block content %}
-<h1>Welcome to Doodle World!</h1>
-<p>As a fellow doodle lover, we are sure you will appreciate the fine
+&lt;h1&gt;Welcome to Doodle World!&lt;/h1&gt;
+&lt;p&gt;As a fellow doodle lover, we are sure you will appreciate the fine
 collection of fresh doodles we have on offer. Feel free to browse around and
-add, create, update, delete etc. doodles! Enjoy yourself, life's a doodle!</p>
+add, create, update, delete etc. doodles! Enjoy yourself, life's a doodle!&lt;/p&gt;
 {% endblock %}
-```
-
+</PRE></div>
+<P></P>
+<P>
 Now point your browser at:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/
-```
-
+</PRE></div>
+<P></P>
+<P>
 And you should see the landing page and be able to navigate using our spiffy
 ajax menus.
-
-== Setting CSS for the site ==
-
+</P>
+<A NAME="toc61"></A>
+<H2>11.5. Setting CSS for the site</H2>
+<P>
 Lets round things off in this section by fixing the rather haphazard css
 implementation I introduced in earler sections with something a little neater.
 We will also make use of the jquery-ui widgets to smarten things up a little.
-
+</P>
+<P>
 There are two things we should do in our site with css:
-
-+ dictate the layout (repeat after me: "tables are for tabular data not
+</P>
+<OL>
+<LI>dictate the layout (repeat after me: "tables are for tabular data not
 content!")
-+ dictate the appearance 
-+ 
+<LI>dictate the appearance 
+</OL>
 
+<P></P>
+<P>
 There are many free resources online where you can simply download and use
-layouts and styles - for example http://free-css.com. First lets install a
+layouts and styles - for example <A HREF="http://free-css.com">http://free-css.com</A>. First lets install a
 layout:
-
-```
+</P>
+<div class="code"><PRE>
 cd static/js
 wget http://www.free-css.com/assets/files/free-css-layouts/download/page1/layout8.zip
 unzip layout8.zip
-```
-
+</PRE></div>
+<P></P>
+<P>
 You can get a preview of the layout (two column, nav to the left) here:
-
-```
+</P>
+<div class="code"><PRE>
 http://localhost:8000/static/css/index.html
-```
-
+</PRE></div>
+<P></P>
+<P>
 If you look at the html of the above page, you will see that the document
 should have a structure something like this:
-
-```
+</P>
+<div class="code"><PRE>
 body
   container
     header
@@ -2467,63 +2838,65 @@ body
     navigation
     extra
     footer
-```
-
+</PRE></div>
+<P></P>
+<P>
 So to make use of the css layout, we can simply adapt our base template
 (templates/base.html):
-
-```
-<html>
-  <head>
-    <title>My Projects</title>
+</P>
+<div class="code"><PRE>
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;My Projects&lt;/title&gt;
     {# css layout #}
-    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
+    &lt;link rel="stylesheet" type="text/css" href="/static/css/styles.css" /&gt;
     {# Jquery css #}
-    <link rel="stylesheet" 
+    &lt;link rel="stylesheet" 
           href="/static/css/smoothness/jquery-ui-1.7.2.custom.css" 
           type="text/css" media="screen" 
-          title="no title" charset="utf-8"/>
+          title="no title" charset="utf-8"/&gt;
     {# Jquery lib #}
-    <script type="text/javascript" 
+    &lt;script type="text/javascript" 
             charset="utf-8" 
-            src="/static/js/jquery-1.3.2.min.js"></script>
+            src="/static/js/jquery-1.3.2.min.js"&gt;&lt;/script&gt;
     {# Jquery-ui lib #}
-    <script type="text/javascript" 
+    &lt;script type="text/javascript" 
             charset="utf-8" 
-            src="/static/js/jquery-ui-1.7.2.custom.min.js"></script>  
-  </head>
-  <body>
-    <div id="container">
-      <div id="header">
+            src="/static/js/jquery-ui-1.7.2.custom.min.js"&gt;&lt;/script&gt;  
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="container"&gt;
+      &lt;div id="header"&gt;
         {% block header %}
-        <h1>Welcome to DoodleSite!</h1>
+        &lt;h1&gt;Welcome to DoodleSite!&lt;/h1&gt;
         {% endblock %}
-      </div>
-      <div id="wrapper">
-        <div id="content">
+      &lt;/div&gt;
+      &lt;div id="wrapper"&gt;
+        &lt;div id="content"&gt;
           {% block content %}{% endblock %}
-        </div>
-      </div>
-      <div id="navigation">
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div id="navigation"&gt;
         {% block navigation %}
         {% include "menu.html" %}
         {% endblock %}
-      </div>
-      <div id="extra">
+      &lt;/div&gt;
+      &lt;div id="extra"&gt;
         {% block extra %}
-        <h3>Extra Info</h3>
+        &lt;h3&gt;Extra Info&lt;/h3&gt;
         {% endblock %}
-      </div>
-      <div id="footer">
+      &lt;/div&gt;
+      &lt;div id="footer"&gt;
         {% block footer %}
         (C) 2009 The Doodle Factory
         {% endblock %}
-      </div>
-    </div>
-  </body>
-</html>
-```
-
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</PRE></div>
+<P></P>
+<P>
 Ok, its still not the most beautiful site in the world, but I hope at this
 point some light bulbs are lighting up inside your head! Every part of the
 template can be defined with a default state in our base template.  Views can
@@ -2533,30 +2906,34 @@ template inheritance where the child templates simply redeclare the parts
 (block content, block navigation etc) that they want to change. All the content
 automatically gets its look and feel from the css in use. Its a really simple
 easy to understand and scalable solution!
-
+</P>
+<P>
 If you chose a different template for your site, just adapt the process
 described above accordingly.
-
-= Authentication =
-
+</P>
+<A NAME="toc62"></A>
+<H1>12. Authentication</H1>
+<P>
 [Django Authentication Docs
 file:///home/timlinux/dev/python/django_training/django_training.html#toc52]
-
-== User Registration ==
-
+</P>
+<A NAME="toc63"></A>
+<H2>12.1. User Registration</H2>
+<P>
 Django includes a complete authentication system that gets installed when you
 create a new project. If you want out of the box login screen functionality,
 you should install the [django registration app
-http://bitbucket.org/ubernostrum/django-registration/wiki/Home]:
-
-```
+<A HREF="http://bitbucket.org/ubernostrum/django-registration/wiki/Home">http://bitbucket.org/ubernostrum/django-registration/wiki/Home</A>]:
+</P>
+<div class="code"><PRE>
 sudo apt-get install python-setuptools
 sudo easy_install django-registration
-```
-
+</PRE></div>
+<P></P>
+<P>
 Next add the activation days key and registration app to your settings.py:
-
-```
+</P>
+<div class="code"><PRE>
 # For django registration
 ACCOUNT_ACTIVATION_DAYS = 2 
 EMAIL_HOST = 'localhost' 
@@ -2575,87 +2952,94 @@ INSTALLED_APPS = (
 'registration',
 ...etc...
 )
-```
-
+</PRE></div>
+<P></P>
+<P>
 To your controller add the url handler for registration pages (urls.py):
-
-```
+</P>
+<div class="code"><PRE>
 (r'^accounts/', include('registration.urls')),
-```
-
-In your <project>/templates dir unpack the registration templates:
-
-```
+</PRE></div>
+<P></P>
+<P>
+In your &lt;project&gt;/templates dir unpack the registration templates:
+</P>
+<div class="code"><PRE>
 wget http://linfiniti.com/downloads/registration_templates.tar.gz
 cd templates
 tar xvfz registration_templates.tar.gz
-```
-
+</PRE></div>
+<P></P>
+<P>
 Lasty in your views.py use the login required decorator to ensure that users
 are logged in before they can view a given page.
-
+</P>
+<P>
 Django provides built in decorators that provide shortcuts for checking that a
 user is authenticated:
-
-```
+</P>
+<div class="code"><PRE>
 from django.contrib.auth.decorators import login_required
 
 @login_required
 def someView(request):
     if not request.user.is_staff:
       raise http.Http404
-```
-
-== Users and permissions ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc64"></A>
+<H2>12.2. Users and permissions</H2>
+<P>
 You can find out the user's status by getting the user object from the request
 passed to a view.
-
-
-```
+</P>
+<div class="code"><PRE>
 def someView(request):
     if not (request.user.is_authenticated() and
             request.user.is_staff):
             raise http.Http404
-```                        
-
-= Creating custom decorators =
-
+</PRE></div>
+<P></P>
+<A NAME="toc65"></A>
+<H1>13. Creating custom decorators</H1>
+<P>
 We have see decorators used in a few contexts now - for example to ensure that
 a user is authenticated before they can access a page, or to simplify the
 process of writing a form widget. Lets look a bit more closely at how to write
 a decorator that can be used to pass the user's authentication context over to
 a template.
-
-== Doing it the non-decorator way ==
-
+</P>
+<A NAME="toc66"></A>
+<H2>13.1. Doing it the non-decorator way</H2>
+<P>
 Normally if you want to access user data from a form, you need to call
 render_to_response, passing it the context parameter e.g.:
-
-```
+</P>
+<div class="code"><PRE>
 @login_required
 def foo(theRequest):
   myData = "Hello World"
   render_to_response("bar.html",{"myData" : myData}, 
                      context_instance=RequestContext(theRequest))
-```
-
+</PRE></div>
+<P></P>
+<P>
 With the render context passed to the template, you are then able to write
 template conditional logic like this:
-
-```
+</P>
+<div class="code"><PRE>
 {% if user.is_authenticated %}         
-<p>You are logged in as {{user}}</p>
+&lt;p&gt;You are logged in as {{user}}&lt;/p&gt;
 {% endif %}
-```
-
-== Doing it the decorator way ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc67"></A>
+<H2>13.2. Doing it the decorator way</H2>
+<P>
 Here is how we can do the same thing using a decorator pattern
 (doodle/renderDecorator.py):
-
-
-```
+</P>
+<div class="code"><PRE>
 """This is a decorator that when used will always pass the RequestContext
    over to the template. This is needed in tandem with the authentication 
    stuff so that the templates can know who the logged in users is 
@@ -2687,12 +3071,12 @@ class renderWithContext(object):
     return rendered_func
 
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 With the above, we could rewrite our previous example like this:
-
-
-```
+</P>
+<div class="code"><PRE>
 from doodle.renderDecorator import renderWithContext
 
 
@@ -2701,54 +3085,61 @@ from doodle.renderDecorator import renderWithContext
 def foo(theRequest):
   myData = "Hello World"
   render_to_response({"myData" : myData})
-```
-
-**Note:** there are some situations in which the above won't work well, for
+</PRE></div>
+<P></P>
+<P>
+<B>Note:</B> there are some situations in which the above won't work well, for
 example when you do an http redirect.
-
-
-== Now you try ==
-
+</P>
+<A NAME="toc68"></A>
+<H2>13.3. Now you try</H2>
+<P>
 Write some logic that will show the name of the logged in user on all pages.
-
+</P>
+<P>
 Add a link for the user to logout if he is logged in, and to log in if he is
 logged out.
-
-
-= Middleware =
-
+</P>
+<A NAME="toc69"></A>
+<H1>14. Middleware</H1>
+<P>
 Middleware in Django runs before a web request is delivered to the django
 controller, and after the view creates a response. It is normally used to do
 some pre- and post-processing on the data moving in and out of django.
-
+</P>
+<P>
 One thing middleware can be useful for is to alter the final rendered product
 produced by your view. For example we can use it to format the rendered HTML
 nicely and to strip out excessive white space from the HTML.
-
+</P>
+<P>
 Since middleware may be used by multiple applications in your project, we will
 create a python package in the root of your project dir:
-
-```
+</P>
+<div class="code"><PRE>
 mkdir middleware
 touch middleware/__init__.py
-```
-
-== Strip white space ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc70"></A>
+<H2>14.1. Strip white space</H2>
+<P>
 Suppose your template renders html that looks like this:
+</P>
+<div class="code"><PRE>
+&lt;p&gt;Message 1&lt;/p&gt;
 
-```
-<p>Message 1</p>
-
-<p>Message 2</p>
-```
-
+&lt;p&gt;Message 2&lt;/p&gt;
+</PRE></div>
+<P></P>
+<P>
 We can use the [Strip White Space middleware
-http://code.djangoproject.com/wiki/StripWhitespaceMiddleware] to tidy it up.
-
+<A HREF="http://code.djangoproject.com/wiki/StripWhitespaceMiddleware">http://code.djangoproject.com/wiki/StripWhitespaceMiddleware</A>] to tidy it up.
+</P>
+<P>
 First create this file in middleware/stripwhitespace.py :
-
-```
+</P>
+<div class="code"><PRE>
 
 #Tightens up response content by removed superflous line breaks and whitespace.
 #By Doug Van Horn
@@ -2767,13 +3158,13 @@ class StripWhitespaceMiddleware:
     else:
       return response
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 The code uses a regular expression to replace whitespace. To make use of the
 middleware, you need to add to your project settings.py file a couple of lines:
-
-
-```
+</P>
+<div class="code"><PRE>
 from middleware.stripwhitespace import StripWhitespaceMiddleware
 
 MIDDLEWARE_CLASSES = (
@@ -2785,47 +3176,51 @@ MIDDLEWARE_CLASSES = (
   .
   .)
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Here is a look at my generated html before applying the strip white space middleware:
-
-```
-<html>
-  <head>
+</P>
+<div class="code"><PRE>
+&lt;html&gt;
+  &lt;head&gt;
       
-    <link rel="stylesheet" 
+    &lt;link rel="stylesheet" 
       href="/static/css/smoothness/jquery-ui-1.7.2.custom.css" 
       type="text/css" media="screen" 
-      title="no title" charset="utf-8"/>
+      title="no title" charset="utf-8"/&gt;
 ...etc...
-```
-
+</PRE></div>
+<P></P>
+<P>
 ...and after...
-
-```
-<html>
-  <head>
-    <link rel="stylesheet"
+</P>
+<div class="code"><PRE>
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel="stylesheet"
       href="/static/css/smoothness/jquery-ui-1.7.2.custom.css"
       type="text/css" media="screen"
-      title="no title" charset="utf-8"/>
+      title="no title" charset="utf-8"/&gt;
 
 ...etc...
-```
-
-== Html Tidy ==
-
+</PRE></div>
+<P></P>
+<A NAME="toc71"></A>
+<H2>14.2. Html Tidy</H2>
+<P>
 As well as stripping white space, we can tidy up our html further using the
-[pretty formatter http://www.djangosnippets.org/snippets/172/]. Before we
+<A HREF="http://www.djangosnippets.org/snippets/172/">pretty formatter</A>. Before we
 begin, we need to install a couple of system libs:
-
-```
+</P>
+<div class="code"><PRE>
 sudo apt-get install python-utidylib tidy
-```
-
+</PRE></div>
+<P></P>
+<P>
 Next create this as middleware/prettify.py :
-
-```
+</P>
+<div class="code"><PRE>
 import tidy
 
 # see http://tidy.sourceforge.net/docs/quickref.html
@@ -2851,12 +3246,12 @@ class PrettifyMiddleware(object):
       return response
 
 
-```
-
+</PRE></div>
+<P></P>
+<P>
 Now enable it in your settings.py:
-
-
-```
+</P>
+<div class="code"><PRE>
 from middleware.prettify import PrettifyMiddleware
 
 MIDDLEWARE_CLASSES = (
@@ -2868,148 +3263,149 @@ MIDDLEWARE_CLASSES = (
   .
   .
   .)
-```
-
+</PRE></div>
+<P></P>
+<P>
 Lets once again look at the before and after:
-
-```
-<html>
-  <head>
+</P>
+<div class="code"><PRE>
+&lt;html&gt;
+  &lt;head&gt;
     
-    <link rel="stylesheet" 
+    &lt;link rel="stylesheet" 
     href="/static/css/smoothness/jquery-ui-1.7.2.custom.css" 
     type="text/css" media="screen" 
-    title="no title" charset="utf-8"/>
+    title="no title" charset="utf-8"/&gt;
     
-    <script type="text/javascript" 
+    &lt;script type="text/javascript" 
       charset="utf-8" 
-      src="/static/js/jquery-1.3.2.min.js"></script>
+      src="/static/js/jquery-1.3.2.min.js"&gt;&lt;/script&gt;
     
-    <script type="text/javascript" 
+    &lt;script type="text/javascript" 
       charset="utf-8" 
-      src="/static/js/jquery-ui-1.7.2.custom.min.js"></script>  
-    <style type="text/css">
+      src="/static/js/jquery-ui-1.7.2.custom.min.js"&gt;&lt;/script&gt;  
+    &lt;style type="text/css"&gt;
       body {color:sienna}
       #heading {font-size: 3em;}
       div {margin-left:20px; border-top: solid 1px;}
       .oddrow {background: #fcfcfc;}
       .evenrow {background: #ededed;}
-    </style>
-  </head>
-  <body>
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
 
-    <div id="menu">
-  <p>
-  <a href="" 
+    &lt;div id="menu"&gt;
+  &lt;p&gt;
+  &lt;a href="" 
     onclick='$("#content").load("/listDoodles/"); 
-    return false;'>
+    return false;'&gt;
     List Doodles
-  </a>
-  </p>
-  <p>
-  <a href="" 
+  &lt;/a&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+  &lt;a href="" 
     onclick='$("#content").load("/listDoodleTypes/"); 
-    return false;'>
+    return false;'&gt;
     List Doodle Types
-  </a>
+  &lt;/a&gt;
 
-  </p>
-</div>
-    <div id="content">
+  &lt;/p&gt;
+&lt;/div&gt;
+    &lt;div id="content"&gt;
       
-<h1>Welcome to Doodle World!</h1>
-<p>As a fellow doodle lover, we are sure you will appreciate the fine
+&lt;h1&gt;Welcome to Doodle World!&lt;/h1&gt;
+&lt;p&gt;As a fellow doodle lover, we are sure you will appreciate the fine
 collection of fresh doodles we have on offer. Feel free to browse around and
-add, create, update, delete etc. doodles! Enjoy yourself, life's a doodle!</p>
+add, create, update, delete etc. doodles! Enjoy yourself, life's a doodle!&lt;/p&gt;
 
-    </div>
-    <div id="footer">
+    &lt;/div&gt;
+    &lt;div id="footer"&gt;
 
       
-      <p>You are logged in as timlinux</p>
+      &lt;p&gt;You are logged in as timlinux&lt;/p&gt;
       
-    </div>
-  </body>
-</html>
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
 
 
-```
-
-
+</PRE></div>
+<P></P>
+<P>
 and after:
-
-
-```
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
-<head>
-  <link rel="stylesheet" href="/static/css/smoothness/jquery-ui-1.7.2.custom.css" type="text/css"
-  media="screen" title="no title" charset="utf-8">
-  <script type="text/javascript" charset="utf-8" src="/static/js/jquery-1.3.2.min.js">
-</script>
-  <script type="text/javascript" charset="utf-8" src="/static/js/jquery-ui-1.7.2.custom.min.js">
-</script>
-  <style type="text/css">
+</P>
+<div class="code"><PRE>
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel="stylesheet" href="/static/css/smoothness/jquery-ui-1.7.2.custom.css" type="text/css"
+  media="screen" title="no title" charset="utf-8"&gt;
+  &lt;script type="text/javascript" charset="utf-8" src="/static/js/jquery-1.3.2.min.js"&gt;
+&lt;/script&gt;
+  &lt;script type="text/javascript" charset="utf-8" src="/static/js/jquery-ui-1.7.2.custom.min.js"&gt;
+&lt;/script&gt;
+  &lt;style type="text/css"&gt;
     body {color:sienna}
       #heading {font-size: 3em;}
       div {margin-left:20px; border-top: solid 1px;}
       .oddrow {background: #fcfcfc;}
       .evenrow {background: #ededed;}
-  </style>
-  <title></title>
+  &lt;/style&gt;
+  &lt;title&gt;&lt;/title&gt;
 
-</head>
-<body>
-  <div id="menu">
-    <p><a href="" onclick='$("#content").load("/listDoodles/"); return false;'>List Doodles</a></p>
-    <p><a href="" onclick='$("#content").load("/listDoodleTypes/"); return false;'>List Doodle
-    Types</a></p>
-  </div>
-  <div id="content">
-    <h1>Welcome to Doodle World!</h1>
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="menu"&gt;
+    &lt;p&gt;&lt;a href="" onclick='$("#content").load("/listDoodles/"); return false;'&gt;List Doodles&lt;/a&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;a href="" onclick='$("#content").load("/listDoodleTypes/"); return false;'&gt;List Doodle
+    Types&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div id="content"&gt;
+    &lt;h1&gt;Welcome to Doodle World!&lt;/h1&gt;
 
-    <p>As a fellow doodle lover, we are sure you will appreciate the fine collection of fresh
+    &lt;p&gt;As a fellow doodle lover, we are sure you will appreciate the fine collection of fresh
     doodles we have on offer. Feel free to browse around and add, create, update, delete etc.
-    doodles! Enjoy yourself, life's a doodle!</p>
-  </div>
-  <div id="footer">
-    <p>You are logged in as timlinux</p>
-  </div>
-</body>
-</html>
-```
-
+    doodles! Enjoy yourself, life's a doodle!&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div id="footer"&gt;
+    &lt;p&gt;You are logged in as timlinux&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</PRE></div>
+<P></P>
+<P>
 You can see the result is much clearer since it has proper indentation etc.
-
-== Now you try - Logging Middleware ==
-
+</P>
+<A NAME="toc72"></A>
+<H2>14.3. Now you try - Logging Middleware</H2>
+<P>
 Now you try - add the [logging middleware to your project
-http://code.google.com/p/django-logging/wiki/Overview]
-
-
-
-= Querying and Filtering =
-
+<A HREF="http://code.google.com/p/django-logging/wiki/Overview">http://code.google.com/p/django-logging/wiki/Overview</A>]
+</P>
+<A NAME="toc73"></A>
+<H1>15. Querying and Filtering</H1>
+<P>
 Sooner or later you are going to want to query your models. For example you may
 want to show only records meeting a certain criteria, or show some summary
 statistics on your data.
-
-= Spatial filters and queries =
-
-[GeoDjango spatial api  http://geodjango.org/docs/db-api.html]
-
-
-
-= Fixtures =
-
-= Unit Tests =
-
-= Deploying on apache =
-
+</P>
+<A NAME="toc74"></A>
+<H1>16. Spatial filters and queries</H1>
+<P>
+<A HREF="http://geodjango.org/docs/db-api.html">GeoDjango spatial api</A>
+</P>
+<A NAME="toc75"></A>
+<H1>17. Fixtures</H1>
+<A NAME="toc76"></A>
+<H1>18. Unit Tests</H1>
+<A NAME="toc77"></A>
+<H1>19. Deploying on apache</H1>
+<P>
 Up until now we have used only the built in development server that comes with django. When you deploy live you should ideally create a virtual host in apache something like this:
-
-```
-<VirtualHost *>
+</P>
+<div class="code"><PRE>
+&lt;VirtualHost *&gt;
   ServerAdmin tim@linfiniti.com 
   ServerName doodle.linfiniti.com
   ServerAlias www.doodle.linfiniti.com
@@ -3022,53 +3418,52 @@ Up until now we have used only the built in development server that comes with d
 
   ServerSignature Off
 
-  <Location "/">
+  &lt;Location "/"&gt;
     SetHandler python-program
     PythonHandler django.core.handlers.modpython
     SetEnv DJANGO_SETTINGS_MODULE settings
     PythonPath "['/opt/django_project/'] + sys.path"
     PythonOption django.root /django_project
     PythonDebug On  
-  </Location>
-</VirtualHost>
-```
-
-= Things you can't do in Django =
-
+  &lt;/Location&gt;
+&lt;/VirtualHost&gt;
+</PRE></div>
+<P></P>
+<A NAME="toc78"></A>
+<H1>20. Things you can't do in Django</H1>
+<P>
 Models with composite keys are not supported.
-
+</P>
+<P>
 You can probably cheat a little by adding a constraint in your fixtures:
-
-
-```
+</P>
+<div class="code"><PRE>
 ALTER TABLE framecommon ADD CONSTRAINT unique_localization_and_segment UNIQUE (localization_id, segment_id);
-```
-
-
-= Setting up the SVN repository =
-
-```
+</PRE></div>
+<P></P>
+<A NAME="toc79"></A>
+<H1>21. Setting up the SVN repository</H1>
+<div class="code"><PRE>
 # 
 # Short lived track instance for django course 2009
 #
-<Location /django-course-aug2009-svn>
+&lt;Location /django-course-aug2009-svn&gt;
   DAV svn 
   SVNPath /home/timlinux/svn/django-course-Aug2009
   AuthType Basic
   AuthName "linfiniti.com"
   AuthUserFile /home/timlinux/auth/dav_svn_django-course-Aug2009.passwd
   Require valid-user
-</Location>
-<Location "/projects/django-course-aug2009/login">
+&lt;/Location&gt;
+&lt;Location "/projects/django-course-aug2009/login"&gt;
   AuthType Basic
   AuthName "linfiniti.com.django-course-2009"
   AuthUserFile /home/timlinux/auth/dav_svn_django-course-Aug2009.passwd
   Require valid-user
-</Location>
-```
-
-
-```
+&lt;/Location&gt;
+</PRE></div>
+<P></P>
+<div class="code"><PRE>
 sudo chgrp -R timlinux /home/timlinux/svn/
 svnadmin create /home/timlinux/svn/django-course-Aug2009
 sudo chown -R www-data:timlinux /home/timlinux/svn/django-course-Aug2009
@@ -3079,20 +3474,25 @@ htpasswd /home/timlinux/auth/dav_svn_django-course-Aug2009.passwd graeme
 htpasswd /home/timlinux/auth/dav_svn_django-course-Aug2009.passwd casey
 cd /tmp/
 svn co https://linfiniti.com/django-course-aug2009-svn course
-```
-
-
-```
+</PRE></div>
+<P></P>
+<div class="code"><PRE>
 sudo trac-admin /home/timlinux/trac/django-course-aug2009 initenv
 sudo chown -R www-data /home/timlinux/trac/django-course-aug2009/
 sudo trac-admin trac/django-course-aug2009/ \
   permission add timlinux TRAC_ADMIN
-```
-
-
-= Ideas =
-
-+ Spellcheck this document! (thanks Casey!)
-+ Create a flowchart checklist with procedure for adding a new model / form /
+</PRE></div>
+<P></P>
+<A NAME="toc80"></A>
+<H1>22. Ideas</H1>
+<OL>
+<LI>Spellcheck this document! (thanks Casey!)
+<LI>Create a flowchart checklist with procedure for adding a new model / form /
 form fields / updating settings etc
-+
+</OL>
+
+</DIV>
+
+<!-- html code generated by txt2tags 2.5 (http://txt2tags.sf.net) -->
+<!-- cmdline: txt2tags -t html -o django_training.html docs/django_training.t2t -->
+</BODY></HTML>

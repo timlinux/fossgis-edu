@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Tims Map</title>
+        <link rel="stylesheet" href="openlayers/theme/default/style.css" type="text/css">
+        <style>
+            #map-id {
+                width: 512px;
+                height: 512px;
+            }
+        </style>
+        <script src="openlayers/lib/OpenLayers.js"></script>
+        <script src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.2&mkt=en-us"></script>
+
+    </head>
+    <body>
+        <h1>The world according to Tim</h1>
+        <div id="map-id"></div>
+        <script>
+            var geographic = new OpenLayers.Projection("EPSG:4326");
+            var mercator = new OpenLayers.Projection("EPSG:900913");
+
+            var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
+                geographic, mercator
+            );
+            var gabs = new OpenLayers.LonLat(25,-24).transform(
+                geographic, mercator
+            );
+
+            var options = {
+                projection: mercator,
+                units: "m",
+                maxExtent: world
+            };
+            var map = new OpenLayers.Map("map-id", options);
+
+            var osm = new OpenLayers.Layer.OSM();
+            map.addLayer(osm);
+            var bing = new OpenLayers.Layer.VirtualEarth("VE Streets", {
+              sphericalMercator: true
+             });
+            map.addLayer(bing);
+
+            map.addControl(new OpenLayers.Control.LayerSwitcher());
+
+            map.setCenter(gabs, 9);
+        </script>
+
+        <input type="button" onclick="map.setCenter(new OpenLayers.LonLat(2883721.7180776,-2833495.0053538), 14 );" value="Go To Boche's House">
+        <label for="lon">Lon</label><input type="text" id="lon" />
+        <label for="lat">Lat</label><input type="text" id="lat" />
+        <input type="button" onclick="
+        map.setCenter(
+        new OpenLayers.LonLat(
+        document.getElementById('lon').value,
+        document.getElementById('lat').value)
+        .transform(geographic, mercator), 14 );
+        
+        " value="Go!" /
+        
+        >
+    </body>
+</html>
+
