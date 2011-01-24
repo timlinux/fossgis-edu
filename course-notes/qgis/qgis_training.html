@@ -13,15 +13,15 @@ body {
   color: black;
   background: white;
 }
-:link { color: #0A8000; background: transparent }
-:visited { color: #215E21; background: transparent }
-a:active { color: #0A8000; background: transparent }
+:link { color: #00C; background: transparent }
+:visited { color: #609; background: transparent }
+a:active { color: #C00; background: transparent }
 
 a:link img, a:visited img { border-style: none } 
 
 
 h1, h2, h3, h4, h5, h6 { text-align: left }
-h1, h2, h3 { color: #228B22; background: white }
+h1, h2, h3 { color: #005A9C; background: white }
 h1 { font: 170% sans-serif }
 h2 { font: 140% sans-serif }
 h3 { font: 120% sans-serif }
@@ -43,13 +43,13 @@ pre, code { font-family: monospace }
 
 <DIV CLASS="header" ID="header">
 <H1>QGIS Training Course</H1>
-<H3>Tim Sutton, Samantha Lee Pan 2010</h3><a href="#toc">Back to the contents list</a>
+<H3>Tim Sutton and Samantha Lee Pan, 2010</h3><a href="#toc">Back to the contents list</a>
 </DIV>
 
 <DIV CLASS="toc" ID="toc">
   <OL>
   <LI><A HREF="#toc1">Introduction to the Course</A>
-  <LI><A HREF="#toc2">Introducing Quantum QIS</A>
+  <LI><A HREF="#toc2">Introducing QQIS</A>
     <UL>
     <LI><A HREF="#toc3">2.1. Installing QGIS</A>
     <LI><A HREF="#toc4">2.2. QGIS Main features</A>
@@ -93,50 +93,30 @@ pre, code { font-family: monospace }
     <UL>
     <LI><A HREF="#toc29">6.1. Combining symbology and labelling</A>
     <LI><A HREF="#toc30">6.2. Visualising change with transparency</A>
-    <LI><A HREF="#toc31">6.3. Hillshade and DEM overlay</A>
     </UL>
   <LI><A HREF="#at_anchor">Attribute tables</A>
     <UL>
-    <LI><A HREF="#toc33">7.1. Using the selection tool and attribute selections</A>
-    <LI><A HREF="#toc34">7.2. Editing attributes and using table calculations</A>
-    <LI><A HREF="#toc35">7.3. Searching the attribute table</A>
+    <LI><A HREF="#toc32">7.1. Using the selection tool and attribute selections</A>
+    <LI><A HREF="#toc33">7.2. Editing attributes and using table calculations</A>
+    <LI><A HREF="#toc34">7.3. Searching the attribute table</A>
     </UL>
-  <LI><A HREF="#sb_anchor">Spatial bookmarks</A>
-  <LI><A HREF="#toc37">Georeferencer</A>
+  <LI><A HREF="#toc35">Spatial bookmarks</A>
+  <LI><A HREF="#toc36">Georeferencer</A>
     <UL>
-    <LI><A HREF="#toc38">9.1. Setting up</A>
-    <LI><A HREF="#toc39">9.2. Using the Georeferencer tool</A>
+    <LI><A HREF="#toc37">9.1. Setting up</A>
+    <LI><A HREF="#toc38">9.2. Using the Georeferencer tool</A>
     </UL>
-  <LI><A HREF="#toc40">Editing</A>
+  <LI><A HREF="#toc39">Editing</A>
     <UL>
-    <LI><A HREF="#toc41">10.1. Create a new vector layer</A>
-    <LI><A HREF="#toc42">10.2. Digitising settings</A>
-    <LI><A HREF="#toc43">10.3. Digitising tools</A>
+    <LI><A HREF="#toc40">10.1. Create a new vector layer</A>
+    <LI><A HREF="#toc41">10.2. Digitising settings</A>
+    <LI><A HREF="#toc42">10.3. Digitising tools</A>
     </UL>
-  <LI><A HREF="#toc44">Analysis</A>
+  <LI><A HREF="#toc43">Analysis</A>
+  <LI><A HREF="#toc44">Mapcomposition</A>
+  <LI><A HREF="#toc45">Where to next?</A>
     <UL>
-    <LI><A HREF="#toc45">11.1. Vector analysis</A>
-      <UL>
-      <LI><A HREF="#toc46">11.1.1. Buffer</A>
-      <LI><A HREF="#toc47">11.1.2. Select subset of feaures by spatial selection</A>
-      <LI><A HREF="#toc48">11.1.3. Clip</A>
-      </UL>
-    <LI><A HREF="#toc49">11.2. Raster processing</A>
-      <UL>
-      <LI><A HREF="#toc50">11.2.1. Setting up</A>
-      <LI><A HREF="#toc51">11.2.2. Raster clip</A>
-      </UL>
-    </UL>
-  <LI><A HREF="#toc52">Map composition</A>
-  <LI><A HREF="#toc53">Conclusion</A>
-    <UL>
-    <LI><A HREF="#toc54">13.1. Overall exercise</A>
-    <LI><A HREF="#toc55">13.2. More about plugins</A>
-      <UL>
-      <LI><A HREF="#toc56">13.2.1. Extra exercise on plugins</A>
-      </UL>
-    <LI><A HREF="#toc57">13.3. Where can I go for help?</A>
-    <LI><A HREF="#toc58">13.4. Where to next?</A>
+    <LI><A HREF="#toc46">13.1. Where can I go for help?</A>
     </UL>
   </OL>
 
@@ -148,11 +128,11 @@ pre, code { font-family: monospace }
 This course is a practical introduction to the desktop GIS package: Quantum GIS (QGIS). It will go through the process of map production, including common GIS functionality and features, whereby you will work your way from raw spatial data to a polished, printable map at the end of the course.
 </P>
 <P>
-<IMG ALIGN="left" SRC="img/qgis_001.png" BORDER="0" ALT=""> QGIS is <I>F</I>ree and <I>O</I>pen <I>S</I>ource <I>S</I>oftware GIS (FOSS GIS) package - where the term 
+QGIS is <I>F</I>ree and <I>O</I>pen <I>S</I>ource <I>S</I>oftware GIS (FOSS GIS) package - where the term 
 <I>Free</I> stands for <I>Freedom</I>, as in freedom to share and modify the software.  The software is licensed under the <A HREF="http://www.gnu.org/copyleft/gpl.html">GNU General Public Licence</A>, meaning the source code is made available for users and developers to use, study, change, and improve.  QGIS is continually growing in its capabilities, functions and plugins, due to many contributions from the QGIS community.  If you are interested in knowing more about the QGIS project, please have a look at the <A HREF="http://www.qgis.org/">QGIS website</A>.  
 </P>
 <A NAME="toc2"></A>
-<H1>2. Introducing Quantum QIS</H1>
+<H1>2. Introducing QQIS</H1>
 <A NAME="toc3"></A>
 <H2>2.1. Installing QGIS</h2><a href="#toc">Back to the contents list</a>
 <P>
@@ -233,9 +213,6 @@ The Menu bar provides access to a variety of features, the most common are:
    <LI>Help
    </UL>
 
-<P>
-<B>Note</B>: Depending on your operating system some options may be listed in a separate Settings menu.
-</P>
 <A NAME="toc8"></A>
 <H3>2.3.3. Toolbars</h3><a href="#toc">Back to the contents list</a>
 <P>
@@ -545,16 +522,7 @@ If you chose the Colormap option, you will have to go the Colormap icon in the L
 Color map -&gt; Generate new color map -&gt; Number of entries -&gt; Enter a number e.g. 24 
 -&gt; Press Classify 
 </PRE>
-<P></P>
-<B><I>For more practice:</I></B>
-<P></P>
 </UL>
-
-<OL>
-<LI>Open the DEM and define a custom colour map for it with 10 classes
-<P></P>
-<LI>Also try to make the collar (black edges) disappear around the image.  Hint: Use the Transparency tab in Layer Properties
-</OL>
 
 <A NAME="toc23"></A>
 <H2>5.2. Labels</h2><a href="#toc">Back to the contents list</a>
@@ -702,30 +670,6 @@ Transparency can have a powerful effect, and let's you view and analyse your dat
 <LI>Switch the colour photo and topo layers on and off and compare them to each other and to the black and white photo. Notice any changes?
 </OL>
 
-<A NAME="toc31"></A>
-<H2>6.3. Hillshade and DEM overlay</h2><a href="#toc">Back to the contents list</a>
-<P>
-For this exercise we will be using the hillshade plugin to create a hillshade layer from the DEM.  Then we will overlay the DEM on top of the hillshade (applying partial transparency) to create a nice effect.
-</P>
-<OL>
-<LI>Add the DEM  hillshade plugin
-<LI>Open the DEM layer, and run the hillshade plugin fuction.  Call your output shade.tif
-<LI>When both the DEM and shade.tif are open, move the DEM above shade.tif
-<LI>Add pseudocolour and partial transparency to the DEM
-<P></P>
-You should see the relief (from shade.tif) showing through the colours from the DEM.
-<P></P>
-Your output should look something like this (this output also has the trig becons, and heights, displayed in customised symbology):
-<P></P>
-<IMG ALIGN="middle" SRC="img/qgis_105.png" BORDER="0" ALT="">
-</OL>
-
-<P>
-<B><I>For more practice:</I></B>
-</P>
-<P>
-Open the 3318DD_21_2008_19_RGB_RECT_UTM34 image and display it over the terrain model.
-</P>
 <A NAME="at_anchor"></A>
 <H1>7. Attribute tables</H1>
 <P>
@@ -744,7 +688,7 @@ Attributes play an important role in understanding and using your vector data.  
 <P>
 But first let us look at the selection tool, as this allows us to combine the attributes of the features to the geometries in the map view (similar to the identify tool, but in a more versatile manner), and can be used together with the attribute table.
 </P>
-<A NAME="toc33"></A>
+<A NAME="toc32"></A>
 <H2>7.1. Using the selection tool and attribute selections</h2><a href="#toc">Back to the contents list</a>
 <P>
 <B><I>Let's have a go...</I></B> 
@@ -765,7 +709,7 @@ The features dynamically linked through the attribute table and map view. You ca
    </UL>
  </UL>
 
-<A NAME="toc34"></A>
+<A NAME="toc33"></A>
 <H2>7.2. Editing attributes and using table calculations</h2><a href="#toc">Back to the contents list</a>
 <P>
 For the Landcover polys we can see that there is an Area attribute, but many of the amounts are 0 or in scientific notation that is difficult to interpret. Let's try to recalculate the area as a new separate column.
@@ -807,7 +751,7 @@ You can test one of the area values. Select a record (feature) from the attribut
 <LI>To save your edits, remember to disable editing mode and say yes to saving the edits.
 </OL>
 
-<A NAME="toc35"></A>
+<A NAME="toc34"></A>
 <H2>7.3. Searching the attribute table</h2><a href="#toc">Back to the contents list</a>
 <P>
 If we were looking for all features with a specific attribute, say for example waterbodies, there are a few ways to go about this
@@ -845,7 +789,7 @@ Press OK
 One feature has been selected.  We can see this in the attribute table using the steps from the previous example, but where is it in the map view?  To zoom to the selected features use the <IMG ALIGN="middle" SRC="img/qgis_091.png" BORDER="0" ALT=""> icon on the attribute table. 
 </OL>
 
-<A NAME="sb_anchor"></A>
+<A NAME="toc35"></A>
 <H1>8. Spatial bookmarks</H1>
 <P>
 Spatial bookmarks allow you to 'bookmark' (store) the geospatial location.  There are tools for this on the Attribute toolbar: <IMG ALIGN="middle" SRC="img/qgis_092.png" BORDER="0" ALT="">.
@@ -858,7 +802,7 @@ You can create a bookmark for this area (the current view extent of your map vie
 <P>
 Then by clicking show bookmarks, you will have a list of all previous bookmarks that you can zoom to and re-visit.
 </P>
-<A NAME="toc37"></A>
+<A NAME="toc36"></A>
 <H1>9. Georeferencer</H1>
 <P>
 If your raster imagery is not georeferenced, it will not be easy to overlay your data.  You can georeference data in QGIS using the Georeferencer plugin.
@@ -866,7 +810,7 @@ If your raster imagery is not georeferenced, it will not be easy to overlay your
 <P>
 <B><I>Let's have a go...</I></B> 
 </P>
-<A NAME="toc38"></A>
+<A NAME="toc37"></A>
 <H2>9.1. Setting up</h2><a href="#toc">Back to the contents list</a>
    <UL>
    <LI>Load the plugin <CODE>Georeferencer GDAL</CODE> using the QGIS Plugin manager (under Plugins on the Menu bar)
@@ -880,7 +824,7 @@ The geoferencer will now be available on the Menu bar (under Plugins) and on the
    <LI>For this example it will help to have the street name labels on and all you can use the search tools in the attribute table to find the relevant street names. Use your knowledge from the previous sections to add the labels and access the attributes (street names)
    </UL>
 
-<A NAME="toc39"></A>
+<A NAME="toc38"></A>
 <H2>9.2. Using the Georeferencer tool</h2><a href="#toc">Back to the contents list</a>
 <UL>
 <LI>Start the georeferencer tool
@@ -920,12 +864,12 @@ The geoferencer will now be available on the Menu bar (under Plugins) and on the
 Congratulations you have georeferenced an image in QGIS!  You can save your GCP points in the Georeferencer and load them if you need them again.  Evaluate your georeferenced image in QGIS.
 </UL>
 
-<A NAME="toc40"></A>
+<A NAME="toc39"></A>
 <H1>10. Editing</H1>
 <P>
 Using our georeferenced image, we can digitise vector layers and create new information.  Let's create a new layer for the land parcels (the numbered areas at the south end of the the georeferenced roads image)  
 </P>
-<A NAME="toc41"></A>
+<A NAME="toc40"></A>
 <H2>10.1. Create a new vector layer</h2><a href="#toc">Back to the contents list</a>
   <UL>
   <LI>Create a new polygon layer <IMG ALIGN="middle" SRC="img/qgis_077.png" BORDER="0" ALT=""> called <CODE>parcels</CODE>
@@ -934,7 +878,7 @@ Using our georeferenced image, we can digitise vector layers and create new info
 <IMG ALIGN="middle" SRC="img/qgis_078.png" BORDER="0" ALT="">
   </UL>
 
-<A NAME="toc42"></A>
+<A NAME="toc41"></A>
 <H2>10.2. Digitising settings</h2><a href="#toc">Back to the contents list</a>
   <UL>
   <LI>In Project Properities (General tab) you should enable the topological editing
@@ -944,7 +888,7 @@ Using our georeferenced image, we can digitise vector layers and create new info
   <LI>For Snapping options, enable for the layer and set a tolerance of 10
   </UL>
 
-<A NAME="toc43"></A>
+<A NAME="toc42"></A>
 <H2>10.3. Digitising tools</h2><a href="#toc">Back to the contents list</a>
   <UL>
   <LI>Now you can start digitising
@@ -959,308 +903,81 @@ Using our georeferenced image, we can digitise vector layers and create new info
   </UL>
 
 <P>
-A similar approach can be applied to other instances if you wanted to edit vector data that has already been captured.
+ similar approach can be applied to other instances if you wanted to edit vector data that has already been captured.
 </P>
-<P>
-<B><I>For more practice:</I></B>
-</P>
-<OL>
-<LI>Create a polygon layer with attributes:
- <UL>
- <LI>name
- <LI>type
- <LI>value
- and call it property.
- <P></P>
- </UL>
-<LI>Set up snapping options in QGIS options.
-<P></P>
-Set Project properties to enable 
- <UL>
- <LI>topological editing
- <LI>Avoid polygon Intersections
- <LI>Snapping between layers
- <P></P>
- </UL>
-<LI>Create some new features and experiment with the digitising tools
-</OL>
-
-<P>
-<B><I>Experimenting with more functionality with attributes:</I></B>
-</P>
-<OL>
-<LI>Create a new line layer with fields:
- <UL>
- <LI>id
- <LI>name
- <LI>type
- <LI>date_checked
- <LI>image
- <P></P>
- </UL>
-<LI>Use the Layer properties attributes to add the following widgets:
- <UL>
- <LI>Create a CSV file containing values and keys and use it to select types
- <LI>Set names to use layer unique values
- <LI>Set the date_checked field to use a date widget
- -  Set the image field to use a file picker
- <P></P>
- </UL>
-<LI>Create some new features in your layer
-</OL>
-
-<A NAME="toc44"></A>
+<A NAME="toc43"></A>
 <H1>11. Analysis</H1>
 <P>
 One of the strengths of GIS is the ability to do spatial analysis.  In this section we will walk you through some simple examples of spatial analysis in QGIS.  
 </P>
-<A NAME="toc45"></A>
-<H2>11.1. Vector analysis</h2><a href="#toc">Back to the contents list</a>
+<A NAME="toc44"></A>
+<H1>12. Mapcomposition</H1>
 <P>
-Say for example you were doing a study and had to identify all roads within 200m of the rivers as they may be prone to flood risk, or have environmental implications for the rivers.  The best way to look at the area that is a certain distance from the rivers is to create a buffer around the rivers.  Once we have identifed the features, we can store them as a separate shapefile.
+<IMG ALIGN="middle" SRC="img/qgis_056.png" BORDER="0" ALT="">
 </P>
-<P>
-<B><I>Let's have a go...</I></B> 
-</P>
-<P>
-For this part you will need these layers open:
-</P>
-<UL>
-<LI>rivers.shp
-<LI>roads.shp
-</UL>
-
-<A NAME="toc46"></A>
-<H3>11.1.1. Buffer</h3><a href="#toc">Back to the contents list</a>
-<OL>
-<LI>Make sure that the rivers layer is open.
-<LI>On the menu, select <CODE>Vector -&gt; Vector processing -&gt; Buffer</CODE>
-<LI>Use the settings as indicated below, and specify your output file.
-<P></P>
-<IMG ALIGN="middle" SRC="img/qgis_104.png" BORDER="0" ALT="">
-</OL>
-
-<P>
-<B>Note:</B> Check your projections.  The Project Properities should be in UTM 34S before running your buffer. If necessary you can re-project the rivers layer on-the-fly (enable in Project properties). See the settings in image below:
-</P>
-<P>
-<IMG ALIGN="middle" SRC="img/qgis_107.png" BORDER="0" ALT="">
-</P>
-<A NAME="toc47"></A>
-<H3>11.1.2. Select subset of feaures by spatial selection</h3><a href="#toc">Back to the contents list</a>
-<OL>
-<LI>There are at least two ways to do a select by location:
- <UL>
- <LI>Option 1: is available in fTools, under the main menu bar <CODE>Vector &gt; Research Tools &gt; Select by location</CODE>
- <P></P>
-<IMG ALIGN="middle" SRC="img/qgis_106.png" BORDER="0" ALT="">
- <P></P>
- <LI>Option 2: Use the plugin <CODE>Spatial Query Plugin</CODE> (with the Toplogical operation setting as intersect).  This option may be recommended for bigger datasets. 
- <P></P>
- </UL>
-<LI>Once you selected your road features, you can export them as a separate shapefile.  Right click the layer on the Contents pane and choose <CODE>Save selection as...</CODE>
-</OL>
-
-<A NAME="toc48"></A>
-<H3>11.1.3. Clip</h3><a href="#toc">Back to the contents list</a>
-<P>
-You may have noticed that the spatial select includes parts of the features that extend over the buffer area.  One way to get rid of these 'dangling' pieces would be to do a clip. 
-</P>
-<OL>
-<LI>Select your roads layer
-<LI>On the main menu select <CODE>Vector &gt; Geoprocessing tools &gt; Clip</CODE>
-<LI>Use the settings as follows and specify your output file
-<P></P>
-<IMG ALIGN="middle" SRC="img/qgis_108.png" BORDER="0" ALT="">
-<P></P>
-<LI>You output should look something like this when you load it:
-</OL>
-
-<P>
-<IMG ALIGN="middle" SRC="img/qgis_109.png" BORDER="0" ALT="">
-</P>
-<A NAME="toc49"></A>
-<H2>11.2. Raster processing</h2><a href="#toc">Back to the contents list</a>
-<P>
-QGIS is also capable of raster processing.  We will have a quick look at some of the common raster functions such as clipping and reprojecting.  Clipping rasters is often necessary as raster files can be quite large, so clipping allows us to extract the data that is useful to us.  Reprojection (or warping) is necessary as you will get data from different sources and these will need to be in the same projection to be seen together (this applies to rasters, for vectors there is reprojection on-the-fly capabilities which allows automatic live reprojection)
-</P>
-<A NAME="toc50"></A>
-<H3>11.2.1. Setting up</h3><a href="#toc">Back to the contents list</a>
-<P>
-To access the raster tools we need to enable the GdalTools plugin.  Go to <CODE>Plugins &gt; Manage plugins...</CODE> and tick the following
-</P>
-<P>
-<IMG ALIGN="middle" SRC="img/qgis_110.png" BORDER="0" ALT="">
-</P>
-<P>
-This will add an extra menu item <CODE>Raster</CODE> to your main menu!
-</P>
-<P>
-<B>Note:</B> Another extremely useful raster plugin (that handles a lot of raster analysis) is the GRASS plugin. 
-</P>
-<A NAME="toc51"></A>
-<H3>11.2.2. Raster clip</h3><a href="#toc">Back to the contents list</a>
-<OL>
-<LI>Open your DEM
-<LI>Zoom into the spatial bookmark <CODE>Barren rock</CODE> we created <A HREF="#sb_anchor">earlier</A>.  Say for example we wanted to visualise more of the topology (height) of this area. At the moment there is not much contrast in the grayscale symbology.  We could change this in the symbology settings or we could create a new raster just for this extent.  We going to follow the second approach for now.
-<LI>Zoom to the rough extents you want your new raster clip
-<LI>Select on the menu <CODE>Raster &gt; Clipper</CODE>
-<LI>Specify your output file in the dialog.  Then click and drag a box in the Map view.  This will automatically add the extents to the dialog
-<P></P>
-<IMG ALIGN="middle" SRC="img/qgis_111.png" BORDER="0" ALT="">
-<P></P>
-<LI>Press OK, it will run.  You can examine your output.
-<P></P>
-<IMG ALIGN="middle" SRC="img/qgis_112.png" BORDER="0" ALT="">
-<P></P>
-===Raster warp===
-GDAL warp allows for coordinate transformation (reprojection).  It even allows batching.  
-<P></P>
-<B><I>Let's have a go...</I></B> 
-<P></P>
-+  Open your DEM
-+  Run <CODE>Raster &gt; Warp</CODE> to convert it from UTM34S to LatLong co-ordinates.  Remember to specify the input SRS.
-+  How would you check the output?
-</OL>
-
-<A NAME="toc52"></A>
-<H1>12. Map composition</H1>
-<P>
-One of the most useful ways of displaying the output GIS data is in a map.  QGIS provides a good interface for creating your own custom maps.  
-</P>
-<P>
-<B><I>Let's have a go...</I></B> 
-</P>
-<OL>
-<LI>Getting your data ready
- <OL>
- <LI>Open the following layers and symbolise appropriately
   <UL>
-  <LI>Census 2001 (use categorised symbology for a chosen attribute)
-  <LI>Roads
-  <LI>Rivers
+  <LI>Open a Mapcomposition 
+  <LI>Global settings
+    <UL>
+    <LI>Pagesize/Orientation
+    <LI>Print as raster
+    </UL>
   </UL>
- <LI>Zoom to the rough area that you want your map to contain
- <LI>Check that your project has a projected CRS e.g. UTM 34S. Enable on the fly projection if necessary.
- </OL>
-<LI>Create a new map compostion by clicking the <IMG ALIGN="middle" SRC="img/qgis_056.png" BORDER="0" ALT=""> button on the toolbar. 
-<LI>In the General options for the map compostion (side bar) specify - A4 Landscape
-<LI>Add a map by clicking <IMG ALIGN="middle" SRC="img/qgis_057.png" BORDER="0" ALT="">, then click and drag a box on the page.
+
+<P>
+<IMG ALIGN="left" SRC="img/qgis_057.png" BORDER="0" ALT="">    
+</P>
+  <UL>
+  <LI>Adding a map:
     <UL>
     <LI>click in map and select <CODE>Item</CODE> Tab
-    <LI>Select <CODE>Grid</CODE> and tick <CODE>Show Grid</CODE>
-    <LI>define a X and Y grid interval of 100000m (adjust to your extent)
-    <LI>Select <CODE>Draw Annotation</CODE> 
-    <LI>Select the annotation position <CODE>Outside Frame</CODE> - annotation direction: <CODE>Boundary Direction</CODE> and Coordinate precision: 0
-  -
+    <LI>Select <CODE>Extent</CODE> and tick <CODE>Show Grid</CODE>
+    <LI>define a X and Y grid interval of 100000m
+    <LI>Select <CODE>Draw Annotation</CODE> and select the annotation position <CODE>Outside Frame</CODE> - annotation direction <CODE>Boundary Direction</CODE>
     </UL>
-<LI><IMG ALIGN="left" SRC="img/qgis_058.png" BORDER="0" ALT=""> Adding a legend
+  </UL>
+
+<P></P>
+<P>
+<IMG ALIGN="left" SRC="img/qgis_058.png" BORDER="0" ALT="">        
+</P>
+  <UL>
+  <LI>Adding a legend
     <UL>
     <LI>Click in Legend and select <CODE>Item</CODE> Tab
     <LI>Change the Legend Title to <CODE>Census 2001</CODE>
     <LI>Open the tab <CODE>Legend Items`</CODE>and move Swellendam at the top
-    <LI>Open the tab <CODE>Item options</CODE> and remove the box (uncheck show frame)
-    <P></P>
+    <LI>Open the tab <CODE>Item options</CODE> and remove the box
     </UL>
-<LI><IMG ALIGN="left" SRC="img/qgis_059.png" BORDER="0" ALT=""> Adding a scalebar
+  </UL>
+
+<P>
+<IMG ALIGN="left" SRC="img/qgis_059.png" BORDER="0" ALT="">        
+</P>
+  <UL>
+  <LI>Adding a scalebar
     <UL>
     <LI>Resize the scale bar height to 2mm
     <LI>Open the tab <CODE>General options</CODE> and remove the box
-    <P></P>
     </UL>
-<LI><IMG ALIGN="left" SRC="img/qgis_060.png" BORDER="0" ALT="">Adding a text box for a heading
+  </UL>
+
+<P>
+<IMG ALIGN="left" SRC="img/qgis_060.png" BORDER="0" ALT="">        
+</P>
+  <UL>
+  <LI>Adding a text box
     <UL>
-    <LI>Add some text for the heading
+    <LI>Add some text
     <LI>Open the tab <CODE>General options</CODE> and remove the box    
     </UL>
-<LI>Add a north arrow using <IMG ALIGN="middle" SRC="img/qgis_113.png" BORDER="0" ALT=""> (click and drag a box), and scroll to find a north arrow image. Enable <CODE>Sync to map</CODE>
-<P></P>
-<LI>Experiment and add anything else such as arrows, shapes, tables for attributes etc
-</OL>
+  </UL>
 
-<A NAME="toc53"></A>
-<H1>13. Conclusion</H1>
-<A NAME="toc54"></A>
-<H2>13.1. Overall exercise</h2><a href="#toc">Back to the contents list</a>
-<P>
-Now let's put everything together!
-</P>
-<P>
-<B><I>Let's have a go...</I></B> 
-</P>
-<OL>
-<LI>Start a new project
 <P></P>
-<LI>Set the CRS to UTM 34 S
-<P></P>
-<LI>Add in the roads and rivers layers
-<P></P>
-<LI>Define styles for each layer:
- <UL>
- <LI>classify roads by type and use a variation of an overlay style for each class
- <LI>create an offset shadow behind your rivers
- <LI>save the style definitions so that they can be reused later
- <P></P>
- </UL>
-<LI>Add the roads in again, and create a query / subset definition so that it only shows streets and minor roads.
-<P></P>
-<LI>Set the first road layer to only be visible between 100000 and 100000000
-<LI>Set the second road layer to be only visible between 0 and 100000
-<P></P>
-<LI>Configure labels for the roads layer that is shown at a large scale
-<P></P>
-<LI>Create a new line layer with attributes:
- <UL>
- <LI>name (text)
- <LI>type (number)
- <P></P>
- </UL>
-<LI>Use the attribute properties to create a value map for each field
-<P></P>
-<LI>Configure snapping so that the line layer is snapped to roads and rivers
-<P></P>
-<LI>Capture 5 new features.
-<P></P>
-<LI>Create a buffer around each line feature of 500m
-<P></P>
-<LI>Select all roads that intersect the buffer
-<P></P>
-<LI>Create a map composition showing the roads that intersect your buffers and add traditional map elements - scale bar, north arrow, etc. 
-</OL>
-
-<A NAME="toc55"></A>
-<H2>13.2. More about plugins</h2><a href="#toc">Back to the contents list</a>
-<P>
-Here is a quick list of useful plugins that you can play around with:
-</P>
-<UL>
-<LI>Value tool (Dynamically displays the values for all the raster layers, as you move your mouse cursor) 
-<LI>Table manager (allows you to create,delete and edit column names) 
-<LI>DEM hillshade (creates a hillshade of your DEM)
-<LI>PostGIS manager (if you using PostGIS databases)
-<LI>Spatial query
-<LI>1 band
-<LI>GRASS
-</UL>
-
-<P>
-If you would like to know more about contributing plugins, or plugins that are available, you can look at the <A HREF="http://pyqgis.org">PyQgis website</A>
-</P>
-<A NAME="toc56"></A>
-<H3>13.2.1. Extra exercise on plugins</h3><a href="#toc">Back to the contents list</a>
-<P>
-This challenge is to use the GRASS plugin (and hillshade plugin).  See if you can complete these steps:
-</P>
-<OL>
-<LI>GRASS plugin- Create a new map set
-<LI>Import your dem into GRASS
-<LI>Create a hillshade model using the Hillshade plugin
-<LI>Add the shade to QGIS
-<LI>Create a 3d flythrough view in GRASS
-</OL>
-
-<A NAME="toc57"></A>
-<H2>13.3. Where can I go for help?</h2><a href="#toc">Back to the contents list</a>
+<A NAME="toc45"></A>
+<H1>13. Where to next?</H1>
+<A NAME="toc46"></A>
+<H2>13.1. Where can I go for help?</h2><a href="#toc">Back to the contents list</a>
 <P>
 The open source community provides help and support for QGIS in a number of different ways:
 </P>
@@ -1284,21 +1001,11 @@ The open source community provides help and support for QGIS in a number of diff
  <LI>Official Wiki: <A HREF="http://www.qgis.org/wiki">http://www.qgis.org/wiki</A>
    Information on development plans for the software, release plans and links to 
    download sites can be found here
- </UL>
-
-<A NAME="toc58"></A>
-<H2>13.4. Where to next?</h2><a href="#toc">Back to the contents list</a>
-<P>
-This is just the beginning of a much broader world... some examples of more steps to follow:
-</P>
- <UL>
- <LI>Learn more about webmapping using open source software.  QGIS can be used to create webmaps!
- <LI>Participating in crowd sourcing for projects such as <A HREF="http://www.openstreetmap.org">OpenStreetMap</A> by contributing data
  <P></P>
  </UL>
 
 </DIV>
 
 <!-- html code generated by txt2tags 2.5 (http://txt2tags.sf.net) -->
-<!-- cmdline: txt2tags -t html -o index.html qgis_training.t2t -->
+<!-- cmdline: txt2tags -o qgis_training.html -t html qgis_training.t2t -->
 </BODY></HTML>
