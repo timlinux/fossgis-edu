@@ -16,8 +16,8 @@ Tim Sutton, Horst Duester, Gavin Fleming, Samantha Lee Pan 2010
 %moinmoin formatted documentation by running txt2tags on this document. See the
 %txt2tags home page for more details.  Please insert manual line breaks in this
 %document as it makes diffing for changes much easier. To do this in vim 
-%automatically, select a section then issue (gq) command. Please dont
-%apply vim formatting to the whol document as it screws up some formatting
+%automatically, select a section then issue (gq) command. Please don't
+%apply vim formatting to the whole document as it screws up some formatting,
 %rather apply it selectively to paragraphs where needed.
 
 % To generate the text version of this document:
@@ -98,9 +98,9 @@ field for each of the columns in the table.
 "Datatypes restrict the kind of information that can be stored in a column." -
 Tim and Horst
 
-There are many kinds of datatypes, lets focus on the most common:
+There are many kinds of datatypes. Let's focus on the most common:
 
-- String - to store free form text data
+- String - to store free-form text data
 - Integer - to store whole numbers
 - Real - to store decimal numbers
 - Date - to store Horst's birthday so no one forgets
@@ -132,7 +132,7 @@ There are many more datatypes you can use - [check the PostgreSQL manual! http:/
 
 === Modelling an Address Database ===
 
-Lets use a simple case study to see how a database is constructed. We want to
+Let's use a simple case study to see how a database is constructed. We want to
 create an address database. What kind of information should we store?
 
 ```
@@ -186,7 +186,7 @@ loss of data integrity." - Wikipedia
 
 There are different kinds of normalisation 'forms'. 
 
-Lets take a look at a simple example:
+Let's take a look at a simple example:
 
 ```
 Table "public.people"
@@ -257,8 +257,8 @@ You can read more about database normalisation [here http://en.wikipedia.org/wik
 "A database index is a data structure that improves the speed of data retrieval
 operations on a database table." - Wikipedia
 
-Imagine you are reading a text book and looking for the explanation of a concept
-- and the text book has no index! You will have to start reading at one cover
+Imagine you are reading a textbook and looking for the explanation of a concept
+- and the textbook has no index! You will have to start reading at one cover
 and work your way through the entire book until you find the information you
 need. The index at the back of a book helps you to jump quickly to the page
 with the relevant information.
@@ -390,7 +390,8 @@ your postal code could ensure that the number falls between 1000 and 9999.
 A Primary key is one or more field values that make a record unique. Usually
 the primary key is called id and is a sequence. 
 
-A Foreign key is used to refer to a unique record on another table.
+A Foreign key is used to refer to a unique record on another table (using that
+other table's primary key).
 
 In ER Diagramming, the linkage between tables is normally based on Foreign keys
 linking to Primary keys.
@@ -419,7 +420,7 @@ Foreign-key constraints:
 === Transactions ===
 
 When adding, changing, or deleting data in a database, it is always important
-that the database is left in an good state if something goes wrong. Most
+that the database is left in a good state if something goes wrong. Most
 databases provide a feature called transaction support. Transactions allow you
 to create a rollback position that you can return to if your modifications to
 the database did not run as planned.
@@ -432,7 +433,8 @@ this:
  - add R20 to Anne
  -
 
-If something goes wrong during the process (e.g. power failure), the transaction will be rolled back.
+If something goes wrong during the process (e.g. power failure), the transaction
+will be rolled back.
 
 == Implementing the Data Model ==
 
@@ -460,10 +462,10 @@ postgresql-8.4 postgresql-client-8.4 postgresql-client-common postgresql-common
 0 upgraded, 4 newly installed, 0 to remove and 5 not upgraded.
 Need to get 5,012kB of archives.
 After this operation, 19.0MB of additional disk space will be used.
-Do you want to continue [Y/n]? y
+Do you want to continue [Y/n]? 
 ```
 
-Press 'Y' and wait for the download and installation to finish.
+Press 'Y' and 'Enter' and wait for the download and installation to finish.
 
 ===Help===
 PostgreSQL has very good [local file:///usr/share/doc/postgresql-doc-8.4/html/index.html] and [online http://www.postgresql.org/docs/8.4/static/index.html] documentation. 
@@ -482,10 +484,10 @@ sudo su - postgres
 
 Type in your normal log in password when prompted (you need to have sudo rights).
 
-Now at the postgres user's bash prompted create the database user. Make sure
-the user name matches your unix login name as it will make your life much
-easier as postgres will automatically authenticate you when you are logged in
-as that user.
+Now, at the postgres user's bash prompt, create the database user. Make sure
+the user name matches your unix login name: it will make your life much easier,
+as postgres will automatically authenticate you when you are logged in as that
+user.
 
 ```
 createuser -d -E -i -l -P -r -s timlinux
@@ -571,25 +573,25 @@ You can connect to your database easily like this:
 psql address
 ```
 
-To exit out of the psql database shell you type:
+To exit out of the psql database shell, type:
 
 ```
 \q
 ```
 
-For help in using the shell, type
+For help in using the shell, type:
 
 ```
 \?
 ```
 
-For help in using sql commands type:
+For help in using sql commands, type:
 
 ```
 \help
 ```
 
-To get help on a specific command, do:
+To get help on a specific command, type (for example):
 
 ```
 \help create table
@@ -598,13 +600,16 @@ See also the [Psql cheat sheet psql_cheatsheet.pdf] - available online [here htt
 
 === Make Tables in SQL ===
 
-Lets start making some tables! We will use our ER Diagram as a guide. First
-lets create a streets table:
+Let's start making some tables! We will use our ER Diagram as a guide. First,
+let's create a streets table:
 
 ```
 create table streets (id serial not null primary key, name varchar(50));
 ```
-'serial' and 'varchar' are ''data types''. 'serial' tell PostgreSQL to start an integer sequence (autonumber) to populate the id automatically for every new record. 'varchar(50)' tell PostgreSQL to create a character field of 50 characters in length. 
+'serial' and 'varchar' are ''data types''. 'serial' tells PostgreSQL to start
+an integer sequence (autonumber) to populate the id automatically for every new
+record. 'varchar(50)' tells PostgreSQL to create a character field of 50
+characters in length. 
 
 You will notice that the command ends with a ```;``` - all SQL commands should
 be terminated this way. When you press enter, psql will report something like
@@ -617,11 +622,14 @@ NOTICE:  CREATE TABLE will create implicit sequence "streets_id_seq" for serial
 CREATE TABLE
 ```
 
-That means your table was created successfully, with a primary key 'streets_pkey' using streets.id.
+That means your table was created successfully, with a primary key 'streets_pkey'
+using streets.id.
 
-Note: If you hit return without entering a ';' the you get a prompt like this 'address-#' since PG is expecting you to enter more. Enter ';' to run your command.
+Note: If you hit return without entering a ';', then you will get a prompt like
+this: 'address-#'. This is because PG is expecting you to enter more. Enter
+';' to run your command.
 
-To view your table schema you can do this:
+To view your table schema, you can do this:
 
 ```
 \d streets
@@ -735,7 +743,7 @@ Indexes:
 
 === Create Keys in SQL ===
 
-The problem with our solution above is that the database doesnt know that
+The problem with our solution above is that the database doesn't know that
 people and streets have a logical relationship. To express this relationship,
 we have to define a foreign key that points to the primary key of the streets
 table.
@@ -747,7 +755,7 @@ There are two ways to do this:
  - defining the key at time of table creation
  -
 
-Lets show you the first way:
+Our table has already been created, so let's do it the first way:
 
 ```
 alter table people 
@@ -763,8 +771,8 @@ The more usual way to create a constraint is to do it when you create the table:
 create table people (id serial not null primary key, 
                      name varchar(50), 
                      house_no int not null, 
-                     street_id int references streets(id) not null , 
-                     phone_no varchar null );
+                     street_id int references streets(id) not null, 
+                     phone_no varchar null);
 ```
 
 After adding the constraint, our table schema looks like this now:
@@ -845,7 +853,9 @@ Some deep and inspired thoughts as to why...
 
 Sometimes you just can't stand having a table any more. Maybe you are sick of
 all your friends. How can you get rid of them all in one easy step? Drop the
-table of course!
+table of course! Of course, right now too much hard work has gone into our
+table to get rid of it on a whim, but if you really hate your friends that
+much, nothing's stopping you from ridding yourself of them forever:
 
 ```
 drop table people;
@@ -870,11 +880,13 @@ Some thoughts on why you could drop people:
 
 ```
 
-Note: Rather don't drop the tables as you will need them in the next exercises.
+Note: If you actually did enter that command and dropped the people table,
+now would be a good time to rebuild it, as you will need it in the next
+exercises.
 
 === A word on PG Admin III ===
 
-We are showing you the SQL commands from the psql prompt because its a very
+We are showing you the SQL commands from the psql prompt because it's a very
 useful way to learn about databases. However, there are quicker and easier ways
 to do a lot of what we are showing you. Install PGAdminIII and you can create,
 drop, alter etc tables using 'point and click' in a GUI.
@@ -997,7 +1009,7 @@ You should have noticed that:
 
 Remember that our two tables are linked via a Primary/Foreign Key pair. This
 means that no valid person can be created without there also being a valid
-street record.
+corresponding street record.
 
 Here is how we made our friend:
 
@@ -1006,6 +1018,13 @@ insert into streets (name) values('Main Street');
 insert into people (name,house_no, street_id, phone_no) 
   values ('Joe Smith',55,2,'072 882 33 21');
 ```
+
+If you look at the streets table again (using a select statement as before),
+you'll see that the id for the 'Main Street' entry is 2. That's why we could
+merely enter the number 2 above. Even though we're not seeing 'Main Street'
+written out fully in the entry above, the database will be able to associate
+that with the street_id value of 2.
+
 === Select data ===
 
 We have already shown you the syntax for selecting records. Lets look at a few
@@ -1058,7 +1077,7 @@ delete command!
 delete from people where name = 'Joe Smith';
 ```
 
-Lets look at our people table now:
+Let's look at our people table now:
 
 ```
 address=# select * from people;
@@ -1078,7 +1097,7 @@ Use the skills you learned earlier to add some new friends to your database.
 When you write a select ... command it is commonly known as a query - you are
 interrogating the database for information.
 
-Lets check that you added a few people to the database successfully:
+Let's check that you added a few people to the database successfully:
 
 
 ```
@@ -1102,7 +1121,7 @@ insert into people (name,house_no, street_id, phone_no)
 
 === Ordering results ===
 
-Lets get a list of people ordered by their house numbers:
+Let's get a list of people ordered by their house numbers:
 
 ```
 select name, house_no from people order by house_no;
@@ -1208,9 +1227,13 @@ select people.name, house_no, streets.name
 from people,streets
 where people.street_id=streets.id;
 ```
-Note: With joins, you will always state the two tables the information is coming from, in this case people and streets.  You also need to specify which two keys must match (foreign key & primary key)
+Note: With joins, you will always state the two tables the information is coming
+from, in this case people and streets.  You also need to specify which two keys
+must match (foreign key & primary key). If you don't specify that, you will get
+a list of all possible combinations of people and streets, but no way to know
+who actually lives on which street!
 
-Here is what the output will look like:
+Here is what the correct output will look like:
 
 
 ```
@@ -1230,7 +1253,7 @@ they provide a simple way to combine the information from two or more tables.
 
 === Subselect ===
 
-First lets do a little tweaking to our data:
+First, let's do a little tweaking to our data:
 
 ```
 insert into streets (name) values('QGIS Road');
@@ -1240,7 +1263,7 @@ update people set street_id = 2 where id=2;
 update people set street_id = 3 where id=3;
 ```
 
-Lets take a quick look at our data after those changes - we reuse our query
+Let's take a quick look at our data after those changes - we reuse our query
 from the previous section:
 
 ```
@@ -1261,7 +1284,7 @@ Result:
 (4 rows)
 ```
 
-Now lets show you a subselection on this data. We want to show only people who
+Now let's show you a subselection on this data. We want to show only people who
 live in street_id number 1 
 
 ```
@@ -1392,7 +1415,7 @@ it. With views, you can save the definition of a sql query in a reusable
 === Creating a View ===
 
 You can treat a view just like a table, but its data is sourced from a query.
-Lets make a simple view based on the above.
+Let's make a simple view based on the above.
 
 ```
 create view roads_count_v as 
@@ -1435,9 +1458,11 @@ CREATE OR REPLACE roads_count_v AS
   GROUP BY people.street_id, streets.name 
   ORDER BY streets.name;
 ```
-(this example also shows the best practice convention of using UPPERCASE for all SQL keywords)
+(This example also shows the best practice convention of using UPPER CASE for 
+all SQL keywords.)
 
-You will see that we have added an 'order by' clause so that our view rows are nicely sorted:
+You will see that we have added an 'order by' clause so that our view rows are
+nicely sorted:
 
 ```
  count |      name       
@@ -1495,7 +1520,7 @@ sudo apt-get install postgresql-8.4-postgis
 
 ```
 
-Really, its that easy...
+Really, it's that easy...
 
 === Installing under Windows ===
 
@@ -1511,11 +1536,12 @@ A little more complicated, but still not hard. Note that you need to be online t
 
 **Note:** You can ensure that any database created on your system automatically
 gets these spatial extensions by running these commands (from this and the next
-two sections) on the ``template1`` system database ''before'' you create any of
+two sections) on the ``template1`` system database //before// you create any of
 your own databases. 
 
 % appropriate formatting for ''before'' above?
 % suggestion: use ``template1`` (as it's a name)
+% maybe you meant //before//? changed as per WP:BOLD
 
 PostgreSQL can use various procedural languages. What is a procedural language?
 It is an 'in database' language that can be used to extend the functionality of
@@ -1564,17 +1590,22 @@ You can add more to the SRS list later if needed, but the list provided should
 cover just about every SRS you will need (Google Mercator and lo are notable
 exceptions).
 
-To load the SRS table do:
+To load the SRS table, first ensure that you're at a normal prompt (i.e., quit the
+database first), then do this:
 
-Note: quit the database first. Then:
 ```
 psql address < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 ```
 
-The above command adds a table to our database. We can see the schema of this table like this:
+The above command adds a table to our database. We can see the schema of this table
+by entering the following command in the psql prompt:
 
 ```
 address=# \d spatial_ref_sys
+```
+
+The result should be this:
+```
 Table "public.spatial_ref_sys"
    Column   |          Type           | Modifiers 
  -----------+-------------------------+-----------
@@ -1592,7 +1623,7 @@ sections), to view and manipulate this table - though we suggest you do not
 update or delete any records unless you know what you are doing.
 
 One SRID you may be interested in is EPSG:4326 - the geographic / lat lon
-reference system. Lets take a look at it:
+reference system. Let's take a look at it:
 
 ```
 select * from spatial_ref_sys where srid=4326;
@@ -1618,8 +1649,8 @@ this from .prj files in your shapefile collection).
 === Looking at the installed PostGIS functions ===
 
 Good - our PostgreSQL database is now geospatially enabled. We are going to
-delve a lot deeper into this in the coming days, but lets give you a quick
-little taster. Lets say we want to create a point from text. First we use the
+delve a lot deeper into this in the coming days, but let's give you a quick
+little taster. Let's say we want to create a point from text. First we use the
 psql command to find functions relating to point:
 
 ```
@@ -1628,7 +1659,7 @@ psql command to find functions relating to point:
 
 Here is one that caught my eye: ```st_pointfromtext```
 
-So lets give that a try:
+So let's give that a try:
 
 ```
 address=# select st_pointfromtext('POINT(1 1)');
@@ -1708,16 +1739,15 @@ and constructing these data.
 The model defines geospatial data from type Point, Linestring, Polygon and
 aggregations of them to Multi objects.
 
-For further information have also a look at [OGC Simple Feature for SQL http://www.opengeospatial.org/standards/sfs]
+For further information, have a look at [OGC Simple Feature for SQL http://www.opengeospatial.org/standards/sfs]
 
 === Add a geometry field to table === 
 
-Lets add a point field to our people table:
+Let's add a point field to our people table:
 
 ```
 alter table people add column the_geom geometry;
 ```
-
 
 === Add a constraint based on geometry type ===
 
@@ -1730,7 +1760,7 @@ add constraint people_geom_point_chk
     check(st_geometrytype(the_geom) = 'ST_Point'::text OR the_geom IS NULL);
 ```
 
-What does that do? It adds a constrain to the table that prevents anything
+What does that do? It adds a constraint to the table that prevents anything
 except a point geometry or a null.
 
 
@@ -1788,11 +1818,17 @@ table:
 
 ```
 insert into geometry_columns values 
-  ('','public','people','the_geom',2,,'POINT');
+  ('','public','people','the_geom',2,4326,'POINT');
 ```
 
 Why? ```geometry_columns``` is used by certain applications to be aware of
 which tables in the database contain geometry data.
+
+The value 2 refers to the number of dimensions; in this case, two: x and y.
+
+The value 4326 refers to the projection we are using; in this case, WGS 84,
+which is referred to by the number 4326 (refer to the earlier discussion
+about the EPSG).
 
 ```
 Add an appropriate geometry_columns entry for your new cities layer
@@ -1823,7 +1859,7 @@ Solution:
 
 ```
 insert into geometry_columns values 
-      ('','public','cities','the_geom',2,,'POLYGON');
+      ('','public','cities','the_geom',2,4326,'POLYGON');
 ```
 
 
@@ -1837,10 +1873,20 @@ insert into people (name,house_no, street_id, phone_no, the_geom)
                  34,
                  3,
                  '072 812 31 28', 
-                 st_makepoint(33,-33));
+                 'SRID=4326;POINT(33 -33)');
 ```
 
-**Note:** Now is probably a good time to fire up QGIS and try to view your
+**Note:** In the new entry above, you will need to specify which projection
+(SRID) you want to use. This is because
++ you entered the geometry of the new point using a plain string of text, and
++ the new point needs to use the same SRID as the dataset it is being added to.
+
+If at this point you were using a graphical interface, for example, specifying
+the projection for each point would be automatic. In other words, you usually
+won't need to worry about using the correct projection for every point you want
+to add if you've already specified it for that dataset, as we did earlier.
+
+Now is probably a good time to fire up QGIS and try to view your
 people table. Also try editing / adding / deleting records and then performing
 select queries in the database to see how the data has changed.
 
@@ -1881,7 +1927,7 @@ Formulate a query that shows a person's name, street name and position
 
 === View a point as WKT ===
 
-Lets take a look at the solution to the above query:
+Let's take a look at the solution to the above query:
 
 ```
 select people.name, 
@@ -1913,9 +1959,9 @@ As you can see, our constraint allows nulls to be added into the database.
 
 
 == Spatial Queries ==
-Spatial queries are not different to other database queries. You can use the
-geometry column as every other database column. With the installation of
-PostGIS in our database we have additional functions to query our database.
+Spatial queries are no different from other database queries. You can use the
+geometry column like any other database column. With the installation of
+PostGIS in our database, we have additional functions to query our database.
 
 
 === Spatial Operators ===
@@ -1926,11 +1972,8 @@ point(X,Y) you can do this with:
 ```
 select * 
 from people
-where st_distance(the_geom,st_makepoint(32,-34)) < 2;
+where st_distance(the_geom,'SRID=4326;POINT(33 -34)') < 2;
 ```
-
-You will notice that st_makepoint provides another, different and convenient
-way to create a point geometry.
 
 
 Result:
@@ -1942,7 +1985,9 @@ Result:
 (1 row)
 ```
 
-**Note:** the_geom value above was truncated for space on this page.
+**Note:** the_geom value above was truncated for space on this page. If you
+want to see the point in human-readable coordinates, try something similar to
+what you did in the section "View a point as WKT", above.
 
 
 === Spatial Indexes ===
@@ -2033,16 +2078,16 @@ CREATE INDEX cities_geo_idx
 == Geometry Construction ==
 
 In this section we are going to delve a little deeper into how simple
-geometries are constructed in SQL. In reality you will probably use a GIS like
-QGIS to create complex geometries using their digitising tools, however
+geometries are constructed in SQL. In reality, you will probably use a GIS like
+QGIS to create complex geometries using their digitising tools; however,
 understanding how they are formulated can be handy for writing queries and
 understanding how the database is assembled.
 
 === Creating Linestrings ===
 
 
-Before we start, lets get our streets table matching the others i.e. having a
-constraint on the geometry, an index and an entry in the geometry_columns
+Before we start, let's get our streets table matching the others; i.e., having
+a constraint on the geometry, an index and an entry in the geometry_columns
 table.
 
 
@@ -2088,7 +2133,7 @@ Solution:
 alter table streets add column the_geom geometry;
 alter table streets add constraint streets_geom_point_chk check 
      (st_geometrytype(the_geom) = 'ST_LineString'::text OR the_geom IS NULL);
-insert into geometry_columns values ('','public','streets','the_geom',2,,'LINESTRING');
+insert into geometry_columns values ('','public','streets','the_geom',2,4326,'LINESTRING');
 create index streets_geo_idx
   on streets
   using gist                                         
@@ -2096,22 +2141,43 @@ create index streets_geo_idx
 ```
 
 
-Now lets insert a linestring into our streets table. In this case I am going to update 
+Now let's insert a linestring into our streets table. In this case I am going to update 
 an existing street record:
 
 ```
-update streets set the_geom = st_linestringfromtext('LINESTRING(20 -33, 21 -34, 24 -33)') 
+update streets set the_geom = 'SRID=4326;LINESTRING(20 -33, 21 -34, 24 -33)'
 where streets.id=2;
 ```
 
-Take a look at the results in QGIS.
-Now create some more streets entries - some in QGIS and some from the command line.
+Take a look at the results in QGIS. (You may need to right-click on the streets
+layer in the 'Layers' panel, and choose 'Zoom to layer extent'.)
+
+Now create some more streets entries - some in QGIS and some from the command
+line.
 
 
 === Creating Polygons ===
 
 Creating polygons is just as easy. One thing to remember is that by definition,
 polygons have at least four vertices, with the last and first being colocated.
+
+```
+insert into cities (name, the_geom)
+values ('Tokyo', 'SRID=4326;POLYGON((10 -10, 5 -32, 30 -27, 10 -10))');
+```
+
+**Note:** A polygon requires double brackets around its coordinate list; this is
+to allow you to add complex polygons with multiple unconnected areas. For
+instance:
+
+```
+insert into cities (name, the_geom)
+values ('Tokyo Outer Wards', 'SRID=4326;POLYGON((20 10, 20 20, 35 20, 20 10),(-10 -30, -5 0, -15 -15, -10 -30))');
+```
+
+If you followed this step, you can check what it did by loading the cities
+dataset into QGIS, opening its attribute table, and selecting the new entry.
+Note how the two new polygons behave like one polygon.
 
 
 === Exercise - Linking Cities to People ===
@@ -2197,7 +2263,7 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            3,
            '072 812 31 28', 
            1,
-           st_makepoint(33,-33));
+           'SRID=4326;POINT(33 33)');
 
 insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
    values ('IP Knightly',
@@ -2205,7 +2271,7 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            1,
            '071 812 31 28', 
            1,
-           st_makepoint(32,-34));
+           'SRID=4326;POINT(32 -34)');
 
 insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
    values ('Rusty Bedsprings',
@@ -2213,9 +2279,20 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            1,
            '071 822 31 28', 
            1,
-           st_makepoint(34,-34));
+           'SRID=4326;POINT(34 -34)');
 
 ```
+
+If you're getting the following error message:
+
+```
+ERROR:  insert or update on table "people" violates foreign key constraint "people_city_id_fkey"
+DETAIL:  Key (city_id)=(1) is not present in table "cities".
+```
+
+then it means that while experimenting with creating polygons for the
+cities table, you must have deleted some of them and started over. Just
+check the entries in your cities table and use any id which exists.
 
 === Looking at our schema ===
 
@@ -2229,12 +2306,16 @@ By now our schema should be looking like this:
 Create city boundaries by computing the minimum convex hull of all addresses
 for that city and computing a buffer around that area.
 
-
-
+%
+% Issue: the sections below don't follow directly and logically from the
+% preceding sections. Perhaps in future the last few sections can be
+% modified to make use of the work that has already been done up to this
+% point.
+%
 === Access Subobjects ===
 
 
-With the SFS-Model functions you have a wide variety of options to access
+With the SFS-Model functions, you have a wide variety of options to access
 subobjects of SFS Geometries. When you want to select the first vertex point of
 every polygon geometry in the table myPolygonTable, you have to do this in this
 way:
@@ -2242,8 +2323,9 @@ way:
  -
 
 ```
-select st_boundary(geometry) from myPolygonTable
+select st_boundary(geometry) from myPolygonTable;
 ```
+% select st_boundary(the_geom) from cities;
 
  - select the first vertex point of the resultant linestring:
  - 
@@ -2251,15 +2333,20 @@ select st_boundary(geometry) from myPolygonTable
 select st_startpoint(myGeometry) 
 from (
   select st_boundary(geometry) as myGeometry 
-  from myPolygonTable) as foo
+  from myPolygonTable) as foo;
 ```
+% select st_startpoint(myGeometry)
+% from (
+%   select st_boundary(the_geom) as myGeometry
+%   from cities) as foo;
 
 == Data Processing ==
-PostGIS supports all OGC SFS/MM standard conform functions. All these functions are starting with ``ST_``. 
+PostGIS supports all OGC SFS/MM standard conform functions. All these functions
+start with ``ST_``. 
 
 === Clipping ===
-To clip a subpart of your data you can use the ``ST_INTERSECT()`` function. To avoid empty geometries use 
-``where not st_isempty(st_intersection(a.the_geom, b.the_geom))``
+To clip a subpart of your data you can use the ``ST_INTERSECT()`` function. To
+avoid empty geometries, use ``where not st_isempty(st_intersection(a.the_geom, b.the_geom))``
 
 [qgis_001.png]
 
@@ -2268,63 +2355,79 @@ select st_intersection(a.the_geom, b.the_geom), b.*
 from clip as a, road_lines as b
 where not st_isempty(st_intersection(st_setsrid(a.the_geom,32734), b.the_geom));
 ```
+% select st_intersection(a.the_geom, b.the_geom), b.*
+% from cities as a, streets as b
+% where not st_isempty(st_intersection(st_setsrid(a.the_geom,4326), b.the_geom));
 
 [qgis_002.png]
 
 === Building Geometries from Other Geometries ===
 
-From a given point table you want to generate a linestring. The order of the points is defined by their id. Another ordering method could be a timestamp like you get when you capture waypoints with GPS-Receivers.
+From a given point table, you want to generate a linestring. The order of the
+points is defined by their id. Another ordering method could be a timestamp, such
+as the one you get when you capture waypoints with a GPS receiver.
 
 [qgis_006.png]
 
-To create a linestring you can run the following command:
+To create a linestring from a new point layer called 'points', you can run the
+following command:
 ```
 select ST_LineFromMultiPoint(st_collect(the_geom)), 1 as id
 from (
   select the_geom
   from points
   order by id
-) as foo
+) as foo;
 ```
+To see how it works without creating a new layer, you could also run this command
+on the 'people' layer, although of course it would make little real-world sense
+to do this.
 
 [qgis_007.png]
 
 === Geometry Cleaning ===
 
-You can get more information for this topic at Tim's wonderful blog article you can find here:
+You can get more information for this topic at Tim's wonderful blog article,
+which you can find here:
 
 [http://linfiniti.com/?s=cleangeometry http://linfiniti.com/?s=cleangeometry]
 
 === Differences between tables ===
-To detect the difference between two tables with the same structure you can use the PostgreSQL keyword ``EXCEPT``. 
+To detect the difference between two tables with the same structure, you can use
+the PostgreSQL keyword ``EXCEPT``. 
 
 ```
 select * from table_a
 except
 select * from table_b;
 ```
-As the result you will get all records from table_a which are not stored in table_b.
+As the result, you will get all records from table_a which are not stored in
+table_b.
 
 
 == Import and Export  ==
 
-Of course a database with no easy way to migrate data into it and out of it would be no fun. More so for your spatial data! Fortunately there are a number of tools that will let you easily move data into and out of PostGIS.
+Of course, a database with no easy way to migrate data into it and out of it
+would be no fun. Even more so for spatial data! Fortunately, there are a number
+of tools that will let you easily move data into and out of PostGIS.
 
 === shp2pgsql ===
-shp2pgsql is a commandline tool to import ESRI shapefiles to the database. Under Unix you can use the following command for importing a new PostGIS table:
+shp2pgsql is a commandline tool to import ESRI shapefiles to the database. Under
+Unix, you can use the following command for importing a new PostGIS table:
 
 ```
 shp2pgsql -s <SRID> -c -D -I <path to shapefile> <schema>.<table> | \
   psql -d <databasename> -h <hostname> -U <username>
 ```
-under Windows you have to perform the import process in two steps:
+Under Windows, you have to perform the import process in two steps:
 ```
 shp2pgsql -s <SRID> -c -D -I <path to shapefile> <schema>.<table> > import.sql
 psql psql -d <databasename> -h <hostname> -U <username> -f import.sql
 ```
 
 === pgsql2shp ===
-pgsql2shp is a commandline tool to export PostGIS Tables, Views or SQL select queries. To do this under Unix:
+pgsql2shp is a commandline tool to export PostGIS Tables, Views or SQL select
+queries. To do this under Unix:
 
 ```
 pgsql2shp -f <path to new shapefile> -g <geometry column name> \
@@ -2334,14 +2437,17 @@ pgsql2shp -f <path to new shapefile> -g <geometry column name> \
 ```
 
 === ogr2ogr ===
-ogr2ogr is a very powerful tool to convert data into and from postgis to many data formats. ogr2ogr is part of the GDAL/OGR Software and has to be installed separately. To export a table from PostGIS to GML you can use this command:
+ogr2ogr is a very powerful tool to convert data into and from postgis to many
+data formats. ogr2ogr is part of the GDAL/OGR Software and has to be installed
+separately. To export a table from PostGIS to GML, you can use this command:
 
 ```
 ogr2ogr -f GML export.gml PG:'dbname=<databasename> user=<username> host=<hostname>' <Name of PostGIS-Table>
 ```
 
 === spit ===
-SPIT is a QGIS plugin, which is delivered with QGIS. You can use SPIT for uploading ESRI shapefiles to postgis.
+SPIT is a QGIS plugin which is delivered with QGIS. You can use SPIT for
+uploading ESRI shapefiles to postgis.
 
 
 
