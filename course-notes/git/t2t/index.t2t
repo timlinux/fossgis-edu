@@ -1,6 +1,6 @@
 Working with GIT
-
-Tim Sutton, 2011
+Tim Sutton
+2011
 
 %! target       : tex
 %! style        : style.css
@@ -8,23 +8,33 @@ Tim Sutton, 2011
 %! preproc      : TUT_URL   https://qgis.org
 %! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
 %! PostProc(html): '(?i)(</pre>)' '\1</div>'
-% scartcl is from the koma script document class (apt-get install texlive-latex-recommended ttf-komatuna)
-%! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}'
+%
+% Tex processing
+%
+% Make sure this is first
 %! PostProc(tex): '\\includegraphics' '\\includegraphics[width=100mm]'
+% scartcl is from the koma script document class (apt-get install texlive-latex-recommended ttf-komatuna)
+% setlength parindent suppresses first line of paragraph idents
+% parskip puts blank space between paragraphs
+% title pic stuff used to put a logo on the front page
+%! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
 % use the color table and table packages so we can pimp the tables a little
-%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece} '
+%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
 % Make the header row of tables have a dark background. light text
 %! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
 %! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
-% Make verbatim text a little smaller
-%! PostProc(tex): '\\begin{verbatim}' '{\\tiny\n\\begin{verbatim}'
-%! PostProc(tex): '\\end{verbatim}' '\\end{verbatim}\n}'
+% Make verbatim text a little smaller and use fancyvrb package to draw it in a box
+% Note Verbatim with capital V for fancyvrb to work
+%! PostProc(tex): '\\begin{verbatim}' '{\\tiny\n\\begin{Verbatim}[frame=single,rulecolor=\\color{linfiniti-blue}, framesep=4mm, label=\\fbox{\\small\\emph{Listing}}]'
+%! PostProc(tex): '\\end{verbatim}' '\\end{Verbatim}\n}'
 %! PostProc(tex): '\\section' '\\newpage\\section'
-%! PostProc(tex) : NEWPAGE  '\\newpage'
-
+%! PostProc(tex): 'section{' 'section{\color{linfiniti-blue}'
+%! PostProc(tex): NEWPAGE  '\\newpage'
 % Give alternating table rows different colours and use a smaller font in tables (\tiny)
 %! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
 %! encoding: iso-8859-1
+
+%! PostProc(tex): WALLPAPER-IMAGE '../../resources/linfiniti-footer.png'
 % These are comments and will not be generated in any output
 % -------------------
 
@@ -49,9 +59,16 @@ Tim Sutton, 2011
 
 = Working with GIT = 
 
-This document provides a simple introduction to working with git. GIT is a distributed source code management (SCM) system. Although this is a source code management system, you can use it for **any** type of documents that you want to version control and / or work on collaboratively with others.
+This document provides a simple introduction to working with git. GIT is a
+distributed source code management (SCM) system. Although this is a source code
+management system, you can use it for **any** type of documents that you want
+to version control and / or work on collaboratively with others.
 
-If you are familiar with SVN, GIT is quite similar but adds some new concepts. In particular, GIT is distributed, which means there doesnt have to be one single repository that you work against. GIT also is ideal for offline work where you still want to do version control. We will explore this more as we go on.
+If you are familiar with SVN, GIT is quite similar but adds some new concepts.
+In particular, GIT is distributed, which means there doesnt have to be one
+single repository that you work against. GIT also is ideal for offline work
+where you still want to do version control. We will explore this more as we go
+on.
 
 == Installation ==
 
@@ -63,14 +80,25 @@ sudo apt-get install git meld gitg
 
 The latter two are not actually needed but will prove useful later.
 
-Under windows you can use msysgit - notes on using msys git are provided further down in this document.
+Under windows you can use msysgit - notes on using msys git are provided
+further down in this document.
 
 
 == Quick Start ==
 
-I would like to plunge in with a quick start to using git and then come back to a more systematic coverage of the tool.
+I would like to plunge in with a quick start to using git and then come back to
+a more systematic coverage of the tool. The idea is to get you familiar with
+the concepts in the following diagram:
+
+[img/git-basic-workflow.png]
 
 === Create a local repository === 
+
+We start off by creating a local repository. A local repository resides on your
+own hard dist (its just a directory with some special hidden files in it), and
+allows you to do all normal SCM activities - check out code, make changes,
+commit, review your history and so on. We will just make a new directory and
+initialise it as a git repository:
 
 ```
 cd dev
@@ -83,6 +111,10 @@ Ok now we have a repository, lets do some work in it.
 
 === Adding a file to the repository ===
 
+To version any files in the repository, you just need to copy them into your
+directory (in our example it is called git-sandbox) or create them. Let's
+create a file called README:
+
 ```
 gedit README
 ```
@@ -93,15 +125,14 @@ or
 vim README
 ```
 
-Write a little text to the file.
+Now we will write a little text to the file:
 
 ```
 Hello world from my sandbox
 ```
 
-Now save and close the file.
-
-First we can use the git status command to see the status of our repository:
+Then save and close the file. We can use the git //status// command to see the
+status of our repository:
 
 ```
 git status
@@ -121,13 +152,14 @@ Which will return something like this:
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
-So it tells us that we have one untracked file - the README file we just created. So how do we start tracking the file?
+It tells us that we have one untracked file - the README file we just created.
+So how do we start tracking the file?
 
 ```
 git add README
 ```
 
-Now ```git status``` will show the file as tracked:
+Now //git status// will show the file as tracked:
 
 
 
@@ -144,43 +176,205 @@ Now ```git status``` will show the file as tracked:
 
 ```
 
+Ok, now you can commit your file:
+
+```
+git commit -m "First version of README"
+[master (root-commit) 7ea07e1] First version of README
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+ create mode 100644 README
+```
+
+The //-m// option is used to specify the commit message. If you don't provide a
+//-m// option, git will prompt you for a message using a simple text editor.
+Once the file is committed, your repository will have a nice clean status:
+
+```
+git status
+# On branch master
+nothing to commit (working directory clean)
+```
+
+Let's make a small change to the README file:
+
+```
+Hello world from my sandbox - I'm using GIT!
+```
+
+Git status will show that the file is now modified: 
+
+```
+# On branch master
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   README
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+This change is **unstaged** - it wont be included in your next commit unless
+you add it.
+
+```
+git add README
+```
+
+Now its status is set to **staged** - it will be included in the next commit
+you make.
+
+```
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   README
+#
+
+```
+
+Finally you can commit your change using the commit command again:
+
+```
+git commit -m "Improved the README"
+[master 983f6fd] Improved the README
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+```
+
+Did you notice that odd looking number in the output? 983f6fd is shortened
+version of the unique SHA-1 hash assigned to that commit. Each commit you make
+will be assigned such an identifier. The commit numbers are not sequential
+numbers like SVN has. The reason for this is that the commits need to be
+globally unique in a distributed repository environment (which we will explore
+later).
+
+We will finish off our quick start tour by running a few interesting commands
+on our repository:
+
+```
+git log README 
+commit 983f6fda163c09094ef6939b7d4db4af1bfa8c3c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 23:04:08 2011 +0200
+
+    Improved the README
+
+commit 7ea07e1d1e029510a258efebc8cc170cb685803c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 16:35:37 2011 +0200
+
+    First version of README
+
+```
+
+The //git log// command shows you the history of commits made for a file (most
+recent changes are shown above older changes). You can see we have made two
+commits to this file, and the message associated with each commit.
+
+Finally, lets look at the difference between these two commits:
+
+```
+git diff 7ea07e1 983f6 README
+diff --git a/README b/README
+index 2d564aa..d85ea56 100644
+--- a/README
++++ b/README
+@@ -1 +1 @@
+-Hello from my sandbox
++Hello from my sandbox - I'm using GIT!
+```
+
+You can see the two options I passed to the diff command are shortened versions
+of the SHA-1 hashes assigned to each commit. You can also see that the text in
+my README file was augmented with the phrase "I'm using GIT!".
+
+Hopefully this quick look at git has given you the basic concept. In the
+sections that follow we will explore with more detail some of the other things
+you can do with GIT.
 
 
+== Git Workflows ==
 
+In this section we are going to walk you through various scenarios to show you
+how git can be used effectively.
 
-== Creating a new repository ==
+=== Repository Clones ===
 
 You can create your repository in one of two ways:
 
-# initialise a new one
-# clone an existing one
++ Initialise a new one
++ Clone an existing one
++
 
-=== Creating a local repository ===
-
-Lets first play with making our own repository:
+We already created our own repository using the 'quick start' section above.
+Let us see how you can clone the repository we made earlier (we will assume
+that you are still in the **git-sandbox** directory at this time):
 
 ```
-mkdir git-sandbox
-cd git-sandbox
-git init
+cd ..
+git clone git-sandbox git-sandbox-clone
 ```
 
-Thats it, you can now work in this directory, commit, branch, merge etc. as it is a complete repository.
+You should see a message like this:
+
+```
+Initialized empty Git repository in /tmp/git-sandbox-clone/.git/
+```
+
+Now if we enter the cloned repository, we can work in it just like we worked in
+the original directory. Lets run that //git log// command again:
+
+```
+[git-sandbox-clone] git log
+commit 983f6fda163c09094ef6939b7d4db4af1bfa8c3c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 23:04:08 2011 +0200
+
+    Improved the README
+
+commit 7ea07e1d1e029510a258efebc8cc170cb685803c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 16:35:37 2011 +0200
+
+    First version of README
+
+```
+
+You can see our clone has exactly the same commit history as the original
+repository has - it is an exact clone of the original. Let's make another
+change to our README file and commit it. I'm going to add this line:
+
+```
+This line was added in the cloned repository.
+```
+
+And then //git add// and //git commit// my changes:
+
+```
+git add README
+git commit -m "Added a line while in my cloned repo"
+```
+
+Which produces output like this:
+
+```
+[master 218dfa8] Added a line while in my cloned repo
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+```
 
 
 
+== Git under windows ==
 
-Often you will want to work with others to build your software. Typically the 
-
-
-
-=== Git under windows ===
-
-Here are some generic notes on using git under windows you should install [msys git app http://code.google.com/p/msysgit/]. In windows explorer go to c:\Documents and Settings\<your user>\
+Here are some generic notes on using git under windows you should install [msys
+git app http://code.google.com/p/msysgit/]. In windows explorer go to
+c:\Documents and Settings\<your user>\
 
 Make a directory called .ssh
 
-In that directory create a text file called 'config' (note it has no extension) and put the following content into it:
+In that directory create a text file called 'config' (note it has no extension)
+and put the following content into it:
 
 ```
 Host <host name>
@@ -189,11 +383,14 @@ Host <host name>
   Port <port>
 ```
 
-Replaces items in angle brackets above as appropriate.
+Replace items in angle brackets above as appropriate.
 
-Now copy your id_dsa into this directory (it should be a unix style one so you may need to convert from putty style private key, though just try with your existing one first).
+Now copy your id_dsa into this directory (it should be a unix style one so you
+may need to convert from putty style private key, though just try with your
+existing one first).
 
-Open the msys git shell then go to the directory where you want to check out your project to. For example to check it out to c:\dev\foo do
+Open the msys git shell then go to the directory where you want to check out
+your project to. For example to check it out to c:\dev\foo do
 
 ```
 cd /c/
@@ -206,12 +403,15 @@ Now clone the directory:
 git clone git@foo:bar.git bar
 ```
 
-Make sure to type 'yes' in full when it asks you if you are sure you want to continue connecting.
+Make sure to type 'yes' in full when it asks you if you are sure you want to
+continue connecting.
 
 Then enter your passphrase when prompted.
 
 Wait a few minutes while it checks out.
 
-Thereafter you use the git commands from the msys shell as normal. There is also a tortoisegit explorer integration for windows you can try but I havent used it and don't know how well it works.
+Thereafter you use the git commands from the msys shell as normal. There is
+also a tortoisegit explorer integration for windows you can try but I havent
+used it and don't know how well it works.
 
 
