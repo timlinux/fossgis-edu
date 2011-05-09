@@ -363,7 +363,31 @@ Which produces output like this:
  1 files changed, 1 insertions(+), 0 deletions(-)
 ```
 
+Now run the //git log// command again and look at the output:
 
+```
+[git-sandbox-clone] git log README
+commit 218dfa8474c3213b1a77973df8739ed75120bde5
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 23:31:21 2011 +0200
+
+ Added a line while in my cloned repo
+
+commit 983f6fda163c09094ef6939b7d4db4af1bfa8c3c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 23:04:08 2011 +0200
+
+ Improved the README
+
+commit 7ea07e1d1e029510a258efebc8cc170cb685803c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 16:35:37 2011 +0200
+
+ First version of README
+```
+
+Now we can see the three commits. What if we want to propogate our changes back
+to the original repo?
 
 == Git under windows ==
 
