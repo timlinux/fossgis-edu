@@ -1,0 +1,217 @@
+Working with GIT
+
+Tim Sutton, 2011
+
+%! target       : tex
+%! style        : style.css
+%! Options      : --toc --toc-level 1 --enum-title --css-sugar --css-inside
+%! preproc      : TUT_URL   https://qgis.org
+%! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
+%! PostProc(html): '(?i)(</pre>)' '\1</div>'
+% scartcl is from the koma script document class (apt-get install texlive-latex-recommended ttf-komatuna)
+%! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}'
+%! PostProc(tex): '\\includegraphics' '\\includegraphics[width=100mm]'
+% use the color table and table packages so we can pimp the tables a little
+%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece} '
+% Make the header row of tables have a dark background. light text
+%! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
+%! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
+% Make verbatim text a little smaller
+%! PostProc(tex): '\\begin{verbatim}' '{\\tiny\n\\begin{verbatim}'
+%! PostProc(tex): '\\end{verbatim}' '\\end{verbatim}\n}'
+%! PostProc(tex): '\\section' '\\newpage\\section'
+%! PostProc(tex) : NEWPAGE  '\\newpage'
+
+% Give alternating table rows different colours and use a smaller font in tables (\tiny)
+%! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
+%! encoding: iso-8859-1
+% These are comments and will not be generated in any output
+% -------------------
+
+%This document is in text2tags format. You can generate html, plain text and
+%moinmoin formatted documentation by running txt2tags on this document. See the
+%txt2tags home page for more details.  Please insert manual line breaks in this
+%document as it makes diffing for changes much easier. To do this in vim
+%automatically, select a section then issue (gq) command. Please dont
+%apply vim formatting to the whol document as it screws up some formatting
+%rather apply it selectively to paragraphs where needed.
+
+% To generate the text version of this document:
+% txt2tags -t txt -o index index.t2t
+% To generate the moinmoin version of this document
+% txt2tags -t moin -o index.moin  index.t2t
+% To generate the html version of this document
+% txt2tags -t html -o index.html index.t2t
+% To generate a LaTeX / pdf
+% txt2tags -t tex -o index.tex index.t2t; pdflatex index.tex
+
+
+
+= Working with GIT = 
+
+This document provides a simple introduction to working with git. GIT is a distributed source code management (SCM) system. Although this is a source code management system, you can use it for **any** type of documents that you want to version control and / or work on collaboratively with others.
+
+If you are familiar with SVN, GIT is quite similar but adds some new concepts. In particular, GIT is distributed, which means there doesnt have to be one single repository that you work against. GIT also is ideal for offline work where you still want to do version control. We will explore this more as we go on.
+
+== Installation ==
+
+Installing GIT is easy. Under linux, install like this:
+
+```
+sudo apt-get install git meld gitg
+```
+
+The latter two are not actually needed but will prove useful later.
+
+Under windows you can use msysgit - notes on using msys git are provided further down in this document.
+
+
+== Quick Start ==
+
+I would like to plunge in with a quick start to using git and then come back to a more systematic coverage of the tool.
+
+=== Create a local repository === 
+
+```
+cd dev
+mkdir git-sandbox
+cd git-sandbox
+git init
+```
+
+Ok now we have a repository, lets do some work in it.
+
+=== Adding a file to the repository ===
+
+```
+gedit README
+```
+
+or
+
+```
+vim README
+```
+
+Write a little text to the file.
+
+```
+Hello world from my sandbox
+```
+
+Now save and close the file.
+
+First we can use the git status command to see the status of our repository:
+
+```
+git status
+```
+
+Which will return something like this:
+
+```
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	README
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+So it tells us that we have one untracked file - the README file we just created. So how do we start tracking the file?
+
+```
+git add README
+```
+
+Now ```git status``` will show the file as tracked:
+
+
+
+```
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#	new file:   README
+#
+
+```
+
+
+
+
+
+== Creating a new repository ==
+
+You can create your repository in one of two ways:
+
+# initialise a new one
+# clone an existing one
+
+=== Creating a local repository ===
+
+Lets first play with making our own repository:
+
+```
+mkdir git-sandbox
+cd git-sandbox
+git init
+```
+
+Thats it, you can now work in this directory, commit, branch, merge etc. as it is a complete repository.
+
+
+
+
+Often you will want to work with others to build your software. Typically the 
+
+
+
+=== Git under windows ===
+
+Here are some generic notes on using git under windows you should install [msys git app http://code.google.com/p/msysgit/]. In windows explorer go to c:\Documents and Settings\<your user>\
+
+Make a directory called .ssh
+
+In that directory create a text file called 'config' (note it has no extension) and put the following content into it:
+
+```
+Host <host name>
+  User <user name>
+  HostName <host name>
+  Port <port>
+```
+
+Replaces items in angle brackets above as appropriate.
+
+Now copy your id_dsa into this directory (it should be a unix style one so you may need to convert from putty style private key, though just try with your existing one first).
+
+Open the msys git shell then go to the directory where you want to check out your project to. For example to check it out to c:\dev\foo do
+
+```
+cd /c/
+mkdir dev
+cd dev
+```
+
+Now clone the directory:
+```
+git clone git@foo:bar.git bar
+```
+
+Make sure to type 'yes' in full when it asks you if you are sure you want to continue connecting.
+
+Then enter your passphrase when prompted.
+
+Wait a few minutes while it checks out.
+
+Thereafter you use the git commands from the msys shell as normal. There is also a tortoisegit explorer integration for windows you can try but I havent used it and don't know how well it works.
+
+
