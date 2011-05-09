@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 <HEAD>
-<META NAME="generator" CONTENT="http://txt2tags.sf.net">
+<META NAME="generator" CONTENT="http://txt2tags.org">
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
 <TITLE>PostGIS Training Course</TITLE>
 
@@ -44,10 +44,11 @@ pre, code { font-family: monospace }
 
 <DIV CLASS="header" ID="header">
 <H1>PostGIS Training Course</H1>
-<H3>Tim Sutton, Horst Duester, 2010</H3>
+<H3>Tim Sutton, Horst Duester, Gavin Fleming, Samantha Lee Pan 2010</H3>
 </DIV>
 
-<DIV CLASS="toc" ID="toc">
+<DIV CLASS="toc">
+
   <OL>
   <LI><A HREF="#toc1">Introduction to PostgreSQL</A>
     <UL>
@@ -71,101 +72,105 @@ pre, code { font-family: monospace }
     <LI><A HREF="#toc15">1.3. Implementing the Data Model</A>
       <UL>
       <LI><A HREF="#toc16">1.3.1. Install PostgreSQL</A>
-      <LI><A HREF="#toc17">1.3.2. Create a database user</A>
-      <LI><A HREF="#toc18">1.3.3. Verify the new account</A>
-      <LI><A HREF="#toc19">1.3.4. Create a database</A>
-      <LI><A HREF="#toc20">1.3.5. Starting a database shell session</A>
-      <LI><A HREF="#toc21">1.3.6. Make Tables in SQL</A>
-      <LI><A HREF="#toc22">1.3.7. Create Keys in SQL</A>
-      <LI><A HREF="#toc23">1.3.8. Create Indexes in SQL</A>
-      <LI><A HREF="#toc24">1.3.9. Dropping Tables in SQL</A>
-      <LI><A HREF="#toc25">1.3.10. A word on PG Admin III</A>
+      <LI><A HREF="#toc17">1.3.2. Help</A>
+      <LI><A HREF="#toc18">1.3.3. Create a database user</A>
+      <LI><A HREF="#toc19">1.3.4. Verify the new account</A>
+      <LI><A HREF="#toc20">1.3.5. Create a database</A>
+      <LI><A HREF="#toc21">1.3.6. Starting a database shell session</A>
+      <LI><A HREF="#toc22">1.3.7. Make Tables in SQL</A>
+      <LI><A HREF="#toc23">1.3.8. Create Keys in SQL</A>
+      <LI><A HREF="#toc24">1.3.9. Create Indexes in SQL</A>
+      <LI><A HREF="#toc25">1.3.10. Dropping Tables in SQL</A>
+      <LI><A HREF="#toc26">1.3.11. A word on PG Admin III</A>
       </UL>
-    <LI><A HREF="#toc26">1.4. Adding Data to the Model</A>
+    <LI><A HREF="#toc27">1.4. Adding Data to the Model</A>
       <UL>
-      <LI><A HREF="#toc27">1.4.1. Insert statement</A>
-      <LI><A HREF="#toc28">1.4.2. Sequencing data addition according to constraints</A>
-      <LI><A HREF="#toc29">1.4.3. Select data</A>
-      <LI><A HREF="#toc30">1.4.4. Update data</A>
-      <LI><A HREF="#toc31">1.4.5. Delete Data</A>
+      <LI><A HREF="#toc28">1.4.1. Insert statement</A>
+      <LI><A HREF="#toc29">1.4.2. Sequencing data addition according to constraints</A>
+      <LI><A HREF="#toc30">1.4.3. Select data</A>
+      <LI><A HREF="#toc31">1.4.4. Update data</A>
+      <LI><A HREF="#toc32">1.4.5. Delete Data</A>
       </UL>
-    <LI><A HREF="#toc32">1.5. Queries</A>
+    <LI><A HREF="#toc33">1.5. Queries</A>
       <UL>
-      <LI><A HREF="#toc33">1.5.1. Ordering results</A>
-      <LI><A HREF="#toc34">1.5.2. Filtering</A>
-      <LI><A HREF="#toc35">1.5.3. Joins</A>
-      <LI><A HREF="#toc36">1.5.4. Subselect</A>
-      <LI><A HREF="#toc37">1.5.5. Aggregate Queries</A>
+      <LI><A HREF="#toc34">1.5.1. Ordering results</A>
+      <LI><A HREF="#toc35">1.5.2. Filtering</A>
+      <LI><A HREF="#toc36">1.5.3. Joins</A>
+      <LI><A HREF="#toc37">1.5.4. Subselect</A>
+      <LI><A HREF="#toc38">1.5.5. Aggregate Queries</A>
       </UL>
-    <LI><A HREF="#toc38">1.6. Views</A>
+    <LI><A HREF="#toc39">1.6. Views</A>
       <UL>
-      <LI><A HREF="#toc39">1.6.1. Creating a View</A>
-      <LI><A HREF="#toc40">1.6.2. Modifying a View</A>
-      <LI><A HREF="#toc41">1.6.3. Dropping a View</A>
+      <LI><A HREF="#toc40">1.6.1. Creating a View</A>
+      <LI><A HREF="#toc41">1.6.2. Modifying a View</A>
+      <LI><A HREF="#toc42">1.6.3. Dropping a View</A>
       </UL>
-    <LI><A HREF="#toc42">1.7. Rules</A>
+    <LI><A HREF="#toc43">1.7. Rules</A>
       <UL>
-      <LI><A HREF="#toc43">1.7.1. Materialised Views (Rule based views)</A>
+      <LI><A HREF="#toc44">1.7.1. Materialised Views (Rule based views)</A>
       </UL>
     </UL>
-  <LI><A HREF="#toc44">Introduction to PostGIS</A>
+  <LI><A HREF="#toc45">Introduction to PostGIS</A>
     <UL>
-    <LI><A HREF="#toc45">2.1. PostGIS Setup</A>
+    <LI><A HREF="#toc46">2.1. PostGIS Setup</A>
       <UL>
-      <LI><A HREF="#toc46">2.1.1. Installing under Ubuntu</A>
-      <LI><A HREF="#toc47">2.1.2. Installing under Windows</A>
-      <LI><A HREF="#toc48">2.1.3. Install plpgsql</A>
-      <LI><A HREF="#toc49">2.1.4. Install postgis.sql</A>
-      <LI><A HREF="#toc50">2.1.5. Install spatial_refsys.sql</A>
-      <LI><A HREF="#toc51">2.1.6. Looking at the installed PostGIS functions</A>
+      <LI><A HREF="#toc47">2.1.1. Installing under Ubuntu</A>
+      <LI><A HREF="#toc48">2.1.2. Installing under Windows</A>
+      <LI><A HREF="#toc49">2.1.3. Install plpgsql</A>
+      <LI><A HREF="#toc50">2.1.4. Install postgis.sql</A>
+      <LI><A HREF="#toc51">2.1.5. Install spatial_refsys.sql</A>
+      <LI><A HREF="#toc52">2.1.6. Looking at the installed PostGIS functions</A>
       </UL>
-    <LI><A HREF="#toc52">2.2. Simple Feature Model</A>
+    <LI><A HREF="#toc53">2.2. Simple Feature Model</A>
       <UL>
-      <LI><A HREF="#toc53">2.2.1. What is OGC</A>
-      <LI><A HREF="#toc54">2.2.2. What is the SFS Model</A>
-      <LI><A HREF="#toc55">2.2.3. Add a geometry field to table</A>
-      <LI><A HREF="#toc56">2.2.4. Add a constraint based on geometry type</A>
-      <LI><A HREF="#toc57">2.2.5. Populate geometry_columns table</A>
-      <LI><A HREF="#toc58">2.2.6. Add geometry record to table using SQL</A>
-      <LI><A HREF="#toc59">2.2.7. View a point as WKT</A>
+      <LI><A HREF="#toc54">2.2.1. What is OGC</A>
+      <LI><A HREF="#toc55">2.2.2. What is the SFS Model</A>
+      <LI><A HREF="#toc56">2.2.3. Add a geometry field to table</A>
+      <LI><A HREF="#toc57">2.2.4. Add a constraint based on geometry type</A>
+      <LI><A HREF="#toc58">2.2.5. Populate geometry_columns table</A>
+      <LI><A HREF="#toc59">2.2.6. Add geometry record to table using SQL</A>
+      <LI><A HREF="#toc60">2.2.7. View a point as WKT</A>
       </UL>
-    <LI><A HREF="#toc60">2.3. Spatial Queries</A>
+    <LI><A HREF="#toc61">2.3. Spatial Queries</A>
       <UL>
-      <LI><A HREF="#toc61">2.3.1. Spatial operators</A>
-      <LI><A HREF="#toc62">2.3.2. Spatial Indexes</A>
+      <LI><A HREF="#toc62">2.3.1. Spatial Operators</A>
+      <LI><A HREF="#toc63">2.3.2. Spatial Indexes</A>
       </UL>
-    <LI><A HREF="#toc63">2.4. Geometry Construction</A>
+    <LI><A HREF="#toc64">2.4. Geometry Construction</A>
       <UL>
-      <LI><A HREF="#toc64">2.4.1. Creating Linestrings</A>
-      <LI><A HREF="#toc65">2.4.2. Creating Polygons</A>
-      <LI><A HREF="#toc66">2.4.3. Exercise - Linking Cities to People</A>
-      <LI><A HREF="#toc67">2.4.4. Looking at our schema</A>
-      <LI><A HREF="#toc68">2.4.5. Exercise</A>
-      <LI><A HREF="#toc69">2.4.6. Access Subobjects</A>
+      <LI><A HREF="#toc65">2.4.1. Creating Linestrings</A>
+      <LI><A HREF="#toc66">2.4.2. Creating Polygons</A>
+      <LI><A HREF="#toc67">2.4.3. Exercise - Linking Cities to People</A>
+      <LI><A HREF="#toc68">2.4.4. Looking at our schema</A>
+      <LI><A HREF="#toc69">2.4.5. Exercise</A>
+      <LI><A HREF="#toc70">2.4.6. Access Subobjects</A>
       </UL>
-    <LI><A HREF="#toc70">2.5. Data Processing</A>
+    <LI><A HREF="#toc71">2.5. Data Processing</A>
       <UL>
-      <LI><A HREF="#toc71">2.5.1. Clipping</A>
-      <LI><A HREF="#toc72">2.5.2. Building Geometries from Other Geometries</A>
-      <LI><A HREF="#toc73">2.5.3. Geometry Cleaning</A>
-      <LI><A HREF="#toc74">2.5.4. Differences between tables</A>
+      <LI><A HREF="#toc72">2.5.1. Clipping</A>
+      <LI><A HREF="#toc73">2.5.2. Building Geometries from Other Geometries</A>
+      <LI><A HREF="#toc74">2.5.3. Geometry Cleaning</A>
+      <LI><A HREF="#toc75">2.5.4. Differences between tables</A>
       </UL>
-    <LI><A HREF="#toc75">2.6. Import and Export</A>
+    <LI><A HREF="#toc76">2.6. Import and Export</A>
       <UL>
-      <LI><A HREF="#toc76">2.6.1. shp2pgsql</A>
-      <LI><A HREF="#toc77">2.6.2. pgsql2shp</A>
-      <LI><A HREF="#toc78">2.6.3. ogr2ogr</A>
-      <LI><A HREF="#toc79">2.6.4. spit</A>
+      <LI><A HREF="#toc77">2.6.1. shp2pgsql</A>
+      <LI><A HREF="#toc78">2.6.2. pgsql2shp</A>
+      <LI><A HREF="#toc79">2.6.3. ogr2ogr</A>
+      <LI><A HREF="#toc80">2.6.4. spit</A>
       </UL>
     </UL>
   </OL>
 
 </DIV>
 <DIV CLASS="body" ID="body">
+
 <A NAME="toc1"></A>
 <H1>1. Introduction to PostgreSQL</H1>
+
 <A NAME="toc2"></A>
 <H2>1.1. What is a Database?</H2>
+
 <P>
 "A database consists of an organized collection of data for one or more uses,
 typically in digital form." - Wikipedia
@@ -175,8 +180,10 @@ typically in digital form." - Wikipedia
 databases, providing storage, access, security, backup and other facilities." -
 Wikipedia
 </P>
+
 <A NAME="toc3"></A>
 <H3>1.1.1. Tables</H3>
+
 <P>
 "In relational databases and flat file databases, a table is a set of data
 elements (values) that is organized using a model of vertical columns (which
@@ -185,6 +192,7 @@ number of columns, but can have any number of rows. Each row is identified by
 the values appearing in a particular column subset which has been identified as
 a candidate key." - Wikipedia
 </P>
+
 <div class="code"><PRE>
   id | name  | age 
  ----+-------+-----
@@ -192,12 +200,14 @@ a candidate key." - Wikipedia
    2 | Horst |  88
 (2 rows)
 </PRE></div>
-<P></P>
+
 <P>
 In SQL databases a table is also known as a <B>relation.</B>
 </P>
+
 <A NAME="toc4"></A>
 <H3>1.1.2. Columns / Fields</H3>
+
 <P>
 "A column is a set of data values of a particular simple type, one for each row
 of the table. The columns provide the structure according to which the rows are
@@ -209,56 +219,62 @@ and one column." - Wikipedia
 <P>
 A column:
 </P>
+
 <div class="code"><PRE>
  | name  |
  +-------+
  | Tim   |
  | Horst |
 </PRE></div>
-<P></P>
+
 <P>
 A field:
 </P>
+
 <div class="code"><PRE>
  | Horst |
 </PRE></div>
-<P></P>
+
 <A NAME="toc5"></A>
 <H3>1.1.3. Records</H3>
+
 <P>
 A record is the information stored in a table row. Each record will have a
 field for each of the columns in the table.
 </P>
+
 <div class="code"><PRE>
 2 | Horst |  88  &lt;-- one record
 </PRE></div>
-<P></P>
+
 <A NAME="toc6"></A>
 <H3>1.1.4. Datatypes</H3>
+
 <P>
 "Datatypes restrict the kind of information that can be stored in a column." -
 Tim and Horst
 </P>
 <P>
-There are many kinds of datatypes, lets focus on the most common:
+There are many kinds of datatypes. Let's focus on the most common:
 </P>
+
 <UL>
-<LI>String - to store free form text data
+<LI>String - to store free-form text data
 <LI>Integer - to store whole numbers
 <LI>Real - to store decimal numbers
 <LI>Date - to store Horst's birthday so no one forgets
 <LI>Boolean - to store simple true/false values
 </UL>
 
-<P></P>
 <P>
 You can tell the database to allow you to also store nothing in a field - this
 data is referred to as 'Null'. 
 </P>
+
 <div class="code"><PRE>
 insert into person (age) values (40);
 </PRE></div>
-<P></P>
+
 <div class="code"><PRE>
 INSERT 0 1
 test=# select * from person;
@@ -269,16 +285,19 @@ test=# select * from person;
    4 |       |  40  &lt;-- null for name
 (3 rows)
 </PRE></div>
-<P></P>
+
 <P>
 There are many more datatypes you can use - <A HREF="http://www.postgresql.org/docs/8.4/static/datatype.html">check the PostgreSQL manual!</A>
 </P>
+
 <A NAME="toc7"></A>
 <H3>1.1.5. Modelling an Address Database</H3>
+
 <P>
-Lets use a simple case study to see how a database is constructed. We want to
+Let's use a simple case study to see how a database is constructed. We want to
 create an address database. What kind of information should we store?
 </P>
+
 <div class="code"><PRE>
 Write some address properties here:
 
@@ -306,24 +325,27 @@ Write some address properties here:
 
 
 </PRE></div>
-<P></P>
+
 <P>
 The properties that describe an address are the columns. The type of
 information stored in each column is its datatype. In the next section we will
 analyse our conceptual address table to see how we can make it better!
 </P>
+
 <A NAME="toc8"></A>
 <H2>1.2. Database Theory</H2>
+
 <P>
 The process of creating a database involves creating a model of the real world
 </P>
+
 <UL>
 <LI>taking real world concepts and representing them in the database as entities. 
 </UL>
 
-<P></P>
 <A NAME="toc9"></A>
 <H3>1.2.1. Normalisation</H3>
+
 <P>
 One of the main ideas in a database is to avoid data duplication / redundancy.
 The process of removing redundancy from a database is called Normalisation.
@@ -338,8 +360,9 @@ loss of data integrity." - Wikipedia
 There are different kinds of normalisation 'forms'. 
 </P>
 <P>
-Lets take a look at a simple example:
+Let's take a look at a simple example:
 </P>
+
 <div class="code"><PRE>
 Table "public.people"
   Column  |          Type          |                      Modifiers                       
@@ -353,7 +376,7 @@ Table "public.people"
 Indexes:
  "people_pkey" PRIMARY KEY, btree (id)
 </PRE></div>
-<P></P>
+
 <div class="code"><PRE>
 select * from people;
 id |     name      |           address           |  phone_no   
@@ -363,7 +386,7 @@ id |     name      |           address           |  phone_no
 (2 rows)
 
 </PRE></div>
-<P></P>
+
 <P>
 Imagine you have many friends with the same street name or city. Every time
 this data is duplicated, it consumes space. Worse still, if a city name
@@ -372,6 +395,7 @@ changes,  you have to do a lot of work to update your database.
 <P>
 Discussion:
 </P>
+
 <div class="code"><PRE>
 Try to redesign our people table to reduce duplication!
 
@@ -402,21 +426,24 @@ Try to redesign our people table to reduce duplication!
 
 
 </PRE></div>
-<P></P>
+
 <P>
 You can read more about database normalisation <A HREF="http://en.wikipedia.org/wiki/Database_normalization">here</A>
 </P>
+
 <A NAME="toc10"></A>
 <H3>1.2.2. Indexes</H3>
+
 <P>
 "A database index is a data structure that improves the speed of data retrieval
 operations on a database table." - Wikipedia
 </P>
 <P>
-Imagine you are reading a text book and looking for the explanation of a concept
+Imagine you are reading a textbook and looking for the explanation of a concept
 </P>
+
 <UL>
-<LI>and the text book has no index! You will have to start reading at one cover
+<LI>and the textbook has no index! You will have to start reading at one cover
 and work your way through the entire book until you find the information you
 need. The index at the back of a book helps you to jump quickly to the page
 with the relevant information.
@@ -425,10 +452,11 @@ with the relevant information.
 <div class="code"><PRE>
 create index person_name_idx on people (name);
 </PRE></div>
-<P></P>
+
 <P>
 Now searches on name will be faster:
 </P>
+
 <div class="code"><PRE>
 Table "public.people"
   Column  |          Type          |                      Modifiers                       
@@ -443,9 +471,10 @@ Indexes:
  "people_pkey" PRIMARY KEY, btree (id)
  "person_name_idx" btree (name)
 </PRE></div>
-<P></P>
+
 <A NAME="toc11"></A>
 <H3>1.2.3. Sequences</H3>
+
 <P>
 A sequence is a unique number generator. It is normally used to create a unique
 identifier for a column in a table.
@@ -454,6 +483,7 @@ identifier for a column in a table.
 In this example, id is a sequence - the number is incremented each time a
 record is added to the table:
 </P>
+
 <div class="code"><PRE>
  id |     name     |           address           |  phone_no   
  ---+--------------+-----------------------------+-------------
@@ -461,14 +491,16 @@ record is added to the table:
   2 | Horst Duster | 4 Avenue du Roix, Geneva    | 072 121 122
 
 </PRE></div>
-<P></P>
+
 <A NAME="toc12"></A>
 <H3>1.2.4. Entity Relationship Diagramming</H3>
+
 <P>
 In a normalised database, you typically have many relations (tables). The
 entity-relationship diagram (ER Diagram) is used to design the logical
 dependencies between the relations. Remember our un-normalised people table? 
 </P>
+
 <div class="code"><PRE>
 test=# select * from people;
  id |     name     |           address           |  phone_no   
@@ -477,11 +509,12 @@ test=# select * from people;
  2  | Horst Duster | 4 Avenue du Roix, Geneva    | 072 121 122
 (2 rows)
 </PRE></div>
-<P></P>
+
 <P>
-With a little work we can make it into two tables, removing the need to repeat
+With a little work we can split it into two tables, removing the need to repeat
 the street name for individuals who live in the same street:
 </P>
+
 <div class="code"><PRE>
 test=# select * from streets;
  id |     name     
@@ -489,19 +522,23 @@ test=# select * from streets;
  1  | Plein Street
 (1 row)
 </PRE></div>
-<P></P>
+
 <P>
 and
 </P>
+
 <div class="code"><PRE>
-test=# select * from streets;
+test=# select * from people;
  id |     name     | house_no | street_id |  phone_no   
 ----+--------------+----------+-----------+-------------
   1 | Horst Duster |        4 |         1 | 072 121 122
 (1 row)
 
 </PRE></div>
-<P></P>
+
+<P>
+We can then link the two tables using the 'keys' streets.id and people.streets_id
+</P>
 <P>
 If we draw an ER Diagram for these two tables it would look something like
 this:
@@ -517,6 +554,7 @@ the arrow symbol show that one street can have many people living on it.
 Our people model still has some normalisation issues - try to see if you can
 normalise it further and show your thoughts by means of an ER Diagram.
 </P>
+
 <div class="code"><PRE>
 
 
@@ -546,9 +584,10 @@ normalise it further and show your thoughts by means of an ER Diagram.
 
 
 </PRE></div>
-<P></P>
+
 <A NAME="toc13"></A>
 <H3>1.2.5. Constraints, Primary Keys and Foreign Keys</H3>
+
 <P>
 A database constraint is used to ensure that data in a relation matches the
 modeller's view of how that data should be stored. For example a constraint on
@@ -559,7 +598,8 @@ A Primary key is one or more field values that make a record unique. Usually
 the primary key is called id and is a sequence. 
 </P>
 <P>
-A Foreign key is used to refer to a unique record on another table.
+A Foreign key is used to refer to a unique record on another table (using that
+other table's primary key).
 </P>
 <P>
 In ER Diagramming, the linkage between tables is normally based on Foreign keys
@@ -569,6 +609,7 @@ linking to Primary keys.
 If we look at our people example, the table definition shows that the street
 column is a foreign key that references the primary key on the streets table:
 </P>
+
 <div class="code"><PRE>
 Table "public.people"
   Column   |         Type          |  Modifiers                       
@@ -585,12 +626,13 @@ Foreign-key constraints:
 "people_street_id_fkey" FOREIGN KEY (street_id) REFERENCES streets(id)
 
 </PRE></div>
-<P></P>
+
 <A NAME="toc14"></A>
 <H3>1.2.6. Transactions</H3>
+
 <P>
 When adding, changing, or deleting data in a database, it is always important
-that the database is left in an good state if something goes wrong. Most
+that the database is left in a good state if something goes wrong. Most
 databases provide a feature called transaction support. Transactions allow you
 to create a rollback position that you can return to if your modifications to
 the database did not run as planned.
@@ -600,29 +642,35 @@ Take a scenario where you have an accounting system. You need to transfer funds
 from one account and add them to another. The sequence of steps would go like
 this:
 </P>
+
  <UL>
  <LI>remove R20 from Joe
  <LI>add R20 to Anne
  </UL>
 
-<P></P>
 <P>
-If something goes wrong during the process (e.g. power failure), the transaction will be rolled back.
+If something goes wrong during the process (e.g. power failure), the transaction
+will be rolled back.
 </P>
+
 <A NAME="toc15"></A>
 <H2>1.3. Implementing the Data Model</H2>
+
 <A NAME="toc16"></A>
 <H3>1.3.1. Install PostgreSQL</H3>
+
 <P>
 Under Ubuntu:
 </P>
+
 <div class="code"><PRE>
 sudo apt-get install postgresql-8.4
 </PRE></div>
-<P></P>
+
 <P>
 You should get a message like this:
 </P>
+
 <div class="code"><PRE>
 [sudo] password for timlinux: 
 Reading package lists... Done
@@ -637,14 +685,23 @@ postgresql-8.4 postgresql-client-8.4 postgresql-client-common postgresql-common
 0 upgraded, 4 newly installed, 0 to remove and 5 not upgraded.
 Need to get 5,012kB of archives.
 After this operation, 19.0MB of additional disk space will be used.
-Do you want to continue [Y/n]? y
+Do you want to continue [Y/n]? 
 </PRE></div>
-<P></P>
+
 <P>
-Press 'Y' and wait for the download and installation to finish.
+Press 'Y' and 'Enter' and wait for the download and installation to finish.
 </P>
+
 <A NAME="toc17"></A>
-<H3>1.3.2. Create a database user</H3>
+<H3>1.3.2. Help</H3>
+
+<P>
+PostgreSQL has very good <A HREF="file:///usr/share/doc/postgresql-doc-8.4/html/index.html">local</A> and <A HREF="http://www.postgresql.org/docs/8.4/static/index.html">online</A> documentation. 
+</P>
+
+<A NAME="toc18"></A>
+<H3>1.3.3. Create a database user</H3>
+
 <P>
 Under linux:
 </P>
@@ -652,23 +709,25 @@ Under linux:
 After the installation is complete, run this command to become the postgres
 user and then create a new database user:
 </P>
+
 <div class="code"><PRE>
 sudo su - postgres
 </PRE></div>
-<P></P>
+
 <P>
 Type in your normal log in password when prompted (you need to have sudo rights).
 </P>
 <P>
-Now at the postgres user's bash prompted create the database user. Make sure
-the user name matches your unix login name as it will make your life much
-easier as postgres will automatically authenticate you when you are logged in
-as that user.
+Now, at the postgres user's bash prompt, create the database user. Make sure
+the user name matches your unix login name: it will make your life much easier,
+as postgres will automatically authenticate you when you are logged in as that
+user.
 </P>
+
 <div class="code"><PRE>
 createuser -d -E -i -l -P -r -s timlinux
 </PRE></div>
-<P></P>
+
 <P>
 Enter a password when prompted. I normally use a different password to my usual
 unix login.
@@ -676,6 +735,7 @@ unix login.
 <P>
 What do those options mean?
 </P>
+
 <div class="code"><PRE>
 -d, --createdb     role can create new databases
 -E, --encrypted    encrypt stored password
@@ -685,23 +745,27 @@ What do those options mean?
 -r, --createrole   role can create new roles
 -s, --superuser    role will be superuser
 </PRE></div>
+
 <P>
 Now you should should leave the postgres user's bash shell environment by
 typing:
 </P>
+
 <div class="code"><PRE>
 exit
 </PRE></div>
-<P></P>
-<A NAME="toc18"></A>
-<H3>1.3.3. Verify the new account</H3>
+
+<A NAME="toc19"></A>
+<H3>1.3.4. Verify the new account</H3>
+
 <div class="code"><PRE>
 psql -l
 </PRE></div>
-<P></P>
+
 <P>
 Should return something like this:
 </P>
+
 <div class="code"><PRE>
 timlinux@linfiniti:~$ psql -l
 List of databases
@@ -713,27 +777,35 @@ template1 | postgres | UTF8     | en_ZA.utf8 | en_ZA.utf8 |
 (3 rows)
 
 </PRE></div>
-<P></P>
-<A NAME="toc19"></A>
-<H3>1.3.4. Create a database</H3>
+
+<P>
+Type 'q' to exit
+</P>
+
+<A NAME="toc20"></A>
+<H3>1.3.5. Create a database</H3>
+
 <P>
 The createdb command is used to create a new database. It should be run from
 the bash shell prompt.
 </P>
+
 <div class="code"><PRE>
 createdb address
 </PRE></div>
-<P></P>
+
 <P>
 You can verify the existence of your new database by using this command:
 </P>
+
 <div class="code"><PRE>
 psql -l
 </PRE></div>
-<P></P>
+
 <P>
 Which should return something like this:
 </P>
+
 <div class="code"><PRE>
 List of databases
 Name      |  Owner   | Encoding | Collation  |   Ctype    |   Access privileges   
@@ -744,81 +816,110 @@ template0 | postgres | UTF8     | en_ZA.utf8 | en_ZA.utf8 | =c/postgres: postgre
 template1 | postgres | UTF8     | en_ZA.utf8 | en_ZA.utf8 | =c/postgres: postgres=CTc/postgres
 (4 rows)
 </PRE></div>
-<P></P>
-<A NAME="toc20"></A>
-<H3>1.3.5. Starting a database shell session</H3>
+
+<P>
+Type 'q' to exit.
+</P>
+
+<A NAME="toc21"></A>
+<H3>1.3.6. Starting a database shell session</H3>
+
 <P>
 You can connect to your database easily like this:
 </P>
+
 <div class="code"><PRE>
 psql address
 </PRE></div>
-<P></P>
+
 <P>
-To exit out of the psql database shell you type:
+To exit out of the psql database shell, type:
 </P>
+
 <div class="code"><PRE>
 \q
 </PRE></div>
-<P></P>
+
 <P>
-For help in using the shell, type
+For help in using the shell, type:
 </P>
+
 <div class="code"><PRE>
 \?
 </PRE></div>
-<P></P>
+
 <P>
-For help in using sql commands type:
+For help in using sql commands, type:
 </P>
+
 <div class="code"><PRE>
 \help
 </PRE></div>
-<P></P>
+
 <P>
-To get help on a specific command, do:
+To get help on a specific command, type (for example):
 </P>
+
 <div class="code"><PRE>
 \help create table
 </PRE></div>
+
 <P>
 See also the <A HREF="psql_cheatsheet.pdf">Psql cheat sheet</A> - available online <A HREF="http://www.postgresonline.com/special_feature.php?sf_name=postgresql83_psql_cheatsheet&amp;outputformat=html">here</A>.
 </P>
-<A NAME="toc21"></A>
-<H3>1.3.6. Make Tables in SQL</H3>
+
+<A NAME="toc22"></A>
+<H3>1.3.7. Make Tables in SQL</H3>
+
 <P>
-Lets start making some tables! We will use our ER Diagram as a guide. First
-lets create a streets table:
+Let's start making some tables! We will use our ER Diagram as a guide. First,
+let's create a streets table:
 </P>
+
 <div class="code"><PRE>
 create table streets (id serial not null primary key, name varchar(50));
 </PRE></div>
-<P></P>
+
+<P>
+'serial' and 'varchar' are data types. 'serial' tells PostgreSQL to start
+an integer sequence (autonumber) to populate the id automatically for every new
+record. 'varchar(50)' tells PostgreSQL to create a character field of 50
+characters in length. 
+</P>
 <P>
 You will notice that the command ends with a <CODE>`;`</CODE> - all SQL commands should
 be terminated this way. When you press enter, psql will report something like
 this:
 </P>
+
 <div class="code"><PRE>
 NOTICE:  CREATE TABLE will create implicit sequence "streets_id_seq" for serial
          column "streets.id" NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit
          index "streets_pkey" for table "streets"
 CREATE TABLE
 </PRE></div>
-<P></P>
+
 <P>
-That means your table was created successfully.
+That means your table was created successfully, with a primary key 'streets_pkey'
+using streets.id.
 </P>
 <P>
-To view your table schema you can do this:
+Note: If you hit return without entering a ';', then you will get a prompt like
+this: 'address-#'. This is because PG is expecting you to enter more. Enter
+';' to run your command.
 </P>
+<P>
+To view your table schema, you can do this:
+</P>
+
 <div class="code"><PRE>
 \d streets
 </PRE></div>
-<P></P>
+
 <P>
 Which should show something like this:
 </P>
+
 <div class="code"><PRE>
 Table "public.streets"
  Column |         Type          |            Modifiers                       
@@ -830,30 +931,34 @@ Indexes:
   "streets_pkey" PRIMARY KEY, btree (id)
 
 </PRE></div>
-<P></P>
+
 <P>
 To view your table contents, you can do this:
 </P>
+
 <div class="code"><PRE>
 select * from streets;
 </PRE></div>
-<P></P>
+
 <P>
 Which should show something like this:
 </P>
+
 <div class="code"><PRE>
  id | name 
  ---+------
  (0 rows)
 
 </PRE></div>
-<P></P>
+
 <P>
 As you can see, our table is empty!
 </P>
 <P>
 Use the approach shown above to make a table called people:
+Add fields such as phone number, home address, name, etc. (these aren't all valid names: change them to make them valid).
 </P>
+
 <div class="code"><PRE>
 Write the SQL you create here:
 
@@ -896,10 +1001,11 @@ Write the SQL you create here:
 
 
 </PRE></div>
-<P></P>
+
 <P>
 Solution:
 </P>
+
 <div class="code"><PRE>
 create table people (id serial not null primary key, 
                      name varchar(50), 
@@ -907,10 +1013,11 @@ create table people (id serial not null primary key,
                      street_id int not null, 
                      phone_no varchar null );
 </PRE></div>
-<P></P>
+
 <P>
 The schema for the table looks like this:
 </P>
+
 <div class="code"><PRE>
 Table "public.people"
 Column     |         Type          |                      Modifiers                      
@@ -925,14 +1032,16 @@ Indexes:
   "people_pkey" PRIMARY KEY, btree (id)
 
 </PRE></div>
-<P></P>
+
 <P>
 <B>Note:</B> for advanced users, we have purposely omitted the fkey constraint.
 </P>
-<A NAME="toc22"></A>
-<H3>1.3.7. Create Keys in SQL</H3>
+
+<A NAME="toc23"></A>
+<H3>1.3.8. Create Keys in SQL</H3>
+
 <P>
-The problem with our solution above is that the database doesnt know that
+The problem with our solution above is that the database doesn't know that
 people and streets have a logical relationship. To express this relationship,
 we have to define a foreign key that points to the primary key of the streets
 table.
@@ -943,20 +1052,21 @@ table.
 <P>
 There are two ways to do this: 
 </P>
+
  <UL>
  <LI>adding the key after the table has been created
  <LI>defining the key at time of table creation
  </UL>
 
-<P></P>
 <P>
-Lets show you the first way:
+Our table has already been created, so let's do it the first way:
 </P>
+
 <div class="code"><PRE>
 alter table people 
-  add constraint people_streets_fk foreign key (id) references streets(id);
+  add constraint people_streets_fk foreign key (street_id) references streets(id);
 </PRE></div>
-<P></P>
+
 <P>
 That tells the people table that its street_id fields must match a valid street
 id from the streets table.
@@ -964,17 +1074,19 @@ id from the streets table.
 <P>
 The more usual way to create a constraint is to do it when you create the table:
 </P>
+
 <div class="code"><PRE>
 create table people (id serial not null primary key, 
                      name varchar(50), 
                      house_no int not null, 
-                     street_id int references streets(id) not null , 
-                     phone_no varchar null );
+                     street_id int references streets(id) not null, 
+                     phone_no varchar null);
 </PRE></div>
-<P></P>
+
 <P>
 After adding the constraint, our table schema looks like this now:
 </P>
+
 <div class="code"><PRE>
 \d people
 Table "public.people"
@@ -991,17 +1103,19 @@ Indexes:
 Foreign-key constraints:
   "people_streets_fk" FOREIGN KEY (id) REFERENCES streets(id)
 </PRE></div>
-<P></P>
-<A NAME="toc23"></A>
-<H3>1.3.8. Create Indexes in SQL</H3>
+
+<A NAME="toc24"></A>
+<H3>1.3.9. Create Indexes in SQL</H3>
+
 <P>
 We want lightning fast searches on peoples names. To provide for this, we can
 create an index on the name column of our people table:
 </P>
+
 <div class="code"><PRE>
 create index people_name_idx on people(name);
 </PRE></div>
-<P></P>
+
 <div class="code"><PRE>
 address=# \d people
 Table "public.people"
@@ -1019,19 +1133,22 @@ Indexes:
 Foreign-key constraints:
  "people_streets_fk" FOREIGN KEY (id) REFERENCES streets(id)
 </PRE></div>
-<P></P>
-<A NAME="toc24"></A>
-<H3>1.3.9. Dropping Tables in SQL</H3>
+
+<A NAME="toc25"></A>
+<H3>1.3.10. Dropping Tables in SQL</H3>
+
 <P>
 If you want to get rid of a table you can use the 'drop' command:
 </P>
+
 <div class="code"><PRE>
 drop table streets;
 </PRE></div>
-<P></P>
+
 <P>
 In our example, this would not work - why?
 </P>
+
 <div class="code"><PRE>
 Some deep and inspired thoughts as to why...
 
@@ -1049,19 +1166,23 @@ Some deep and inspired thoughts as to why...
 
 
 </PRE></div>
-<P></P>
+
 <P>
 Sometimes you just can't stand having a table any more. Maybe you are sick of
 all your friends. How can you get rid of them all in one easy step? Drop the
-table of course!
+table of course! Of course, right now too much hard work has gone into our
+table to get rid of it on a whim, but if you really hate your friends that
+much, nothing's stopping you from ridding yourself of them forever:
 </P>
+
 <div class="code"><PRE>
 drop table people;
 </PRE></div>
-<P></P>
+
 <P>
 This time it works fine! Why? Are people less important than streets?
 </P>
+
 <div class="code"><PRE>
 Some thoughts on why you could drop people:
 
@@ -1078,30 +1199,49 @@ Some thoughts on why you could drop people:
 
 
 </PRE></div>
-<P></P>
-<A NAME="toc25"></A>
-<H3>1.3.10. A word on PG Admin III</H3>
+
 <P>
-We are showing you the SQL commands from the psql prompt because its a very
+Note: If you actually did enter that command and dropped the people table,
+now would be a good time to rebuild it, as you will need it in the next
+exercises.
+</P>
+
+<A NAME="toc26"></A>
+<H3>1.3.11. A word on PG Admin III</H3>
+
+<P>
+We are showing you the SQL commands from the psql prompt because it's a very
 useful way to learn about databases. However, there are quicker and easier ways
 to do a lot of what we are showing you. Install PGAdminIII and you can create,
 drop, alter etc tables using 'point and click' in a GUI.
 </P>
-<A NAME="toc26"></A>
-<H2>1.4. Adding Data to the Model</H2>
+<P>
+Under ubuntu you can install it like this:
+</P>
+
+<div class="code"><PRE>
+sudo apt-get install pgadmin3
+</PRE></div>
+
 <A NAME="toc27"></A>
+<H2>1.4. Adding Data to the Model</H2>
+
+<A NAME="toc28"></A>
 <H3>1.4.1. Insert statement</H3>
+
 <P>
 How do you add data to a table? The sql INSERT statement provides the
 functionality for this:
 </P>
+
 <div class="code"><PRE>
 insert into streets (name) values ('High street');
 </PRE></div>
-<P></P>
+
 <P>
 A couple of things to note:
 </P>
+
  <UL>
  <LI>after the table name (streets), you list the column names that you will be
    populating (in this case only the 'name' column). 
@@ -1113,17 +1253,19 @@ A couple of things to note:
    integrity of your database.
  </UL>
 
-<P></P>
 <P>
+You should see 'INSERT 0 1' if it is successful.
 You can see the result of your insert action by selecting all the data in the table:
 </P>
+
 <div class="code"><PRE>
 select * from streets;
 </PRE></div>
-<P></P>
+
 <P>
 result:
 </P>
+
 <div class="code"><PRE>
 select * from streets;
  id |    name     
@@ -1132,13 +1274,14 @@ select * from streets;
 (1 row)
 
 </PRE></div>
-<P></P>
+
 <P>
 Now you try:
 </P>
 <P>
 Use the INSERT command to add a new street to the streets table.
 </P>
+
 <div class="code"><PRE>
 Write the sql you used here:
 
@@ -1153,22 +1296,28 @@ Write the sql you used here:
 
 
 </PRE></div>
-<P></P>
-<A NAME="toc28"></A>
+
+<A NAME="toc29"></A>
 <H3>1.4.2. Sequencing data addition according to constraints</H3>
+
 <P>
 Try to add a person to the people table with the following details:
 </P>
+
 <div class="code"><PRE>
 Name: Joe Smith
 House Number: 55
 Street: Main Street
 Phone: 072 882 33 21
 </PRE></div>
-<P></P>
+
+<P>
+Remember, we defined phone numbers as strings.
+</P>
 <P>
 What problems did you encounter? 
 </P>
+
 <div class="code"><PRE>
 
 
@@ -1188,66 +1337,83 @@ What problems did you encounter?
 
 
 </PRE></div>
-<P></P>
+
 <P>
 You should have an error report if you try to do this without first creating a
 record for Main Street in the streets table. 
 </P>
 <P>
+What error did you get?
+</P>
+<P>
 You should have noticed that:
 </P>
+
  <UL>
  <LI>You can't add the street using its name
  <LI>You can't add a street using a street id before first 
    creating the street record on the streets table
  </UL>
 
-<P></P>
 <P>
 Remember that our two tables are linked via a Primary/Foreign Key pair. This
 means that no valid person can be created without there also being a valid
-street record.
+corresponding street record.
 </P>
 <P>
 Here is how we made our friend:
 </P>
+
 <div class="code"><PRE>
 insert into streets (name) values('Main Street');
 insert into people (name,house_no, street_id, phone_no) 
-  values ('Joe Smith',55,1,'072 882 33 21');
+  values ('Joe Smith',55,2,'072 882 33 21');
 </PRE></div>
-<P></P>
-<A NAME="toc29"></A>
+
+<P>
+If you look at the streets table again (using a select statement as before),
+you'll see that the id for the 'Main Street' entry is 2. That's why we could
+merely enter the number 2 above. Even though we're not seeing 'Main Street'
+written out fully in the entry above, the database will be able to associate
+that with the street_id value of 2.
+</P>
+
+<A NAME="toc30"></A>
 <H3>1.4.3. Select data</H3>
+
 <P>
 We have already shown you the syntax for selecting records. Lets look at a few
 more examples:
 </P>
+
 <div class="code"><PRE>
 select name from streets;
 </PRE></div>
-<P></P>
+
 <div class="code"><PRE>
 select * from streets;
 </PRE></div>
-<P></P>
+
 <div class="code"><PRE>
 select * from streets where name='Main Street';
 </PRE></div>
-<P></P>
+
 <P>
 In later sessions we will go into more detail on how to select and filter data. 
 </P>
-<A NAME="toc30"></A>
+
+<A NAME="toc31"></A>
 <H3>1.4.4. Update data</H3>
+
 <P>
 What is you want to make a change to some existing data? For example a street
 name is changed:
 </P>
+
 <div class="code"><PRE>
 update streets set name='New Main Street' where name='Main Street';
 </PRE></div>
-<P></P>
+
 <P>
 Be very careful using such update statements - if more than one record matches
 your 'where' clause, they will all be updated! 
@@ -1256,23 +1422,34 @@ your 'where' clause, they will all be updated!
 A better solution is to use the primary key of the table to reference the
 record to be changed:
 </P>
+
 <div class="code"><PRE>
 update streets set name='New Main Street' where id=2;
 </PRE></div>
-<P></P>
-<A NAME="toc31"></A>
+
+<P>
+It should return 'UPDATE 1'
+</P>
+<P>
+Note: the WHERE statement criteria are case sensitive 'Main Street' &lt;&gt; 'Main street'
+</P>
+
+<A NAME="toc32"></A>
 <H3>1.4.5. Delete Data</H3>
+
 <P>
 Some times you fall out of friendship with people. Sounds like a job for the
 delete command!
 </P>
+
 <div class="code"><PRE>
 delete from people where name = 'Joe Smith';
 </PRE></div>
-<P></P>
+
 <P>
-Lets look at our people table now:
+Let's look at our people table now:
 </P>
+
 <div class="code"><PRE>
 address=# select * from people;
   id | name | house_no | street_id | phone_no 
@@ -1280,22 +1457,25 @@ address=# select * from people;
 (0 rows)
 
 </PRE></div>
-<P></P>
+
 <P>
 Exercise:
 </P>
 <P>
 Use the skills you learned earlier to add some new friends to your database.
 </P>
-<A NAME="toc32"></A>
+
+<A NAME="toc33"></A>
 <H2>1.5. Queries</H2>
+
 <P>
 When you write a select ... command it is commonly known as a query - you are
 interrogating the database for information.
 </P>
 <P>
-Lets check that you added a few people to the database successfully:
+Let's check that you added a few people to the database successfully:
 </P>
+
 <div class="code"><PRE>
 insert into people (name,house_no, street_id, phone_no) 
             values ('Joe Bloggs',3,1,'072 887 23 45');
@@ -1306,19 +1486,22 @@ insert into people (name,house_no, street_id, phone_no)
 insert into people (name,house_no, street_id, phone_no) 
             values ('QGIS Geek',83,1,'072 932 31 32');
 </PRE></div>
-<P></P>
-<A NAME="toc33"></A>
+
+<A NAME="toc34"></A>
 <H3>1.5.1. Ordering results</H3>
+
 <P>
-Lets get a list of people ordered by their house numbers:
+Let's get a list of people ordered by their house numbers:
 </P>
+
 <div class="code"><PRE>
 select name, house_no from people order by house_no;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
        name       | house_no 
 ------------------+----------
@@ -1328,17 +1511,19 @@ Result:
  QGIS Geek        |       83
 (4 rows)
 </PRE></div>
-<P></P>
+
 <P>
 You can sort by more than one column:
 </P>
+
 <div class="code"><PRE>
 select name, house_no from people order by name, house_no;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
        name       | house_no 
 ------------------+----------
@@ -1349,9 +1534,10 @@ Result:
 (4 rows)
 
 </PRE></div>
-<P></P>
-<A NAME="toc34"></A>
+
+<A NAME="toc35"></A>
 <H3>1.5.2. Filtering</H3>
+
 <P>
 Often you won't want to see every single record in the database - especially if
 there are thousands of records and you are only interested in seeing one or
@@ -1360,6 +1546,7 @@ two. Never fear, you can filter the results!
 <P>
 Here is an example of a numerical filter:
 </P>
+
 <div class="code"><PRE>
 address=# select name, house_no from people where house_no &lt; 50;
        name       | house_no 
@@ -1368,11 +1555,12 @@ address=# select name, house_no from people where house_no &lt; 50;
  Rusty Bedsprings |       33
 (2 rows)
 </PRE></div>
-<P></P>
+
 <P>
 You can combine filters (defined using the 'where' clause) with sorting
 (defined using the 'order by')
 </P>
+
 <div class="code"><PRE>
 address=# select name, house_no from people where house_no &lt; 50 order by house_no;
        name       | house_no 
@@ -1382,10 +1570,11 @@ address=# select name, house_no from people where house_no &lt; 50 order by hous
 (2 rows)
 
 </PRE></div>
-<P></P>
+
 <P>
 You can also filter based on text data:
 </P>
+
 <div class="code"><PRE>
 address=# select name, house_no from people where name like '%i%';
        name       | house_no 
@@ -1394,12 +1583,13 @@ address=# select name, house_no from people where name like '%i%';
  Rusty Bedsprings |       33
 (2 rows)
 </PRE></div>
-<P></P>
+
 <P>
 Here we used the 'like' clause to find all names with an 'i' in them. If you
 want to search for a string of letters regardless of case, you can do a case
 insensitive search:
 </P>
+
 <div class="code"><PRE>
 address=# select name, house_no from people where name ilike '%k%';
     name     | house_no 
@@ -1409,26 +1599,37 @@ address=# select name, house_no from people where name ilike '%k%';
 (2 rows)
 
 </PRE></div>
-<P></P>
+
 <P>
 That found everyone with a 'k' or 'K' in their name.
 </P>
-<A NAME="toc35"></A>
+
+<A NAME="toc36"></A>
 <H3>1.5.3. Joins</H3>
+
 <P>
 What if you want to see the person's details and their street name (not its
 id)? In order to do that, you need to join the two tables together in a single
 query. Lets look at an example:
 </P>
+
 <div class="code"><PRE>
 select people.name, house_no, streets.name
 from people,streets
 where people.street_id=streets.id;
 </PRE></div>
-<P></P>
+
 <P>
-Here is what the output will look like:
+Note: With joins, you will always state the two tables the information is coming
+from, in this case people and streets.  You also need to specify which two keys
+must match (foreign key &amp; primary key). If you don't specify that, you will get
+a list of all possible combinations of people and streets, but no way to know
+who actually lives on which street!
 </P>
+<P>
+Here is what the correct output will look like:
+</P>
+
 <div class="code"><PRE>
        name       | house_no |    name     
 ------------------+----------+-------------
@@ -1439,16 +1640,19 @@ Here is what the output will look like:
 (4 rows)
 
 </PRE></div>
-<P></P>
+
 <P>
 We will revisit joins as we create more complex queries later. Just remember
 they provide a simple way to combine the information from two or more tables.
 </P>
-<A NAME="toc36"></A>
+
+<A NAME="toc37"></A>
 <H3>1.5.4. Subselect</H3>
+
 <P>
-First lets do a little tweaking to our data:
+First, let's do a little tweaking to our data:
 </P>
+
 <div class="code"><PRE>
 insert into streets (name) values('QGIS Road');
 insert into streets (name) values('OGR Corner');
@@ -1456,20 +1660,22 @@ insert into streets (name) values('Goodle Square');
 update people set street_id = 2 where id=2;
 update people set street_id = 3 where id=3;
 </PRE></div>
-<P></P>
+
 <P>
-Lets take a quick look at our data after those changes - we reuse our query
+Let's take a quick look at our data after those changes - we reuse our query
 from the previous section:
 </P>
+
 <div class="code"><PRE>
 select people.name, house_no, streets.name
 from people,streets
 where people.street_id=streets.id;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
        name       | house_no |      name       
 ------------------+----------+-----------------
@@ -1479,11 +1685,12 @@ Result:
  IP Knightly      |       55 | QGIS Road
 (4 rows)
 </PRE></div>
-<P></P>
+
 <P>
-Now lets show you a subselection on this data. We want to show only people who
+Now let's show you a subselection on this data. We want to show only people who
 live in street_id number 1 
 </P>
+
 <div class="code"><PRE>
 select people.name 
 from people, (
@@ -1493,10 +1700,11 @@ from people, (
   ) as streets_subset 
 where people.street_id = streets_subset.id;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
        name       
 ------------------
@@ -1505,45 +1713,51 @@ Result:
 (2 rows)
 
 </PRE></div>
-<P></P>
+
 <P>
 This is a contrived example and in the above situations it may have been
 overkill. However when you have to filter based on a selection, subselects are
 really useful!
 </P>
-<A NAME="toc37"></A>
+
+<A NAME="toc38"></A>
 <H3>1.5.5. Aggregate Queries</H3>
+
 <P>
 One of the powerful features of a database is its ability to summarise the data
 in its tables. These summaries are called aggregate queries. Here is a typical
 example:
 </P>
+
 <div class="code"><PRE>
 select count(*) from people;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
  count 
 -------
      4
 (1 row)
 </PRE></div>
-<P></P>
+
 <P>
 If we want the counts summarised by street name we can do this:
 </P>
+
 <div class="code"><PRE>
 select count(name), street_id 
 from people 
 group by street_id;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
  count | street_id 
 -------+-----------
@@ -1552,10 +1766,11 @@ Result:
      2 |         1
 (3 rows)
 </PRE></div>
-<P></P>
+
 <P>
 Exercise:
 </P>
+
 <div class="code"><PRE>
 Summarise the people by street name and show the actual street names instead of
 the street_id's
@@ -1576,20 +1791,22 @@ the street_id's
 
 
 </PRE></div>
-<P></P>
+
 <P>
 Solution:
 </P>
+
 <div class="code"><PRE>
 select count(people.name), streets.name 
 from people, streets 
 where people.street_id=streets.id 
-group by people.street_id, streets.name;
+group by streets.name;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
  count |      name       
 -------+-----------------
@@ -1599,43 +1816,50 @@ Result:
 (3 rows)
 
 </PRE></div>
-<P></P>
+
 <P>
 <B>Note:</B> You will notice that we have prefixed field names with table names
 (e.g. people.name and streets.name). This needs to be done whenever the field
 name is ambiguous.
 </P>
-<A NAME="toc38"></A>
+
+<A NAME="toc39"></A>
 <H2>1.6. Views</H2>
+
 <P>
 When you write a query, you need to spend a lot of time and effort formulating
 it. With views, you can save the definition of a sql query in a reusable
 'virtual table'.
 </P>
-<A NAME="toc39"></A>
+
+<A NAME="toc40"></A>
 <H3>1.6.1. Creating a View</H3>
+
 <P>
 You can treat a view just like a table, but its data is sourced from a query.
-Lets make a simple view based on the above.
+Let's make a simple view based on the above.
 </P>
+
 <div class="code"><PRE>
 create view roads_count_v as 
   select count(people.name), streets.name 
   from people, streets where people.street_id=streets.id 
   group by people.street_id, streets.name;
 </PRE></div>
-<P></P>
+
 <P>
 As you can see the only change is the <CODE>`create view roads_count_v as`</CODE> part
 at the beginning. The nice thing is that we can now select data from that view:
 </P>
+
 <div class="code"><PRE>
 select * from roads_count_v;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
  count |      name       
 -------+-----------------
@@ -1645,24 +1869,32 @@ Result:
 (3 rows)
 
 </PRE></div>
-<P></P>
-<A NAME="toc40"></A>
+
+<A NAME="toc41"></A>
 <H3>1.6.2. Modifying a View</H3>
+
 <P>
 A view is not fixed, and it contains no 'real data'. This means you can easily
 change it without impacting on any data in your database.
 </P>
+
 <div class="code"><PRE>
-create or replace roads_count_v as 
-  select count(people.name), streets.name 
-  from people, streets where people.street_id=streets.id 
-  group by people.street_id, streets.name 
-  order by streets.name;
+CREATE OR REPLACE roads_count_v AS 
+  SELECT count(people.name), streets.name 
+  FROM people, streets WHERE people.street_id=streets.id 
+  GROUP BY people.street_id, streets.name 
+  ORDER BY streets.name;
 </PRE></div>
-<P></P>
+
 <P>
-You will see that we have added an 'order by' clause so that our view rows are nicely sorted:
+(This example also shows the best practice convention of using UPPER CASE for 
+all SQL keywords.)
 </P>
+<P>
+You will see that we have added an 'order by' clause so that our view rows are
+nicely sorted:
+</P>
+
 <div class="code"><PRE>
  count |      name       
 -------+-----------------
@@ -1671,20 +1903,24 @@ You will see that we have added an 'order by' clause so that our view rows are n
      1 | QGIS Road
 (3 rows)
 </PRE></div>
-<P></P>
-<A NAME="toc41"></A>
+
+<A NAME="toc42"></A>
 <H3>1.6.3. Dropping a View</H3>
+
 <P>
 If you no longer need a view, you can delete it like this:
 </P>
+
 <div class="code"><PRE>
 drop view roads_count_v;
 </PRE></div>
-<P></P>
-<A NAME="toc42"></A>
-<H2>1.7. Rules</H2>
+
 <A NAME="toc43"></A>
+<H2>1.7. Rules</H2>
+
+<A NAME="toc44"></A>
 <H3>1.7.1. Materialised Views (Rule based views)</H3>
+
 <P>
 Rules allow the "query tree" of an incoming query to be rewritten. One common
 usage is to implement views, including updatable view.  - Wikipedia
@@ -1693,41 +1929,56 @@ usage is to implement views, including updatable view.  - Wikipedia
 Say you want to log every change of phone_no in your people table in to a
 people_log table. So you set up a new table
 </P>
+
 <div class="code"><PRE>
 create table people_log (name text, time timestamp default NOW());
 </PRE></div>
-<P></P>
+
 <P>
 In the next step create a rule, that logs every change of a phone_no in the
 people table into the people_log table:
 </P>
+
 <div class="code"><PRE>
 create rule people_log as on update to people
   where NEW.phone_no &lt;&gt; OLD.phone_no
   do insert into people_log values (OLD.name);
 </PRE></div>
-<P></P>
-<A NAME="toc44"></A>
-<H1>2. Introduction to PostGIS</H1>
-<P>
-While working through this section, you may want to keep a copy of the <A HREF="postgis_cheatsheet.pdf">PostGIS cheat sheet</A> available at <A HREF="http://www.bostongis.com/postgis_quickguide.bqg">Boston GIS user group</A>.
-</P>
+
 <A NAME="toc45"></A>
-<H2>2.1. PostGIS Setup</H2>
+<H1>2. Introduction to PostGIS</H1>
+
+<P>
+While working through this section, you may want to keep a copy of the <A HREF="postgis_cheatsheet.pdf">PostGIS cheat sheet</A> available at <A HREF="http://www.bostongis.com/postgis_quickguide.bqg">Boston GIS user group</A>. Another good friend is the <A HREF="file:///usr/share/doc/postgis/postgis/postgis.html">local</A> or <A HREF="http://postgis.refractions.net/documentation/manual-1.5/">online</A> PostGIS documentation.
+</P>
+<P>
+Some other resources:
+<A HREF="http://postgisonline.org/">PostGIS online</A>
+</P>
+
 <A NAME="toc46"></A>
+<H2>2.1. PostGIS Setup</H2>
+
+<A NAME="toc47"></A>
 <H3>2.1.1. Installing under Ubuntu</H3>
+
 <P>
 Postgis is easily installed from apt.
 </P>
+
 <div class="code"><PRE>
-sudo apt-get install postgis
+sudo apt-get install postgis 
+sudo apt-get install postgresql-8.4-postgis
+
 </PRE></div>
-<P></P>
+
 <P>
-Really, its that easy...
+Really, it's that easy...
 </P>
-<A NAME="toc47"></A>
+
+<A NAME="toc48"></A>
 <H3>2.1.2. Installing under Windows</H3>
+
 <P>
 <A HREF="http://www.postgresql.org/download/">http://www.postgresql.org/download/</A>
 </P>
@@ -1740,13 +1991,15 @@ Now follow this guide:
 <P>
 A little more complicated, but still not hard. Note that you need to be online to install the postgis stack.
 </P>
-<A NAME="toc48"></A>
+
+<A NAME="toc49"></A>
 <H3>2.1.3. Install plpgsql</H3>
+
 <P>
 <B>Note:</B> You can ensure that any database created on your system automatically
 gets these spatial extensions by running these commands (from this and the next
-two sections) on the template1 system database ''before'' you create any of
-your own databases.
+two sections) on the <CODE>template1</CODE> system database <I>before</I> you create any of
+your own databases. 
 </P>
 <P>
 PostgreSQL can use various procedural languages. What is a procedural language?
@@ -1757,10 +2010,11 @@ events happen - such as when a record is inserted into the database.
 <P>
 PostGIS requires the PLPGSQL procedural language to be installed so do this:
 </P>
+
 <div class="code"><PRE>
 createlang plpgsql address
 </PRE></div>
-<P></P>
+
 <P>
 Where the third argument is the name of the database that the procedural
 language should be installed into.
@@ -1769,33 +2023,34 @@ language should be installed into.
 <B>Note:</B> that you will need administrative permissions for your database to be able
 to do that.
 </P>
-<A NAME="toc49"></A>
+
+<A NAME="toc50"></A>
 <H3>2.1.4. Install postgis.sql</H3>
+
 <P>
 PostGIS can be thought of as a collection of in database functions that extend
 the core capabilities of PostgreSQL so that it can deal with spatial data. By
 'deal with', we mean, store, retrieve, query and manipulate. In order to do
 this, a number of functions are installed into the database. 
 </P>
+
 <div class="code"><PRE>
 psql address &lt; /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
 </PRE></div>
-<P></P>
-<P>
-Once that has run (it normally only takes a few seconds), you can view all the
-functions that were loaded by doing this:
-</P>
+
 <div class="code"><PRE>
 psql address
 \df
 </PRE></div>
-<P></P>
+
 <P>
 from within the psql prompt. We will discuss these functions in more detail as
 we proceed with this course.
 </P>
-<A NAME="toc50"></A>
+
+<A NAME="toc51"></A>
 <H3>2.1.5. Install spatial_refsys.sql</H3>
+
 <P>
 In addition to the postgis functions, a second helper sql script needs to be
 run that will load the database with a collection of spatial reference system (SRS)
@@ -1808,20 +2063,31 @@ cover just about every SRS you will need (Google Mercator and lo are notable
 exceptions).
 </P>
 <P>
-To load the SRS table do:
+To load the SRS table, first ensure that you're at a normal prompt (i.e., quit the
+database first), then do this:
 </P>
+
 <div class="code"><PRE>
 psql address &lt; /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 </PRE></div>
-<P></P>
+
 <P>
-The above command adds a table to our database. We can see the schema of this table like this:
+The above command adds a table to our database. We can see the schema of this table
+by entering the following command in the psql prompt:
 </P>
+
 <div class="code"><PRE>
 address=# \d spatial_ref_sys
+</PRE></div>
+
+<P>
+The result should be this:
+</P>
+
+<div class="code"><PRE>
 Table "public.spatial_ref_sys"
-  Column   |          Type           | Modifiers 
------------+-------------------------+-----------
+   Column   |          Type           | Modifiers 
+ -----------+-------------------------+-----------
   srid      | integer                 | not null
   auth_name | character varying(256)  | 
   auth_srid | integer                 | 
@@ -1830,7 +2096,7 @@ Table "public.spatial_ref_sys"
   Indexes:
 "spatial_ref_sys_pkey" PRIMARY KEY, btree (srid)
 </PRE></div>
-<P></P>
+
 <P>
 You can use standard SQL queries (as we have learned from our introductory
 sections), to view and manipulate this table - though we suggest you do not
@@ -1838,15 +2104,17 @@ update or delete any records unless you know what you are doing.
 </P>
 <P>
 One SRID you may be interested in is EPSG:4326 - the geographic / lat lon
-reference system. Lets take a look at it:
+reference system. Let's take a look at it:
 </P>
+
 <div class="code"><PRE>
 select * from spatial_ref_sys where srid=4326;
 </PRE></div>
-<P></P>
+
 <P>
 Result
 </P>
+
 <div class="code"><PRE>
 srid      | 4326
 auth_name | EPSG
@@ -1858,53 +2126,58 @@ AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,
 AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]
 proj4text | +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs
 </PRE></div>
-<P></P>
+
 <P>
 The srtext is the projection definition in well known text (you may recognise
 this from .prj files in your shapefile collection).
 </P>
-<A NAME="toc51"></A>
+
+<A NAME="toc52"></A>
 <H3>2.1.6. Looking at the installed PostGIS functions</H3>
+
 <P>
 Good - our PostgreSQL database is now geospatially enabled. We are going to
-delve a lot deeper into this in the coming days, but lets give you a quick
-little taster. Lets say we want to create a point from text. First we use the
+delve a lot deeper into this in the coming days, but let's give you a quick
+little taster. Let's say we want to create a point from text. First we use the
 psql command to find functions relating to point:
 </P>
+
 <div class="code"><PRE>
 \df *point*
 </PRE></div>
-<P></P>
+
 <P>
 Here is one that caught my eye: <CODE>`st_pointfromtext`</CODE>
 </P>
 <P>
-So lets give that a try:
+So let's give that a try:
 </P>
+
 <div class="code"><PRE>
 address=# select st_pointfromtext('POINT(1 1)');
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
 st_pointfromtext                
 --------------------------------------------
 0101000000000000000000F03F000000000000F03F
 (1 row)
 </PRE></div>
-<P></P>
+
 <P>
 So there are a couple of interesting things going on here:
 </P>
+
  <UL>
  <LI>we defined a point at position 1,1 (EPSG:4326 is assumed) using <CODE>`POINT(1 1)`</CODE>
  <LI>we ran an sql statement, but not on any table, just on data entered from the SQL prompt
  <LI>the resulting row looks kinda strange
  </UL>
 
-<P></P>
 <P>
 The resulting row is looking strange because its in the OGC format called 'Well
 Known Binary' (WKB) - more on that coming in the next section.
@@ -1913,27 +2186,30 @@ Known Binary' (WKB) - more on that coming in the next section.
 To get the results back as text, I do a quick scan through the function list
 for something that returns text:
 </P>
+
 <div class="code"><PRE>
 \df *text
 </PRE></div>
-<P></P>
+
 <P>
 One that catches my eye is <CODE>`astext`</CODE>. Lets combine it with the previous:
 </P>
+
 <div class="code"><PRE>
 select astext(st_pointfromtext('POINT(1 1)'));
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
   astext   
 ------------
   POINT(1 1)
   (1 row)
 </PRE></div>
-<P></P>
+
 <P>
 Again that is interesting - we round tripped our point!
 </P>
@@ -1941,17 +2217,21 @@ Again that is interesting - we round tripped our point!
 One last thing I would like to show you in this little PostGIS taster before we
 really get into the detail of it:
 </P>
+
 <div class="code"><PRE>
 select astext(st_buffer(st_pointfromtext('POINT(1 1)'),1.0));
 </PRE></div>
-<P></P>
+
 <P>
 What did that do? It created a buffer of 1 degree around our point. Nifty eh?
 </P>
-<A NAME="toc52"></A>
-<H2>2.2. Simple Feature Model</H2>
+
 <A NAME="toc53"></A>
+<H2>2.2. Simple Feature Model</H2>
+
+<A NAME="toc54"></A>
 <H3>2.2.1. What is OGC</H3>
+
 <P>
 "The Open Geospatial Consortium (OGC), an international voluntary consensus
 standards organization, originated in 1994. In the OGC, more than 370+
@@ -1960,8 +2240,10 @@ collaborate in an open consensus process encouraging development and
 implementation of standards for geospatial content and services, GIS data
 processing and data sharing." - Wikipedia
 </P>
-<A NAME="toc54"></A>
+
+<A NAME="toc55"></A>
 <H3>2.2.2. What is the SFS Model</H3>
+
 <P>
 The Simple Feature for SQL (SFS) Model is a non topological way to store
 geospatial data in a database and defines functions for accessing, operating,
@@ -1975,36 +2257,42 @@ The model defines geospatial data from type Point, Linestring, Polygon and
 aggregations of them to Multi objects.
 </P>
 <P>
-For further information have also a look at <A HREF="http://www.opengeospatial.org/standards/sfs">OGC Simple Feature for SQL</A>
+For further information, have a look at <A HREF="http://www.opengeospatial.org/standards/sfs">OGC Simple Feature for SQL</A>
 </P>
-<A NAME="toc55"></A>
+
+<A NAME="toc56"></A>
 <H3>2.2.3. Add a geometry field to table</H3>
+
 <P>
-Lets add a point field to our people table:
+Let's add a point field to our people table:
 </P>
+
 <div class="code"><PRE>
 alter table people add column the_geom geometry;
 </PRE></div>
-<P></P>
-<A NAME="toc56"></A>
+
+<A NAME="toc57"></A>
 <H3>2.2.4. Add a constraint based on geometry type</H3>
+
 <P>
 You will notice that the geometry field type does not implicitly specify what
-''type'' of geometry for the field - for that we need a constraint.
+type of geometry for the field - for that we need a constraint.
 </P>
+
 <div class="code"><PRE>
 alter table people 
 add constraint people_geom_point_chk 
     check(st_geometrytype(the_geom) = 'ST_Point'::text OR the_geom IS NULL);
 </PRE></div>
-<P></P>
+
 <P>
-What does that do? It adds a constrain to the table that prevents anything
+What does that do? It adds a constraint to the table that prevents anything
 except a point geometry or a null.
 </P>
 <P>
 Now you try:
 </P>
+
 <div class="code"><PRE>
 Create a new table called cities and give it some appropriate columns,
 including a geometry field for storing polygons (the city boundaries). Make
@@ -2038,10 +2326,11 @@ sure it has a constraint enforcing geometries to be polygons
 
 
 </PRE></div>
-<P></P>
+
 <P>
 Solution:
 </P>
+
 <div class="code"><PRE>
 create table cities (id serial not null primary key, 
                      name varchar(50), 
@@ -2050,22 +2339,33 @@ create table cities (id serial not null primary key,
  add constraint cities_geom_point_chk 
  check (st_geometrytype(the_geom) = 'ST_Polygon'::text );
 </PRE></div>
-<P></P>
-<A NAME="toc57"></A>
+
+<A NAME="toc58"></A>
 <H3>2.2.5. Populate geometry_columns table</H3>
+
 <P>
 At this point you should also add an entry into the <CODE>`geometry_columns`</CODE>
 table:
 </P>
+
 <div class="code"><PRE>
 insert into geometry_columns values 
   ('','public','people','the_geom',2,4326,'POINT');
 </PRE></div>
-<P></P>
+
 <P>
 Why? <CODE>`geometry_columns`</CODE> is used by certain applications to be aware of
 which tables in the database contain geometry data.
 </P>
+<P>
+The value 2 refers to the number of dimensions; in this case, two: x and y.
+</P>
+<P>
+The value 4326 refers to the projection we are using; in this case, WGS 84,
+which is referred to by the number 4326 (refer to the earlier discussion
+about the EPSG).
+</P>
+
 <div class="code"><PRE>
 Add an appropriate geometry_columns entry for your new cities layer
 
@@ -2090,34 +2390,61 @@ Add an appropriate geometry_columns entry for your new cities layer
 
 
 </PRE></div>
-<P></P>
+
 <P>
 Solution:
 </P>
+
 <div class="code"><PRE>
 insert into geometry_columns values 
       ('','public','cities','the_geom',2,4326,'POLYGON');
 </PRE></div>
-<P></P>
-<A NAME="toc58"></A>
+
+<A NAME="toc59"></A>
 <H3>2.2.6. Add geometry record to table using SQL</H3>
+
 <P>
 Now that our tables are geo-enabled, we can store geometries in them!
 </P>
+
 <div class="code"><PRE>
 insert into people (name,house_no, street_id, phone_no, the_geom) 
         values ('Fault Towers',
                  34,
                  3,
                  '072 812 31 28', 
-                 st_makepoint(33,-33);
+                 'SRID=4326;POINT(33 -33)');
 </PRE></div>
-<P></P>
+
 <P>
-<B>Note:</B> Now is probably a good time to fire up QGIS and try to view your
+<B>Note:</B> In the new entry above, you will need to specify which projection
+(SRID) you want to use. This is because
+</P>
+
+<OL>
+<LI>you entered the geometry of the new point using a plain string of text, and
+<LI>the new point needs to use the same SRID as the dataset it is being added to.
+<P></P>
+If at this point you were using a graphical interface, for example, specifying
+the projection for each point would be automatic. In other words, you usually
+won't need to worry about using the correct projection for every point you want
+to add if you've already specified it for that dataset, as we did earlier.
+<P></P>
+Now is probably a good time to fire up QGIS and try to view your
 people table. Also try editing / adding / deleting records and then performing
 select queries in the database to see how the data has changed.
-</P>
+<P></P>
+To load a PostGIS layer in QGIS use the 'Add PostGIS layer' menu option or toolbar button to open the dialog. Then define a new connection, e.g.:
+name: myPG
+host: localhost
+port: 5432
+database: address
+user:
+password:
+<P></P>
+then Test it. Then OK, then Connect and add layers to your project!
+</OL>
+
 <div class="code"><PRE>
 
 Formulate a query that shows a person's name, street name and position 
@@ -2140,12 +2467,14 @@ Formulate a query that shows a person's name, street name and position
 
 
 </PRE></div>
-<P></P>
-<A NAME="toc59"></A>
+
+<A NAME="toc60"></A>
 <H3>2.2.7. View a point as WKT</H3>
+
 <P>
-Lets take a look at the solution to the above query:
+Let's take a look at the solution to the above query:
 </P>
+
 <div class="code"><PRE>
 select people.name, 
        streets.name as street_name, 
@@ -2153,10 +2482,11 @@ select people.name,
 from   streets, people 
 where  people.street_id=streets.id;
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
        name       |   street_name   |    geometry
 ------------------+-----------------+---------------
@@ -2167,62 +2497,70 @@ Result:
  Fault Towers     | QGIS Road       | POINT(33 -33)
 (5 rows)
 </PRE></div>
-<P></P>
+
 <P>
 As you can see, our constraint allows nulls to be added into the database.
 </P>
-<A NAME="toc60"></A>
-<H2>2.3. Spatial Queries</H2>
-<P>
-Spatial queries are not different to other database queries. You can use the
-geometry column as every other database column. With the installation of
-PostGIS in our database we have additional functions to query our database.
-</P>
+
 <A NAME="toc61"></A>
-<H3>2.3.1. Spatial operators</H3>
+<H2>2.3. Spatial Queries</H2>
+
+<P>
+Spatial queries are no different from other database queries. You can use the
+geometry column like any other database column. With the installation of
+PostGIS in our database, we have additional functions to query our database.
+</P>
+
+<A NAME="toc62"></A>
+<H3>2.3.1. Spatial Operators</H3>
+
 <P>
 When you want to know which points are within a distance of 2 degrees to a
 point(X,Y) you can do this with:
 </P>
+
 <div class="code"><PRE>
 select * 
 from people
-where st_distance(the_geom,st_makepoint(32,-34)) &lt; 2;
+where st_distance(the_geom,'SRID=4326;POINT(33 -34)') &lt; 2;
 </PRE></div>
-<P></P>
-<P>
-You will notice that st_makepoint provides another, different and convenient
-way to create a point geometry.
-</P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
  id |     name     | house_no | street_id |   phone_no    |   the_geom                  
 ----+--------------+----------+-----------+---------------+-----------------
   6 | Fault Towers |       34 |         3 | 072 812 31 28 | 01010008040C0
 (1 row)
 </PRE></div>
-<P></P>
+
 <P>
-<B>Note:</B> the_geom value above was truncated for space on this page.
+<B>Note:</B> the_geom value above was truncated for space on this page. If you
+want to see the point in human-readable coordinates, try something similar to
+what you did in the section "View a point as WKT", above.
 </P>
-<A NAME="toc62"></A>
+
+<A NAME="toc63"></A>
 <H3>2.3.2. Spatial Indexes</H3>
+
 <P>
 We also can define spatial indexes. A spatial index makes your spatial queries
 much faster. To create a spatial index on the geometry column use:
 </P>
+
 <div class="code"><PRE>
 CREATE INDEX people_geo_idx
   ON people
   USING gist
   (the_geom);
 </PRE></div>
-<P></P>
+
 <P>
 Result:
 </P>
+
 <div class="code"><PRE>
 address=# \d people
 Table "public.people"
@@ -2243,7 +2581,7 @@ Check constraints:
 Foreign-key constraints:
   "people_street_id_fkey" FOREIGN KEY (street_id) REFERENCES streets(id)
 </PRE></div>
-<P></P>
+
 <div class="code"><PRE>
 
 Now you try - modify the cities table so its geometry
@@ -2281,37 +2619,42 @@ column is spatially indexed.
 
 
 </PRE></div>
-<P></P>
+
 <P>
 Solution:
 </P>
+
 <div class="code"><PRE>
 CREATE INDEX cities_geo_idx  
   ON cities
   USING gist (the_geom);
 </PRE></div>
-<P></P>
-<A NAME="toc63"></A>
+
+<A NAME="toc64"></A>
 <H2>2.4. Geometry Construction</H2>
+
 <P>
 In this section we are going to delve a little deeper into how simple
-geometries are constructed in SQL. In reality you will probably use a GIS like
-QGIS to create complex geometries using their digitising tools, however
+geometries are constructed in SQL. In reality, you will probably use a GIS like
+QGIS to create complex geometries using their digitising tools; however,
 understanding how they are formulated can be handy for writing queries and
 understanding how the database is assembled.
 </P>
-<A NAME="toc64"></A>
+
+<A NAME="toc65"></A>
 <H3>2.4.1. Creating Linestrings</H3>
+
 <P>
-Before we start, lets get our streets table matching the others i.e. having a
-constraint on the geometry, an index and an entry in the geometry_columns
+Before we start, let's get our streets table matching the others; i.e., having
+a constraint on the geometry, an index and an entry in the geometry_columns
 table.
 </P>
+
 <div class="code"><PRE>
 
 Exercise: 
  - Modify the streets table so that it has a geometry column of type
-   LINESTRING. 
+   ST_LineString. 
  - Don't forget to do the accompanying update to the geometry columns
    table! 
  - Also add a constraint to prevent any geometries being added that are 
@@ -2342,45 +2685,78 @@ Exercise:
 
 
 </PRE></div>
-<P></P>
+
 <P>
 Solution:
 </P>
+
 <div class="code"><PRE>
 alter table streets add column the_geom geometry;
 alter table streets add constraint streets_geom_point_chk check 
-     (st_geometrytype(the_geom) = 'ST_Linestring'::text OR the_geom IS NULL);
+     (st_geometrytype(the_geom) = 'ST_LineString'::text OR the_geom IS NULL);
 insert into geometry_columns values ('','public','streets','the_geom',2,4326,'LINESTRING');
 create index streets_geo_idx
   on streets
   using gist                                         
   (the_geom);
 </PRE></div>
-<P></P>
+
 <P>
-Now lets insert a linestring into our streets table. In this case I am going to update 
+Now let's insert a linestring into our streets table. In this case I am going to update 
 an existing street record:
 </P>
+
 <div class="code"><PRE>
-update streets set the_geom = st_linefromtext('LINESTRING(20 -33, 21 -34, 24 -33)') 
+update streets set the_geom = 'SRID=4326;LINESTRING(20 -33, 21 -34, 24 -33)'
 where streets.id=2;
 </PRE></div>
-<P></P>
+
 <P>
-Take a look at the results in QGIS.
-Now create some more streets entries - some in QGIS and some from the command line.
+Take a look at the results in QGIS. (You may need to right-click on the streets
+layer in the 'Layers' panel, and choose 'Zoom to layer extent'.)
 </P>
-<A NAME="toc65"></A>
+<P>
+Now create some more streets entries - some in QGIS and some from the command
+line.
+</P>
+
+<A NAME="toc66"></A>
 <H3>2.4.2. Creating Polygons</H3>
+
 <P>
 Creating polygons is just as easy. One thing to remember is that by definition,
 polygons have at least four vertices, with the last and first being colocated.
 </P>
-<A NAME="toc66"></A>
+
+<div class="code"><PRE>
+insert into cities (name, the_geom)
+values ('Tokyo', 'SRID=4326;POLYGON((10 -10, 5 -32, 30 -27, 10 -10))');
+</PRE></div>
+
+<P>
+<B>Note:</B> A polygon requires double brackets around its coordinate list; this is
+to allow you to add complex polygons with multiple unconnected areas. For
+instance:
+</P>
+
+<div class="code"><PRE>
+insert into cities (name, the_geom)
+values ('Tokyo Outer Wards', 'SRID=4326;POLYGON((20 10, 20 20, 35 20, 20 10),(-10 -30, -5 0, -15 -15, -10 -30))');
+</PRE></div>
+
+<P>
+If you followed this step, you can check what it did by loading the cities
+dataset into QGIS, opening its attribute table, and selecting the new entry.
+Note how the two new polygons behave like one polygon.
+</P>
+
+<A NAME="toc67"></A>
 <H3>2.4.3. Exercise - Linking Cities to People</H3>
+
 <P>
 For this exercise you should do the following:
 </P>
+
 <div class="code"><PRE>
 Delete all data from your people table.
 Add a foreign key column to people that references the primary key of 
@@ -2444,10 +2820,11 @@ Foreign-key constraints:
 
 
 </PRE></div>
-<P></P>
+
 <P>
 Solution:
 </P>
+
 <div class="code"><PRE>
 delete from people;
 alter table people add column city_id int not null references cities(id);
@@ -2460,7 +2837,7 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            3,
            '072 812 31 28', 
            1,
-           st_makepoint(33,-33);
+           'SRID=4326;POINT(33 33)');
 
 insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
    values ('IP Knightly',
@@ -2468,7 +2845,7 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            1,
            '071 812 31 28', 
            1,
-           st_makepoint(32,-34);
+           'SRID=4326;POINT(32 -34)');
 
 insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
    values ('Rusty Bedsprings',
@@ -2476,41 +2853,61 @@ insert into people (name,house_no, street_id, phone_no, city_id, the_geom)
            1,
            '071 822 31 28', 
            1,
-           st_makepoints(34,-34);
+           'SRID=4326;POINT(34 -34)');
 
 </PRE></div>
-<P></P>
-<A NAME="toc67"></A>
+
+<P>
+If you're getting the following error message:
+</P>
+
+<div class="code"><PRE>
+ERROR:  insert or update on table "people" violates foreign key constraint "people_city_id_fkey"
+DETAIL:  Key (city_id)=(1) is not present in table "cities".
+</PRE></div>
+
+<P>
+then it means that while experimenting with creating polygons for the
+cities table, you must have deleted some of them and started over. Just
+check the entries in your cities table and use any id which exists.
+</P>
+
+<A NAME="toc68"></A>
 <H3>2.4.4. Looking at our schema</H3>
+
 <P>
 By now our schema should be looking like this:
 </P>
 <P>
 <IMG ALIGN="middle" SRC="final_schema.png" BORDER="0" ALT="">
 </P>
-<A NAME="toc68"></A>
+
+<A NAME="toc69"></A>
 <H3>2.4.5. Exercise</H3>
+
 <P>
 Create city boundaries by computing the minimum convex hull of all addresses
 for that city and computing a buffer around that area.
 </P>
-<A NAME="toc69"></A>
+
+<A NAME="toc70"></A>
 <H3>2.4.6. Access Subobjects</H3>
+
 <P>
-With the SFS-Model functions you have a wide variety of options to access
+With the SFS-Model functions, you have a wide variety of options to access
 subobjects of SFS Geometries. When you want to select the first vertex point of
 every polygon geometry in the table myPolygonTable, you have to do this in this
 way:
 </P>
+
  <UL>
  <LI>Transform the polygon boundary to a linestring: 
  </UL>
 
-<P></P>
 <div class="code"><PRE>
-select st_boundary(geometry) from myPolygonTable
+select st_boundary(geometry) from myPolygonTable;
 </PRE></div>
-<P></P>
+
  <UL>
  <LI>select the first vertex point of the resultant linestring:
  </UL>
@@ -2519,126 +2916,170 @@ select st_boundary(geometry) from myPolygonTable
 select st_startpoint(myGeometry) 
 from (
   select st_boundary(geometry) as myGeometry 
-  from myPolygonTable) as foo
+  from myPolygonTable) as foo;
 </PRE></div>
-<P></P>
-<A NAME="toc70"></A>
-<H2>2.5. Data Processing</H2>
-<P>
-PostGIS supports all OGC SFS/MM standard conform functions. All these functions are starting with <CODE>ST_</CODE>. 
-</P>
+
 <A NAME="toc71"></A>
-<H3>2.5.1. Clipping</H3>
+<H2>2.5. Data Processing</H2>
+
 <P>
-To clip a subpart of your data you can use the <CODE>ST_INTERSECT()</CODE> function. To avoid empty geometries use 
-<CODE>where not st_isempty(st_intersection(a.the_geom, b.the_geom))</CODE>
+PostGIS supports all OGC SFS/MM standard conform functions. All these functions
+start with <CODE>ST_</CODE>. 
+</P>
+
+<A NAME="toc72"></A>
+<H3>2.5.1. Clipping</H3>
+
+<P>
+To clip a subpart of your data you can use the <CODE>ST_INTERSECT()</CODE> function. To
+avoid empty geometries, use <CODE>where not st_isempty(st_intersection(a.the_geom, b.the_geom))</CODE>
 </P>
 <P>
 <IMG ALIGN="middle" SRC="qgis_001.png" BORDER="0" ALT="">
 </P>
+
 <div class="code"><PRE>
 select st_intersection(a.the_geom, b.the_geom), b.*
 from clip as a, road_lines as b
 where not st_isempty(st_intersection(st_setsrid(a.the_geom,32734), b.the_geom));
 </PRE></div>
-<P></P>
+
 <P>
 <IMG ALIGN="middle" SRC="qgis_002.png" BORDER="0" ALT="">
 </P>
-<A NAME="toc72"></A>
+
+<A NAME="toc73"></A>
 <H3>2.5.2. Building Geometries from Other Geometries</H3>
+
 <P>
-From a given point table you want to generate a linestring. The order of the points is defined by their id. Another ordering method could be a timestamp like you get when you capture waypoints with GPS-Receivers.
+From a given point table, you want to generate a linestring. The order of the
+points is defined by their id. Another ordering method could be a timestamp, such
+as the one you get when you capture waypoints with a GPS receiver.
 </P>
 <P>
 <IMG ALIGN="middle" SRC="qgis_006.png" BORDER="0" ALT="">
 </P>
 <P>
-To create a linestring you can run the following command:
+To create a linestring from a new point layer called 'points', you can run the
+following command:
 </P>
+
 <div class="code"><PRE>
 select ST_LineFromMultiPoint(st_collect(the_geom)), 1 as id
 from (
   select the_geom
   from points
   order by id
-) as foo
+) as foo;
 </PRE></div>
-<P></P>
+
+<P>
+To see how it works without creating a new layer, you could also run this command
+on the 'people' layer, although of course it would make little real-world sense
+to do this.
+</P>
 <P>
 <IMG ALIGN="middle" SRC="qgis_007.png" BORDER="0" ALT="">
 </P>
-<A NAME="toc73"></A>
+
+<A NAME="toc74"></A>
 <H3>2.5.3. Geometry Cleaning</H3>
+
 <P>
-You can get more information for this topic at Tim's wonderful blog article you can find here:
+You can get more information for this topic at Tim's wonderful blog article,
+which you can find here:
 </P>
 <P>
 <A HREF="http://linfiniti.com/?s=cleangeometry">http://linfiniti.com/?s=cleangeometry</A>
 </P>
-<A NAME="toc74"></A>
+
+<A NAME="toc75"></A>
 <H3>2.5.4. Differences between tables</H3>
+
 <P>
-To detect the difference between two tables with the same structure you can use the PostgreSQL keyword <CODE>EXCEPT</CODE>. 
+To detect the difference between two tables with the same structure, you can use
+the PostgreSQL keyword <CODE>EXCEPT</CODE>. 
 </P>
+
 <div class="code"><PRE>
 select * from table_a
 except
 select * from table_b;
 </PRE></div>
+
 <P>
-As the result you will get all records from table_a which are not stored in table_b.
+As the result, you will get all records from table_a which are not stored in
+table_b.
 </P>
-<A NAME="toc75"></A>
-<H2>2.6. Import and Export</H2>
-<P>
-Of course a database with no easy way to migrate data into it and out of it would be no fun. More so for your spatial data! Fortunately there are a number of tools that will let you easily move data into and out of PostGIS.
-</P>
+
 <A NAME="toc76"></A>
-<H3>2.6.1. shp2pgsql</H3>
+<H2>2.6. Import and Export</H2>
+
 <P>
-shp2pgsql is a commandline tool to import ESRI shapefiles to the database. Under Unix you can use the following command for importing a new PostGIS table:
+Of course, a database with no easy way to migrate data into it and out of it
+would be no fun. Even more so for spatial data! Fortunately, there are a number
+of tools that will let you easily move data into and out of PostGIS.
 </P>
+
+<A NAME="toc77"></A>
+<H3>2.6.1. shp2pgsql</H3>
+
+<P>
+shp2pgsql is a commandline tool to import ESRI shapefiles to the database. Under
+Unix, you can use the following command for importing a new PostGIS table:
+</P>
+
 <div class="code"><PRE>
 shp2pgsql -s &lt;SRID&gt; -c -D -I &lt;path to shapefile&gt; &lt;schema&gt;.&lt;table&gt; | \
   psql -d &lt;databasename&gt; -h &lt;hostname&gt; -U &lt;username&gt;
 </PRE></div>
+
 <P>
-under Windows you have to perform the import process in two steps:
+Under Windows, you have to perform the import process in two steps:
 </P>
+
 <div class="code"><PRE>
 shp2pgsql -s &lt;SRID&gt; -c -D -I &lt;path to shapefile&gt; &lt;schema&gt;.&lt;table&gt; &gt; import.sql
 psql psql -d &lt;databasename&gt; -h &lt;hostname&gt; -U &lt;username&gt; -f import.sql
 </PRE></div>
-<P></P>
-<A NAME="toc77"></A>
+
+<A NAME="toc78"></A>
 <H3>2.6.2. pgsql2shp</H3>
+
 <P>
-pgsql2shp is a commandline tool to export PostGIS Tables, Views or SQL select queries. To do this under Unix:
+pgsql2shp is a commandline tool to export PostGIS Tables, Views or SQL select
+queries. To do this under Unix:
 </P>
+
 <div class="code"><PRE>
 pgsql2shp -f &lt;path to new shapefile&gt; -g &lt;geometry column name&gt; \
   -h &lt;hostname&gt; -U &lt;username&gt; &lt;databasename&gt; &lt;table | view&gt;
 pgsql2shp -f &lt;path to new shapefile&gt; -g &lt;geometry column name&gt; \
   -h &lt;hostname&gt; -U &lt;username&gt; "&lt;query&gt;"
 </PRE></div>
-<P></P>
-<A NAME="toc78"></A>
+
+<A NAME="toc79"></A>
 <H3>2.6.3. ogr2ogr</H3>
+
 <P>
-ogr2ogr is a very powerful tool to convert data into and from postgis to many dataformats. ogr2ogr is part of the GDAL/OGR Software and has to be installed seperately. To export a table from PostGIS to GML you can use this command:
+ogr2ogr is a very powerful tool to convert data into and from postgis to many
+data formats. ogr2ogr is part of the GDAL/OGR Software and has to be installed
+separately. To export a table from PostGIS to GML, you can use this command:
 </P>
+
 <div class="code"><PRE>
 ogr2ogr -f GML export.gml PG:'dbname=&lt;databasename&gt; user=&lt;username&gt; host=&lt;hostname&gt;' &lt;Name of PostGIS-Table&gt;
 </PRE></div>
-<P></P>
-<A NAME="toc79"></A>
+
+<A NAME="toc80"></A>
 <H3>2.6.4. spit</H3>
+
 <P>
-SPIT is a QGIS plugin, which is delivered with QGIS. You can use SPIT for uploading ESRI shapefiles to postgis.
+SPIT is a QGIS plugin which is delivered with QGIS. You can use SPIT for
+uploading ESRI shapefiles to postgis.
 </P>
 </DIV>
 
-<!-- html code generated by txt2tags 2.5 (http://txt2tags.sf.net) -->
-<!-- cmdline: txt2tags -t html -o pgtraining.html pgtraining.t2t -->
+<!-- html code generated by txt2tags 2.6 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -t html pgtraining.t2t -->
 </BODY></HTML>
