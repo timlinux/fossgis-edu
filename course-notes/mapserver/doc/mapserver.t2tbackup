@@ -1389,7 +1389,7 @@ your service. Under Ubuntu this configuration file is stored as /etc/tilecache.c
 For our world.map file we can add the following entry (you must do it as sudo user):
 
 ```
-sudo vim /etc/tilecache.cfg
+sudo gedit /etc/tilecache.cfg
 ```
 Now add an entry like this:
 
