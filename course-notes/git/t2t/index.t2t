@@ -551,7 +551,27 @@ and luitenants model'.
 [img/placeholder.png]
 
 In this arrangement, there is one person (the 'captain') who performs the final 
-integration into the official repository. Under the 'captain', various 
+integration into the official repository. Under the 'captain', various 'luitenants' 
+take responsibility for different aspects of the code base. Each 'luitenant' has 
+a team of 1 or more developers who push to his repository (or request him to pull 
+from theirs). The 'luitenant' collates all developer's work and when it is ready 
+asks the captain to integrate the work into the official repository. This topology 
+works well for organisations or projects with a well established heirarchy
+
+
+== Decentralised Model ==
+
+In a decentralised model there is no real 'single point of truth'. Developer's share 
+their work with each other on an //ad hoc// basis.
+
+[img/placeholder.png]
+
+Version history is exchanged between repositories on an //ad hoc// basis.
+
+== Hybrid topology ==
+
+The choice of topology is not fixed - you may choose to mix elements together in a
+way that suites your organisation of project the best.
 
 
 == Git under windows ==
