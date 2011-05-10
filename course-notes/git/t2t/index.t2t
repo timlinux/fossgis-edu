@@ -1,4 +1,4 @@
-Working with GIT
+Working with Git
 Tim Sutton
 2011
 
@@ -57,22 +57,22 @@ Tim Sutton
 
 
 
-= Working with GIT = 
+= Working with Git = 
 
-This document provides a simple introduction to working with git. GIT is a
+This document provides a simple introduction to working with git. Git is a
 distributed source code management (SCM) system. Although this is a source code
 management system, you can use it for **any** type of documents that you want
 to version control and / or work on collaboratively with others.
 
-If you are familiar with SVN, GIT is quite similar but adds some new concepts.
-In particular, GIT is distributed, which means there doesnt have to be one
-single repository that you work against. GIT also is ideal for offline work
+If you are familiar with SVN, Git is quite similar but adds some new concepts.
+In particular, Git is distributed, which means there doesnt have to be one
+single repository that you work against. Git also is ideal for offline work
 where you still want to do version control. We will explore this more as we go
 on.
 
 == Installation ==
 
-Installing GIT is easy. Under linux, install like this:
+Installing Git is easy. Under linux, install like this:
 
 ```
 sudo apt-get install git meld gitg
@@ -198,7 +198,7 @@ nothing to commit (working directory clean)
 Let's make a small change to the README file:
 
 ```
-Hello world from my sandbox - I'm using GIT!
+Hello world from my sandbox - I'm using Git!
 ```
 
 Git status will show that the file is now modified: 
@@ -282,16 +282,16 @@ index 2d564aa..d85ea56 100644
 +++ b/README
 @@ -1 +1 @@
 -Hello from my sandbox
-+Hello from my sandbox - I'm using GIT!
++Hello from my sandbox - I'm using Git!
 ```
 
 You can see the two options I passed to the diff command are shortened versions
 of the SHA-1 hashes assigned to each commit. You can also see that the text in
-my README file was augmented with the phrase "I'm using GIT!".
+my README file was augmented with the phrase "I'm using Git!".
 
 Hopefully this quick look at git has given you the basic concept. In the
 sections that follow we will explore with more detail some of the other things
-you can do with GIT.
+you can do with Git.
 
 
 == Git Workflows ==
@@ -448,7 +448,7 @@ simply open the README in a text editor and resolve the differences. Here
 is another example of where a merge conflict occurs (before resolving):
 
 ```
-Hello from my sandbox  - I'm using GIT!
+Hello from my sandbox  - I'm using Git!
 This is a change in the original.
 <<<<<<< HEAD
 Local Change
@@ -461,14 +461,14 @@ And then after editing the conflicted file it might look like this:
 
 
 ```
-Hello from my sandbox  - I'm using GIT!
+Hello from my sandbox  - I'm using Git!
 This is a change in the original.
 Local Change
 Yet another change
 ```
 
 Once you have created the final version, you need to commit to indicate to 
-GIT that the conflict has been resolved. Doing a //git status// will show 
+Git that the conflict has been resolved. Doing a //git status// will show 
 you what needs to be committed:
 
 ```
@@ -501,7 +501,7 @@ So to finalise the conflict resolution, we can commit our change:
 a clone of repository, you can synchronise it with the changes in 
 the original repository by doing //git pull//. In our simple sandbox example, 
 the two repositories are just two directories in the same file system, 
-though GIT supports synchronising repositories over a network connection 
+though Git supports synchronising repositories over a network connection 
 too, which is commonly how it is used.
 
 == Git Topologies ==
@@ -510,28 +510,30 @@ Git is a distributed versioning system. That means there doesnt't have to be
 one single source for the repository. You can define the topology for your project 
 in a way that is most convenient to you. 
 
-== Central Repository ==
+=== Central Repository ===
 
 If you work in a small team, you may adopt a centralised repository model,
 similar to SVN. Actually it is a bit of a misnomer, since each client who
 checks out the repo obtains a copy (with all its version history) on their
 local machine. This is unlike SVN where you check out only a **snapshot** of
 the current state of the code. In SVN, any time you want to refer back to an
-older commit, you need to query the central repository over the network. In GIT
+older commit, you need to query the central repository over the network. In Git
 you have a full copy of the repository stored locally so that network
 connection is not required. Similarly, with SVN, if you want to commit a
-change, you need to have a network connection to the repository. Under GIT
+change, you need to have a network connection to the repository. Under Git
 however you commit to your local repository first and then push your changes up
 to the central repository when you have a connection available. This makes git
 great for working away from the office, on the plane etc. You just work as per
 normal and when you get connected to the internet again, you simply sync (push)
 your local changes too the //origin// repository.
 
-**Sidebar:** One huge advantage of GIT is that you inherantly have a full historised 
+**Sidebar:** One huge advantage of Git is that you inherantly have a full historised 
 backup for each person who has cloned the repo. If the central repo should be lost, you 
 can simply reinstate it from any of the clones on your developer's desktops.
 
-The workflow (as shown in the illustration below) when working with a central 
+[img/git02.png]
+
+The workflow (as shown in the illustration above) when working with a central 
 repository is simple:
 
 + Clone the repository initially
@@ -540,15 +542,14 @@ repository is simple:
 + Push your changes up to the central repo
 +
 
-[img/placeholder.png]
 
-== Heirarchical Topology ==
+=== Heirarchical Topology ===
 
 In larger teams, or where you have subteams working on different areas of your 
 code base, you may wish to adopt a heirarchical model - also called the 'captain 
 and luitenants model'.
 
-[img/placeholder.png]
+[img/git10.png]
 
 In this arrangement, there is one person (the 'captain') who performs the final 
 integration into the official repository. Under the 'captain', various 'luitenants' 
@@ -559,20 +560,207 @@ asks the captain to integrate the work into the official repository. This topolo
 works well for organisations or projects with a well established heirarchy
 
 
-== Decentralised Model ==
+=== Decentralised Model ===
 
 In a decentralised model there is no real 'single point of truth'. Developer's share 
 their work with each other on an //ad hoc// basis.
 
-[img/placeholder.png]
+[img/git03.png]
 
-Version history is exchanged between repositories on an //ad hoc// basis.
+Version history is exchanged between repositories on an //ad hoc// basis. Repository 
+owners add one or more //remotes// to their repository (a //remote// is a reference to 
+another repository). They then //pull// or //push// their changes to these repos as 
+needed. The choice of when to //push// or //pull// and to which //remote// is a 
+social practice defined by the developers themselves and not enforced by any 
+software.
 
-== Hybrid topology ==
+=== Hybrid topology ===
 
 The choice of topology is not fixed - you may choose to mix elements together in a
-way that suites your organisation of project the best.
+way that suites your organisation of project the best. Here it is easiest to illustrate 
+using Quantum GIS, my favourite open source project as an example.
 
+**Scenario:** The QGIS project has a repository. SANSA is busy building extensions 
+the QGIS project. Linfiniti is creating special software packages for them. Individual 
+developers need to be able to work and collaborate and don't want their work to 
+be puclically visible until they are ready. We can create an architecture like the one 
+illustrated below:
+
+[img/git04.png]
+
+In this architecture, any developer as SANSA can push their changes to the 
+local SANSA GIS Clone. Periodically (e.g. nightly) SANSA will pull changes from the the QGIS 
+official repo into their QGIS clone, so that they can be working against 
+the most up to date QGIS code base. When they have an interesting new feature,
+they can request Linfiniti to pull their changes to the Linfiniti QGIS Clone, test 
+and package the SANSA version of QGIS. When SANSA are ready, and the code complies 
+with QGIS coding standards etc. Linfiniti can push any improvements created by 
+SANSA into the official QGIS repository for the rest of the world to enjoy.
+
+There are many variations and permutations that can be employed, but the key concept 
+to realise is that SANSA can now independently work on the code base using 
+all the coding best practices available and can share their work in an 
+easy and flexible manner.
+
+
+== Git Working Practices ==
+
+In this section we will take a look at Git working practices. There are many git 
+commands and always 10 different ways of doing things, so we will try to cover the 
+basic and commonly used activities.
+
+== Checkout, add, commit, push ==
+
+We've shown you this in the preceeding sections, but it's worth repeating as it's 
+the essence of working with GIT.
+
+[img/git05.png]
+
+When you work with Git, you changes go through a routine:
+
++ Initially when you change a file or create a file, it changes are **unstaged**. 
+  Unstaged is just another way of saying 'will not form part of the next commit'.
++ To stage a file (or group of files) you //git add// them, moving them from 
+  the unstaged area to the **staging area**.
++ One files are staged, you can //git commit// them to your local repository. A 
+  **commit** will be accompanied by a short log message and it also stores the 
+  name and email address of the committer. 
++ You can pass your commits from your local repository over to a remote repository 
+  by doing a //git push//. All the commits in your local repository that don't yet 
+  exist in the upstream repo are **pushed** to it.
++
+
+
+=== Working with remote repositories ===
+
+From Git's point of view, a **remote** repository is anyone that you are not
+currently in. In other words a remote might be on the same local filesystem,
+just in a different place in the file system tree.
+
+[img/git05.png]
+
+You can push and pull commits to and from a remote (depending on permissions).
+
+=== Working in branches ===
+
+One of the principles of Git is to work in branches. SVN also support branches - the 
+concept is the same in Git. However, Git's design (in particular the fact that it 
+assigns SHA-1 globally unique id's to each commit) makes it very easy to create branches 
+and merge their changes back and forth between other branches or the master branch.
+
+[img/git06.png]
+
+
+If you create a branch your work in that branch is isolated from the main code
+store (the //master// branch) - allowing you to safely experiment without
+impacting anything else. In Git branches and features are often used
+synonymously - the idea being that a branch is a place where you develop a new
+feature. While you are working on the feature, changes are probably taking
+place in the //master// branch. To prevent your branch becoming too different
+to the //master branch// you will regularly //git merge// the changes from master in 
+to your branch. Once your work on your feature is complete, you then merge your
+feature branch into the master branch.
+
+You can obtain a list of branches in your local branch (and see which branch
+you are currently in) by using the //git branch// command. If you want to also
+see which branches are in a remote repository, you can use the //git branch
+-r// command.
+
+After you have merged a branch into the //master// branch, usually you will 
+throw away the branch - you can use //git branch -D <branch name> for this. Just 
+make sure you are not currently in the branch that you are deleting or you will 
+evaporate :-).
+
+
+=== Tracking branches ===
+
+Some times you will want to work collaboratively on a feature with other developers. 
+When the branch for that feature is in a remote repository, you can create a 
+local branch that **tracks** the remote branch. This is illustrated below:
+
+[img/git08.png]
+
+To illustrate, lets first create a branch in our sandbox, check it out, make
+some changes and then commit them.
+
+```
+[git-sandbox] git branch newfeature
+[git-sandbox] git checkout newfeature
+Switched to branch 'newfeature'
+[git-sandbox] echo "Hello from upstream newfeature branch" > README 
+[git-sandbox] git add README 
+[git-sandbox] git commit -m "Added new feature to readme in upstream branch"
+[newfeature 56ee8af] Added new feature to readme in upstream branch
+ 1 files changed, 1 insertions(+), 4 deletions(-)
+```
+
+Now let's go to our clone directory. You create a tracking branch by doing the following:
+
+```
+cd ../git-sandbox-clone
+git fetch
+git branch -r
+```
+
+The above commands will update the list of remote branches available and then display 
+it to you. In this case they show this output:
+
+````
+[git-sandbox] cd ../git-sandbox-clone
+[git-sandbox-clone] git fetch
+remote: Counting objects: 5, done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From /tmp/git-sandbox
+ * [new branch]      newfeature -> origin/newfeature
+[git-sandbox-clone] git branch -r
+   origin/HEAD -> origin/master
+   origin/master
+   origin/newfeature
+```
+
+You can see when we did a //git fetch//, the new branch was found in git-sandbox. When we 
+ran //git branch// the branches from **origin** (the original repo that we cloned) are 
+listed, including our newfeature branch. Now you can actually check out the branch:
+
+```
+git branch --track newfeature origin/newfeature
+git pull
+git checkout newfeature
+```
+
+When you check out the newfeature branch, you will see it contains the changes
+we made a moment ago.
+
+```
+[git-sandbox-clone] git branch --track newfeature origin/newfeature
+Branch newfeature set up to track remote branch newfeature from origin.
+[git-sandbox-clone] git pull
+Already up-to-date.
+[git-sandbox-clone] git checkout newfeature
+Switched to branch 'newfeature'
+[git-sandbox-clone] cat README
+Hello from upstream newfeature branch
+```
+
+When you do a //git pull// on a tracking branch it will fetch changes from the 
+origin repository and merge them into your copy of the branch. You can go ahead
+and make changes to your branch and then pull updates regularly from the origin
+repository.
+
+=== Some useful git commands ===
+
+There are many many commands available for git. The resources section at the end of 
+this document points to some good sites where you can learn more after this primer.
+Here are a couple of other commands you may find useful in your day to day work:
+
+[img/git09.png]
+
+Any discussion of Git would be lacking if we did not mention [github
+http://github.com]. Github provide a free git hosting facility for your online
+git repositories. The free repositories must be public. For a fee you can also
+purchase space for hosting private repositories.
 
 == Git under windows ==
 
@@ -624,3 +812,8 @@ also a tortoisegit explorer integration for windows you can try but I havent
 used it and don't know how well it works.
 
 
+== Further Reading ==
+
+http://gitref.org
+http://progit.org
+http://gitready.com
