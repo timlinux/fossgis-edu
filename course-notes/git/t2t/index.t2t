@@ -386,8 +386,173 @@ Date:   Mon May 9 16:35:37 2011 +0200
  First version of README
 ```
 
-Now we can see the three commits. What if we want to propogate our changes back
-to the original repo?
+Well done - you cloned the repository and make a change in your local copy.
+
+== Git conflicts =
+
+Lets go back to our original repository and update the readme file with a new change:
+
+```
+cd ../git-sandbox
+gedit README
+```
+
+And add this line:
+
+```
+This is a change in the original.
+```
+
+Now commit your changes and return to the clone directory:
+
+```
+[git-sandbox] git add README
+git commit -m "A new update from the original repo"
+cd ../git-sandbox-clone
+```
+
+Now we will merge any changes made in the original repo into our clone:
+
+```
+[git-sandbox-clone] git pull
+Auto-merging README
+CONFLICT (content): Merge conflict in README
+Automatic merge failed; fix conflicts and then commit the result.
+
+```
+
+What happened? Git pulled in the changes made in the original repo, but detected that 
+the same line had been changed in both the original repo and the clone, so it 
+doesn't know how to combine them. We can help git to resolve the issues by running //git mergetool//.
+
+```
+[git-sandbox-clone] git mergetool
+merge tool candidates: meld opendiff kdiff3 tkdiff xxdiff tortoisemerge
+           gvimdiff diffuse ecmerge p4merge araxis vimdiff emerge
+Merging the files: README
+
+Normal merge conflict for 'README':
+  {local}: modified
+    {remote}: modified
+    Hit return to start merge resolution tool (meld):
+```
+
+When you press enter a graphical user interface will appear (if you are on
+linux) which looks something like this.:
+
+[img/image01.jpeg]
+
+The merge tool shows a side by side view of the version or README in your 
+local repository (clone) and the version of README. Alternatively you can
+simply open the README in a text editor and resolve the differences. Here 
+is another example of where a merge conflict occurs (before resolving):
+
+```
+Hello from my sandbox  - I'm using GIT!
+This is a change in the original.
+<<<<<<< HEAD
+Local Change
+=======
+Yet another change
+>>>>>>> 1386adb6b1b6131d64d18f2bffa877a6687b0073
+```
+
+And then after editing the conflicted file it might look like this:
+
+
+```
+Hello from my sandbox  - I'm using GIT!
+This is a change in the original.
+Local Change
+Yet another change
+```
+
+Once you have created the final version, you need to commit to indicate to 
+GIT that the conflict has been resolved. Doing a //git status// will show 
+you what needs to be committed:
+
+```
+[git-sandbox-clone] git status
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 1 different commit(s) each, respectively.
+#
+# Unmerged paths:
+#   (use "git add/rm <file>..." as appropriate to mark resolution)
+#
+#   both modified:      README
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#   README.orig
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+So to finalise the conflict resolution, we can commit our change:
+
+```
+[git-sandbox-clone] git add README
+[git-sandbox-clone] git commit -m "Resolved merge conflicts on README"
+[master ed30a38] Resolved merge conflicts on README
+```
+
+**Sidebar:** We learnt something else new in this section: When we have 
+a clone of repository, you can synchronise it with the changes in 
+the original repository by doing //git pull//. In our simple sandbox example, 
+the two repositories are just two directories in the same file system, 
+though GIT supports synchronising repositories over a network connection 
+too, which is commonly how it is used.
+
+== Git Topologies ==
+
+Git is a distributed versioning system. That means there doesnt't have to be 
+one single source for the repository. You can define the topology for your project 
+in a way that is most convenient to you. 
+
+== Central Repository ==
+
+If you work in a small team, you may adopt a centralised repository model,
+similar to SVN. Actually it is a bit of a misnomer, since each client who
+checks out the repo obtains a copy (with all its version history) on their
+local machine. This is unlike SVN where you check out only a **snapshot** of
+the current state of the code. In SVN, any time you want to refer back to an
+older commit, you need to query the central repository over the network. In GIT
+you have a full copy of the repository stored locally so that network
+connection is not required. Similarly, with SVN, if you want to commit a
+change, you need to have a network connection to the repository. Under GIT
+however you commit to your local repository first and then push your changes up
+to the central repository when you have a connection available. This makes git
+great for working away from the office, on the plane etc. You just work as per
+normal and when you get connected to the internet again, you simply sync (push)
+your local changes too the //origin// repository.
+
+**Sidebar:** One huge advantage of GIT is that you inherantly have a full historised 
+backup for each person who has cloned the repo. If the central repo should be lost, you 
+can simply reinstate it from any of the clones on your developer's desktops.
+
+The workflow (as shown in the illustration below) when working with a central 
+repository is simple:
+
++ Clone the repository initially
++ Make local changes and add them
++ Commit those changes locally
++ Push your changes up to the central repo
++
+
+[img/placeholder.png]
+
+== Heirarchical Topology ==
+
+In larger teams, or where you have subteams working on different areas of your 
+code base, you may wish to adopt a heirarchical model - also called the 'captain 
+and luitenants model'.
+
+[img/placeholder.png]
+
+In this arrangement, there is one person (the 'captain') who performs the final 
+integration into the official repository. Under the 'captain', various 
+
 
 == Git under windows ==
 
