@@ -141,22 +141,22 @@ Layer -> Add PostGIS Layer -> New
 
 And then configure it to look like this:
 
-[img/image01.jpeg]
+ | [img/image01.jpeg]
 
 Now connect to your database. You may get an error like the one below, which
 you can safely ignore - it appears because we (purposely) gave the ms_readonly
 account limited permissions.
 
-[img/image02.jpeg]
+ | [img/image02.jpeg]
 
 Once you have connected, open the countries and cities layers in QGIS:
 
-[img/image03.jpeg]
+ | [img/image03.jpeg]
 
 Which should open with some random colours like this:
 
 
-[img/image04.jpeg]
+ | [img/image04.jpeg]
 
 ""Note:"" Make sure that both layers are using 'Old Symbology'!
 
@@ -172,12 +172,12 @@ Lets dive right in! We are going to use two plugins to help us do our work.
 First install the Mapfile Tools plugin in QGIS (you must enabled 3rd party
 repositories first).
 
-[img/image05.jpeg]
+ | [img/image05.jpeg]
 
 Next use the plugin manager to enable the mapserver export tool - which we will
 use to create your initial map file. 
 
-[img/image06.jpeg]
+ | [img/image06.jpeg]
 
 Save your qgis project - I called mine world.qgs and I placed it in a directory
 structure like this:
@@ -207,11 +207,11 @@ mapserver-tut/
 ""Note:"" The directory where you place the map file and the map file itself
 must be accessible to the apache www-data user.
 
-[img/image08.jpeg]
+ | [img/image08.jpeg]
 
 After the export you will see a message with some tips like this:
 
-[img/image09.jpeg]
+ | [img/image09.jpeg]
 
 
 Before it can be used, the map file as exported needs a few tweaks. Open it
@@ -534,7 +534,7 @@ http://localhost/cgi-bin/mapserv?
 It should return a pretty picture something like this:
 
 
-[img/image10.jpeg]
+ | [img/image10.jpeg]
 
 == Testing with QGIS ==
 
@@ -554,7 +554,7 @@ And then define your new WMS layer source as:
 | Url | http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map |
 
 
-[img/image11.jpeg]
+ | [img/image11.jpeg]
 
 === Adding a layer ===
 
@@ -563,12 +563,12 @@ Now select 'Localhost World' from your connections list and click 'connect'.
 Then select the top level item on the tree then click 'add':
 
 
-[img/image12.jpeg]
+ | [img/image12.jpeg]
 
 You should see the same layer we saw previously in the web browser, but now 
 rendered in QGIS. But now you can pan and zoom around in the layer!
 
-[img/image13.jpeg]
+ | [img/image13.jpeg]
 
 
 == Beautifying you map ==
@@ -635,7 +635,7 @@ Uncomment at around line 120:
 
 Now refresh your map view in QGIS and you should see something like this:
 
-[img/image14.jpeg]
+ | [img/image14.jpeg]
 
 The symbolset file is used to define any symbols you want to use. The process
 of creating symbols is described in the
@@ -652,11 +652,11 @@ population they host.
 In QGIS I can load the cities layer and then create graduated symbology for it
 (make sure you are using the 'old' symbology) based on the population.
 
-[img/image15.jpeg]
+ | [img/image15.jpeg]
 
 When you click ok, your map should now look like this:
 
-[img/image16.jpeg]
+ | [img/image16.jpeg]
 
 Now save your project and run the mapserver export tool again, but this time
 tick the 'LAYER information only' box and set the map file name to a temporary
@@ -664,7 +664,7 @@ file e.g. /tmp/test.map. Doing this will create a map file with only layer
 definitions in it, which we can then use to overwrite the existing cities layer
 definition in our map file:
 
-[img/image17.jpeg]
+ | [img/image17.jpeg]
 
 Now use a text editor to cut the 'cities' layer definition from the
 /tmp/test.map file you made and overwrite the cities definition in the
@@ -795,7 +795,7 @@ limits for that class.
 
 Lets add our mapserver layer back into QGIS and test what the result looks like:
 
-[img/image18.jpeg]
+ | [img/image18.jpeg]
 
 === Now you try ===
 
@@ -803,7 +803,7 @@ Use the techniques we have learned above to create distinct classes on the
 country layer based on the population size in each country. We want to achieve
 something like this:
 
-[img/image19.jpeg]
+ | [img/image19.jpeg]
 
 
 == An exercise ==
@@ -1196,7 +1196,7 @@ and its world file.
 Lets add this raster to QGIS then export its layer definitions as we have done
 before with vector data:
 
-[img/image20.jpeg]
+ | [img/image20.jpeg]
 
 It should have produced something that looks like this:
 
@@ -1232,7 +1232,7 @@ relative path so:
 Test again in the usual way - by adding a wms layer to QGIS and including all
 layers from the service:
 
-[img/image21.jpeg]
+ | [img/image21.jpeg]
 
 
 == Transparency ==
@@ -1304,7 +1304,7 @@ http://localhost/cgi-bin/mapserv?
 
 and it will produce a graphic like this:
 
-[img/image21.png]
+ | [img/image21.png]
 
 == On the Fly Projection (OTFP) ==
 
@@ -1441,7 +1441,7 @@ We can test our tilecache services by creating a new QGIS WMS connection that
 points to it:
 
 
-[img/image22.jpeg]
+ | [img/image22.jpeg]
 
 Note that the connection points now to:
 
@@ -1453,7 +1453,7 @@ Rather than directly to our mapserver instance. Now go ahead and connect to the
 service
 
 
-[img/image23.jpeg]
+ | [img/image23.jpeg]
 
 You will notice that the tilesets tab is activated (there must be no layers
 selected on the layers tab).
