@@ -4,11 +4,12 @@
 *.*~
 course-notes/django/django_training.html
 course-notes/django/django_training.pdf
-course-notes/mapserver/mapserver.html
-course-notes/mapserver/mapserver.log
-course-notes/mapserver/mapserver.pdf
-course-notes/mapserver/mapserver.tex
-course-notes/mapserver/texput.log
+course-notes/mapserver/t2t/LinfinitiMapserverTutorial.aux
+course-notes/mapserver/t2t/LinfinitiMapserverTutorial.log
+course-notes/mapserver/t2t/LinfinitiMapserverTutorial.out
+course-notes/mapserver/t2t/LinfinitiMapserverTutorial.pdf
+course-notes/mapserver/t2t/LinfinitiMapserverTutorial.tex
+course-notes/mapserver/t2t/LinfinitiMapserverTutorial.toc
 course-notes/git/t2t/LinfinitiGitTutorial.aux
 course-notes/git/t2t/LinfinitiGitTutorial.log
 course-notes/git/t2t/LinfinitiGitTutorial.out

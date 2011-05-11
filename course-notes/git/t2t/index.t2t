@@ -25,7 +25,7 @@ Tim Sutton
 %! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
 % Make verbatim text a little smaller and use fancyvrb package to draw it in a box
 % Note Verbatim with capital V for fancyvrb to work
-%! PostProc(tex): '\\begin{verbatim}' '{\\tiny\n\\begin{Verbatim}[frame=single,rulecolor=\\color{linfiniti-blue}, framesep=4mm, label=\\fbox{\\small\\emph{Listing}}]'
+%! PostProc(tex): '\\begin{verbatim}' '{\\scriptsize\\begin{Verbatim}[frame=single,rulecolor=\\color{linfiniti-blue}, framesep=4mm, label=\\fbox{\\small\\emph{Listing}}]'
 %! PostProc(tex): '\\end{verbatim}' '\\end{Verbatim}\n}'
 %! PostProc(tex): '\\section' '\\newpage\\section'
 %! PostProc(tex): 'section{' 'section{\color{linfiniti-blue}'
@@ -90,7 +90,8 @@ I would like to plunge in with a quick start to using git and then come back to
 a more systematic coverage of the tool. The idea is to get you familiar with
 the concepts in the following diagram:
 
-[img/git-basic-workflow.png]
+% | centers the image
+ | [img/git-basic-workflow.png]
 
 === Create a local repository === 
 
@@ -440,7 +441,7 @@ Normal merge conflict for 'README':
 When you press enter a graphical user interface will appear (if you are on
 linux) which looks something like this.:
 
-[img/image01.jpeg]
+ | [img/image01.jpeg]
 
 The merge tool shows a side by side view of the version or README in your 
 local repository (clone) and the version of README. Alternatively you can
@@ -531,7 +532,7 @@ your local changes too the //origin// repository.
 backup for each person who has cloned the repo. If the central repo should be lost, you 
 can simply reinstate it from any of the clones on your developer's desktops.
 
-[img/git02.png]
+ | [img/git02.png]
 
 The workflow (as shown in the illustration above) when working with a central 
 repository is simple:
@@ -549,7 +550,7 @@ In larger teams, or where you have subteams working on different areas of your
 code base, you may wish to adopt a heirarchical model - also called the 'captain 
 and luitenants model'.
 
-[img/git10.png]
+ | [img/git10.png]
 
 In this arrangement, there is one person (the 'captain') who performs the final 
 integration into the official repository. Under the 'captain', various 'luitenants' 
@@ -565,7 +566,7 @@ works well for organisations or projects with a well established heirarchy
 In a decentralised model there is no real 'single point of truth'. Developer's share 
 their work with each other on an //ad hoc// basis.
 
-[img/git03.png]
+ | [img/git03.png]
 
 Version history is exchanged between repositories on an //ad hoc// basis. Repository 
 owners add one or more //remotes// to their repository (a //remote// is a reference to 
@@ -586,7 +587,7 @@ developers need to be able to work and collaborate and don't want their work to
 be puclically visible until they are ready. We can create an architecture like the one 
 illustrated below:
 
-[img/git04.png]
+ | [img/git04.png]
 
 In this architecture, any developer as SANSA can push their changes to the 
 local SANSA GIS Clone. Periodically (e.g. nightly) SANSA will pull changes from the the QGIS 
@@ -614,7 +615,7 @@ basic and commonly used activities.
 We've shown you this in the preceeding sections, but it's worth repeating as it's 
 the essence of working with GIT.
 
-[img/git05.png]
+ | [img/git05.png]
 
 When you work with Git, you changes go through a routine:
 
@@ -637,7 +638,7 @@ From Git's point of view, a **remote** repository is anyone that you are not
 currently in. In other words a remote might be on the same local filesystem,
 just in a different place in the file system tree.
 
-[img/git05.png]
+ | [img/git05.png]
 
 You can push and pull commits to and from a remote (depending on permissions). 
 When you clone from a remote repository, a remote repository entry pointing from your 
@@ -736,7 +737,7 @@ Remotes are a powerful feature - the let you tap into the distributed nature of
 Git, absorbing changes from any repository that interestes you. The next
 illustration shows a typical use of multiple remotes.
 
-[img/git07.png]
+ | [img/git07.png]
 
 
 === Working in branches ===
@@ -746,7 +747,7 @@ concept is the same in Git. However, Git's design (in particular the fact that i
 assigns SHA-1 globally unique id's to each commit) makes it very easy to create branches 
 and merge their changes back and forth between other branches or the master branch.
 
-[img/git06.png]
+ | [img/git06.png]
 
 
 If you create a branch your work in that branch is isolated from the main code
@@ -776,7 +777,7 @@ Some times you will want to work collaboratively on a feature with other develop
 When the branch for that feature is in a remote repository, you can create a 
 local branch that **tracks** the remote branch. This is illustrated below:
 
-[img/git08.png]
+ | [img/git08.png]
 
 To illustrate, lets first create a branch in our sandbox, check it out, make
 some changes and then commit them.
@@ -853,7 +854,7 @@ There are many many commands available for git. The resources section at the end
 this document points to some good sites where you can learn more after this primer.
 Here are a couple of other commands you may find useful in your day to day work:
 
-[img/git09.png]
+ | [img/git09.png]
 
 Any discussion of Git would be lacking if we did not mention [github
 http://github.com]. Github provide a free git hosting facility for your online
