@@ -28,7 +28,7 @@ Tim Sutton
 %! PostProc(tex): '\\begin{verbatim}' '{\\scriptsize\n\\begin{Verbatim}[frame=single,rulecolor=\\color{linfiniti-blue}, framesep=4mm, label=\\fbox{\\small\\emph{Listing}}]'
 %! PostProc(tex): '\\end{verbatim}' '\\end{Verbatim}\n}'
 %! PostProc(tex): '\\section' '\\newpage\\section'
-%! PostProc(tex): 'section{' 'section{\color{linfiniti-blue}'
+%! PostProc(tex): 'section{' 'section{\\color{linfiniti-blue}'
 %! PostProc(tex): NEWPAGE  '\\newpage'
 % Give alternating table rows different colours and use a smaller font in tables (\tiny)
 %! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
