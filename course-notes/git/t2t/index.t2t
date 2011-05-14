@@ -1,0 +1,918 @@
+Working with Git
+Tim Sutton
+2011
+
+%! target       : tex
+%! style        : style.css
+%! Options      : --toc --toc-level 1 --enum-title --css-sugar --css-inside
+%! preproc      : TUT_URL   https://qgis.org
+%! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
+%! PostProc(html): '(?i)(</pre>)' '\1</div>'
+%
+% Tex processing
+%
+% Make sure this is first
+%! PostProc(tex): '\\includegraphics' '\\includegraphics[width=100mm]'
+% scartcl is from the koma script document class (apt-get install texlive-latex-recommended ttf-komatuna)
+% setlength parindent suppresses first line of paragraph idents
+% parskip puts blank space between paragraphs
+% title pic stuff used to put a logo on the front page
+%! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
+% use the color table and table packages so we can pimp the tables a little
+%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
+% Make the header row of tables have a dark background. light text
+%! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
+%! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
+% Make verbatim text a little smaller and use fancyvrb package to draw it in a box
+% Note Verbatim with capital V for fancyvrb to work
+%! PostProc(tex): '\\begin{verbatim}' '{\\scriptsize\\begin{Verbatim}[frame=single,rulecolor=\\color{linfiniti-blue}, framesep=4mm, label=\\fbox{\\small\\emph{Listing}}]'
+%! PostProc(tex): '\\end{verbatim}' '\\end{Verbatim}\n}'
+%! PostProc(tex): '\\section' '\\newpage\\section'
+%! PostProc(tex): 'section{' 'section{\\color{linfiniti-blue}'
+%! PostProc(tex): NEWPAGE  '\\newpage'
+% Give alternating table rows different colours and use a smaller font in tables (\tiny)
+%! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
+%! encoding: iso-8859-1
+
+%! PostProc(tex): WALLPAPER-IMAGE '../../resources/linfiniti-footer.png'
+% These are comments and will not be generated in any output
+% -------------------
+
+%This document is in text2tags format. You can generate html, plain text and
+%moinmoin formatted documentation by running txt2tags on this document. See the
+%txt2tags home page for more details.  Please insert manual line breaks in this
+%document as it makes diffing for changes much easier. To do this in vim
+%automatically, select a section then issue (gq) command. Please dont
+%apply vim formatting to the whol document as it screws up some formatting
+%rather apply it selectively to paragraphs where needed.
+
+% To generate the text version of this document:
+% txt2tags -t txt -o index index.t2t
+% To generate the moinmoin version of this document
+% txt2tags -t moin -o index.moin  index.t2t
+% To generate the html version of this document
+% txt2tags -t html -o index.html index.t2t
+% To generate a LaTeX / pdf
+% txt2tags -t tex -o index.tex index.t2t; pdflatex index.tex
+
+
+
+= Working with Git = 
+
+This document provides a simple introduction to working with git. Git is a
+distributed source code management (SCM) system. Although this is a source code
+management system, you can use it for **any** type of documents that you want
+to version control and / or work on collaboratively with others.
+
+If you are familiar with SVN, Git is quite similar but adds some new concepts.
+In particular, Git is distributed, which means there doesnt have to be one
+single repository that you work against. Git also is ideal for offline work
+where you still want to do version control. We will explore this more as we go
+on.
+
+== Installation ==
+
+Installing Git is easy. Under linux, install like this:
+
+```
+sudo apt-get install git meld gitg
+```
+
+The latter two are not actually needed but will prove useful later.
+
+Under windows you can use msysgit - notes on using msys git are provided
+further down in this document.
+
+
+== Quick Start ==
+
+I would like to plunge in with a quick start to using git and then come back to
+a more systematic coverage of the tool. The idea is to get you familiar with
+the concepts in the following diagram:
+
+% | centers the image
+ | [img/git-basic-workflow.png]
+
+=== Create a local repository === 
+
+We start off by creating a local repository. A local repository resides on your
+own hard dist (its just a directory with some special hidden files in it), and
+allows you to do all normal SCM activities - check out code, make changes,
+commit, review your history and so on. We will just make a new directory and
+initialise it as a git repository:
+
+```
+cd dev
+mkdir git-sandbox
+cd git-sandbox
+git init
+```
+
+Ok now we have a repository, lets do some work in it.
+
+=== Adding a file to the repository ===
+
+To version any files in the repository, you just need to copy them into your
+directory (in our example it is called git-sandbox) or create them. Let's
+create a file called README:
+
+```
+gedit README
+```
+
+or
+
+```
+vim README
+```
+
+Now we will write a little text to the file:
+
+```
+Hello world from my sandbox
+```
+
+Then save and close the file. We can use the git //status// command to see the
+status of our repository:
+
+```
+git status
+```
+
+Which will return something like this:
+
+```
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	README
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+It tells us that we have one untracked file - the README file we just created.
+So how do we start tracking the file?
+
+```
+git add README
+```
+
+Now //git status// will show the file as tracked:
+
+
+
+```
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#	new file:   README
+#
+
+```
+
+Ok, now you can commit your file:
+
+```
+git commit -m "First version of README"
+[master (root-commit) 7ea07e1] First version of README
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+ create mode 100644 README
+```
+
+The //-m// option is used to specify the commit message. If you don't provide a
+//-m// option, git will prompt you for a message using a simple text editor.
+Once the file is committed, your repository will have a nice clean status:
+
+```
+git status
+# On branch master
+nothing to commit (working directory clean)
+```
+
+Let's make a small change to the README file:
+
+```
+Hello world from my sandbox - I'm using Git!
+```
+
+Git status will show that the file is now modified: 
+
+```
+# On branch master
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   README
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+This change is **unstaged** - it wont be included in your next commit unless
+you add it.
+
+```
+git add README
+```
+
+Now its status is set to **staged** - it will be included in the next commit
+you make.
+
+```
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   README
+#
+
+```
+
+Finally you can commit your change using the commit command again:
+
+```
+git commit -m "Improved the README"
+[master 983f6fd] Improved the README
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+```
+
+Did you notice that odd looking number in the output? 983f6fd is shortened
+version of the unique SHA-1 hash assigned to that commit. Each commit you make
+will be assigned such an identifier. The commit numbers are not sequential
+numbers like SVN has. The reason for this is that the commits need to be
+globally unique in a distributed repository environment (which we will explore
+later).
+
+We will finish off our quick start tour by running a few interesting commands
+on our repository:
+
+```
+git log README 
+commit 983f6fda163c09094ef6939b7d4db4af1bfa8c3c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 23:04:08 2011 +0200
+
+    Improved the README
+
+commit 7ea07e1d1e029510a258efebc8cc170cb685803c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 16:35:37 2011 +0200
+
+    First version of README
+
+```
+
+The //git log// command shows you the history of commits made for a file (most
+recent changes are shown above older changes). You can see we have made two
+commits to this file, and the message associated with each commit.
+
+Finally, lets look at the difference between these two commits:
+
+```
+git diff 7ea07e1 983f6 README
+diff --git a/README b/README
+index 2d564aa..d85ea56 100644
+--- a/README
++++ b/README
+@@ -1 +1 @@
+-Hello from my sandbox
++Hello from my sandbox - I'm using Git!
+```
+
+You can see the two options I passed to the diff command are shortened versions
+of the SHA-1 hashes assigned to each commit. You can also see that the text in
+my README file was augmented with the phrase "I'm using Git!".
+
+Hopefully this quick look at git has given you the basic concept. In the
+sections that follow we will explore with more detail some of the other things
+you can do with Git.
+
+
+== Git Workflows ==
+
+In this section we are going to walk you through various scenarios to show you
+how git can be used effectively.
+
+=== Repository Clones ===
+
+You can create your repository in one of two ways:
+
++ Initialise a new one
++ Clone an existing one
++
+
+We already created our own repository using the 'quick start' section above.
+Let us see how you can clone the repository we made earlier (we will assume
+that you are still in the **git-sandbox** directory at this time):
+
+```
+cd ..
+git clone git-sandbox git-sandbox-clone
+```
+
+You should see a message like this:
+
+```
+Initialized empty Git repository in /tmp/git-sandbox-clone/.git/
+```
+
+Now if we enter the cloned repository, we can work in it just like we worked in
+the original directory. Lets run that //git log// command again:
+
+```
+[git-sandbox-clone] git log
+commit 983f6fda163c09094ef6939b7d4db4af1bfa8c3c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 23:04:08 2011 +0200
+
+    Improved the README
+
+commit 7ea07e1d1e029510a258efebc8cc170cb685803c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 16:35:37 2011 +0200
+
+    First version of README
+
+```
+
+You can see our clone has exactly the same commit history as the original
+repository has - it is an exact clone of the original. Let's make another
+change to our README file and commit it. I'm going to add this line:
+
+```
+This line was added in the cloned repository.
+```
+
+And then //git add// and //git commit// my changes:
+
+```
+git add README
+git commit -m "Added a line while in my cloned repo"
+```
+
+Which produces output like this:
+
+```
+[master 218dfa8] Added a line while in my cloned repo
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+```
+
+Now run the //git log// command again and look at the output:
+
+```
+[git-sandbox-clone] git log README
+commit 218dfa8474c3213b1a77973df8739ed75120bde5
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 23:31:21 2011 +0200
+
+ Added a line while in my cloned repo
+
+commit 983f6fda163c09094ef6939b7d4db4af1bfa8c3c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 23:04:08 2011 +0200
+
+ Improved the README
+
+commit 7ea07e1d1e029510a258efebc8cc170cb685803c
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Mon May 9 16:35:37 2011 +0200
+
+ First version of README
+```
+
+Well done - you cloned the repository and make a change in your local copy.
+
+== Git conflicts =
+
+Lets go back to our original repository and update the readme file with a new change:
+
+```
+cd ../git-sandbox
+gedit README
+```
+
+And add this line:
+
+```
+This is a change in the original.
+```
+
+Now commit your changes and return to the clone directory:
+
+```
+[git-sandbox] git add README
+git commit -m "A new update from the original repo"
+cd ../git-sandbox-clone
+```
+
+Now we will merge any changes made in the original repo into our clone:
+
+```
+[git-sandbox-clone] git pull
+Auto-merging README
+CONFLICT (content): Merge conflict in README
+Automatic merge failed; fix conflicts and then commit the result.
+
+```
+
+What happened? Git pulled in the changes made in the original repo, but detected that 
+the same line had been changed in both the original repo and the clone, so it 
+doesn't know how to combine them. We can help git to resolve the issues by running //git mergetool//.
+
+```
+[git-sandbox-clone] git mergetool
+merge tool candidates: meld opendiff kdiff3 tkdiff xxdiff tortoisemerge
+           gvimdiff diffuse ecmerge p4merge araxis vimdiff emerge
+Merging the files: README
+
+Normal merge conflict for 'README':
+  {local}: modified
+    {remote}: modified
+    Hit return to start merge resolution tool (meld):
+```
+
+When you press enter a graphical user interface will appear (if you are on
+linux) which looks something like this.:
+
+ | [img/image01.jpeg]
+
+The merge tool shows a side by side view of the version or README in your 
+local repository (clone) and the version of README. Alternatively you can
+simply open the README in a text editor and resolve the differences. Here 
+is another example of where a merge conflict occurs (before resolving):
+
+```
+Hello from my sandbox  - I'm using Git!
+This is a change in the original.
+<<<<<<< HEAD
+Local Change
+=======
+Yet another change
+>>>>>>> 1386adb6b1b6131d64d18f2bffa877a6687b0073
+```
+
+And then after editing the conflicted file it might look like this:
+
+
+```
+Hello from my sandbox  - I'm using Git!
+This is a change in the original.
+Local Change
+Yet another change
+```
+
+Once you have created the final version, you need to commit to indicate to 
+Git that the conflict has been resolved. Doing a //git status// will show 
+you what needs to be committed:
+
+```
+[git-sandbox-clone] git status
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 1 different commit(s) each, respectively.
+#
+# Unmerged paths:
+#   (use "git add/rm <file>..." as appropriate to mark resolution)
+#
+#   both modified:      README
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#   README.orig
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+So to finalise the conflict resolution, we can commit our change:
+
+```
+[git-sandbox-clone] git add README
+[git-sandbox-clone] git commit -m "Resolved merge conflicts on README"
+[master ed30a38] Resolved merge conflicts on README
+```
+
+**Sidebar:** We learnt something else new in this section: When we have 
+a clone of repository, you can synchronise it with the changes in 
+the original repository by doing //git pull//. In our simple sandbox example, 
+the two repositories are just two directories in the same file system, 
+though Git supports synchronising repositories over a network connection 
+too, which is commonly how it is used.
+
+== Git Topologies ==
+
+Git is a distributed versioning system. That means there doesnt't have to be 
+one single source for the repository. You can define the topology for your project 
+in a way that is most convenient to you. 
+
+=== Central Repository ===
+
+If you work in a small team, you may adopt a centralised repository model,
+similar to SVN. Actually it is a bit of a misnomer, since each client who
+checks out the repo obtains a copy (with all its version history) on their
+local machine. This is unlike SVN where you check out only a **snapshot** of
+the current state of the code. In SVN, any time you want to refer back to an
+older commit, you need to query the central repository over the network. In Git
+you have a full copy of the repository stored locally so that network
+connection is not required. Similarly, with SVN, if you want to commit a
+change, you need to have a network connection to the repository. Under Git
+however you commit to your local repository first and then push your changes up
+to the central repository when you have a connection available. This makes git
+great for working away from the office, on the plane etc. You just work as per
+normal and when you get connected to the internet again, you simply sync (push)
+your local changes too the //origin// repository.
+
+**Sidebar:** One huge advantage of Git is that you inherantly have a full historised 
+backup for each person who has cloned the repo. If the central repo should be lost, you 
+can simply reinstate it from any of the clones on your developer's desktops.
+
+ | [img/git02.png]
+
+The workflow (as shown in the illustration above) when working with a central 
+repository is simple:
+
++ Clone the repository initially
++ Make local changes and add them
++ Commit those changes locally
++ Push your changes up to the central repo
++
+
+
+=== Heirarchical Topology ===
+
+In larger teams, or where you have subteams working on different areas of your 
+code base, you may wish to adopt a heirarchical model - also called the 'captain 
+and luitenants model'.
+
+ | [img/git10.png]
+
+In this arrangement, there is one person (the 'captain') who performs the final 
+integration into the official repository. Under the 'captain', various 'luitenants' 
+take responsibility for different aspects of the code base. Each 'luitenant' has 
+a team of 1 or more developers who push to his repository (or request him to pull 
+from theirs). The 'luitenant' collates all developer's work and when it is ready 
+asks the captain to integrate the work into the official repository. This topology 
+works well for organisations or projects with a well established heirarchy
+
+
+=== Decentralised Model ===
+
+In a decentralised model there is no real 'single point of truth'. Developer's share 
+their work with each other on an //ad hoc// basis.
+
+ | [img/git03.png]
+
+Version history is exchanged between repositories on an //ad hoc// basis. Repository 
+owners add one or more //remotes// to their repository (a //remote// is a reference to 
+another repository). They then //pull// or //push// their changes to these repos as 
+needed. The choice of when to //push// or //pull// and to which //remote// is a 
+social practice defined by the developers themselves and not enforced by any 
+software.
+
+=== Hybrid topology ===
+
+The choice of topology is not fixed - you may choose to mix elements together in a
+way that suites your organisation of project the best. Here it is easiest to illustrate 
+using Quantum GIS, my favourite open source project as an example.
+
+**Scenario:** The QGIS project has a repository. SANSA is busy building extensions 
+the QGIS project. Linfiniti is creating special software packages for them. Individual 
+developers need to be able to work and collaborate and don't want their work to 
+be puclically visible until they are ready. We can create an architecture like the one 
+illustrated below:
+
+ | [img/git04.png]
+
+In this architecture, any developer as SANSA can push their changes to the 
+local SANSA GIS Clone. Periodically (e.g. nightly) SANSA will pull changes from the the QGIS 
+official repo into their QGIS clone, so that they can be working against 
+the most up to date QGIS code base. When they have an interesting new feature,
+they can request Linfiniti to pull their changes to the Linfiniti QGIS Clone, test 
+and package the SANSA version of QGIS. When SANSA are ready, and the code complies 
+with QGIS coding standards etc. Linfiniti can push any improvements created by 
+SANSA into the official QGIS repository for the rest of the world to enjoy.
+
+There are many variations and permutations that can be employed, but the key concept 
+to realise is that SANSA can now independently work on the code base using 
+all the coding best practices available and can share their work in an 
+easy and flexible manner.
+
+
+== Git Working Practices ==
+
+In this section we will take a look at Git working practices. There are many git 
+commands and always 10 different ways of doing things, so we will try to cover the 
+basic and commonly used activities.
+
+== Checkout, add, commit, push ==
+
+We've shown you this in the preceeding sections, but it's worth repeating as it's 
+the essence of working with GIT.
+
+ | [img/git05.png]
+
+When you work with Git, you changes go through a routine:
+
++ Initially when you change a file or create a file, it changes are **unstaged**. 
+  Unstaged is just another way of saying 'will not form part of the next commit'.
++ To stage a file (or group of files) you //git add// them, moving them from 
+  the unstaged area to the **staging area**.
++ One files are staged, you can //git commit// them to your local repository. A 
+  **commit** will be accompanied by a short log message and it also stores the 
+  name and email address of the committer. 
++ You can pass your commits from your local repository over to a remote repository 
+  by doing a //git push//. All the commits in your local repository that don't yet 
+  exist in the upstream repo are **pushed** to it.
++
+
+
+=== Working with remote repositories ===
+
+From Git's point of view, a **remote** repository is anyone that you are not
+currently in. In other words a remote might be on the same local filesystem,
+just in a different place in the file system tree.
+
+ | [img/git05.png]
+
+You can push and pull commits to and from a remote (depending on permissions). 
+When you clone from a remote repository, a remote repository entry pointing from your 
+clone to the original repository is automatically made in your remotes list. You can 
+see which remote repositories you have set up for your repository by doing:
+
+```
+git remote -v
+```
+
+Which might return something like this:
+
+```
+[git-sandbox-clone] git remote -v
+origin  /tmp/git-sandbox (fetch)
+origin  /tmp/git-sandbox (push)
+```
+
+You can add a new remote reference at any time (and you can have as many as you
+need). Lets test this by doing a little experiment. First we will make another
+clone of the git-sandbox:
+
+```
+cd ..
+git clone git-sandbox git-sandbox-clone2
+cd git-sandbox-clone2
+git checkout master
+echo "From clone2 : a new message" >> README
+git add README
+git commit -m "Added a new message to readme from clone 2"
+```
+
+By now the above commands should be starting to make sense to you. Basically,
+we created a clone and committed a change to the README file in it. Lets go
+back to our first clone and add the second as a remote to it.
+
+```
+cd ..
+cd git-sandbox-clone
+git remote add clone2 ../git-sandbox-clone2
+git remote -v
+```
+
+The last command will show you your now longer list of clones - it should look
+something like this:
+
+```
+clone2  ../git-sandbox-clone2 (fetch)
+clone2  ../git-sandbox-clone2 (push)
+origin  /tmp/git-sandbox (fetch)
+origin  /tmp/git-sandbox (push)
+```
+
+Once you have added the new remote, you should call //git fetch// on it to 
+obtain a list of its branches and its commit history.
+
+```
+[git-sandbox-clone] git fetch clone2
+remote: Counting objects: 5, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From ../git-sandbox-clone2
+ * [new branch]      newfeature -> clone2/newfeature
+
+```
+
+You can see that our local repository has now been told about the existance 
+of another remote branch in the clone2 repo.
+
+
+//Origin// is your 'default' remote - whenever you make a //push// or //pull// 
+request, it will be made against that remote. However you can qualify a //pull// 
+or //push// request by specifying the remote after it, and then the request 
+will be routed to the correct repository. Lets finish off this section by
+pulling the change we made in our second clone into our first clone:
+
+```
+git pull clone2 master
+```
+
+This will fetch any commits present in clone2's master which are not present in
+clone's master.
+
+```
+[git-sandbox-clone] git pull clone2 master
+From ../git-sandbox-clone2
+ * branch            master     -> FETCH_HEAD
+ Auto-merging README
+ Merge made by recursive.
+  README |    1 +
+   1 files changed, 1 insertions(+), 0 deletions(-)
+```
+
+Remotes are a powerful feature - the let you tap into the distributed nature of
+Git, absorbing changes from any repository that interestes you. The next
+illustration shows a typical use of multiple remotes.
+
+ | [img/git07.png]
+
+
+=== Working in branches ===
+
+One of the principles of Git is to work in branches. SVN also support branches - the 
+concept is the same in Git. However, Git's design (in particular the fact that it 
+assigns SHA-1 globally unique id's to each commit) makes it very easy to create branches 
+and merge their changes back and forth between other branches or the master branch.
+
+ | [img/git06.png]
+
+
+If you create a branch your work in that branch is isolated from the main code
+store (the //master// branch) - allowing you to safely experiment without
+impacting anything else. In Git branches and features are often used
+synonymously - the idea being that a branch is a place where you develop a new
+feature. While you are working on the feature, changes are probably taking
+place in the //master// branch. To prevent your branch becoming too different
+to the //master branch// you will regularly //git merge// the changes from master in 
+to your branch. Once your work on your feature is complete, you then merge your
+feature branch into the master branch.
+
+You can obtain a list of branches in your local branch (and see which branch
+you are currently in) by using the //git branch// command. If you want to also
+see which branches are in a remote repository, you can use the //git branch
+-r// command.
+
+After you have merged a branch into the //master// branch, usually you will 
+throw away the branch - you can use //git branch -D <branch name> for this. Just 
+make sure you are not currently in the branch that you are deleting or you will 
+evaporate :-).
+
+
+=== Tracking branches ===
+
+Some times you will want to work collaboratively on a feature with other developers. 
+When the branch for that feature is in a remote repository, you can create a 
+local branch that **tracks** the remote branch. This is illustrated below:
+
+ | [img/git08.png]
+
+To illustrate, lets first create a branch in our sandbox, check it out, make
+some changes and then commit them.
+
+```
+[git-sandbox] git branch newfeature
+[git-sandbox] git checkout newfeature
+Switched to branch 'newfeature'
+[git-sandbox] echo "Hello from upstream newfeature branch" > README 
+[git-sandbox] git add README 
+[git-sandbox] git commit -m "Added new feature to readme in upstream branch"
+[newfeature 56ee8af] Added new feature to readme in upstream branch
+ 1 files changed, 1 insertions(+), 4 deletions(-)
+```
+
+Now let's go to our clone directory. You create a tracking branch by doing the following:
+
+```
+cd ../git-sandbox-clone
+git fetch
+git branch -r
+```
+
+The above commands will update the list of remote branches available and then display 
+it to you. In this case they show this output:
+
+````
+[git-sandbox] cd ../git-sandbox-clone
+[git-sandbox-clone] git fetch
+remote: Counting objects: 5, done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From /tmp/git-sandbox
+ * [new branch]      newfeature -> origin/newfeature
+[git-sandbox-clone] git branch -r
+   origin/HEAD -> origin/master
+   origin/master
+   origin/newfeature
+```
+
+You can see when we did a //git fetch//, the new branch was found in git-sandbox. When we 
+ran //git branch// the branches from **origin** (the original repo that we cloned) are 
+listed, including our newfeature branch. Now you can actually check out the branch:
+
+```
+git branch --track newfeature origin/newfeature
+git pull
+git checkout newfeature
+```
+
+When you check out the newfeature branch, you will see it contains the changes
+we made a moment ago.
+
+```
+[git-sandbox-clone] git branch --track newfeature origin/newfeature
+Branch newfeature set up to track remote branch newfeature from origin.
+[git-sandbox-clone] git pull
+Already up-to-date.
+[git-sandbox-clone] git checkout newfeature
+Switched to branch 'newfeature'
+[git-sandbox-clone] cat README
+Hello from upstream newfeature branch
+```
+
+When you do a //git pull// on a tracking branch it will fetch changes from the 
+origin repository and merge them into your copy of the branch. You can go ahead
+and make changes to your branch and then pull updates regularly from the origin
+repository.
+
+=== Some useful git commands ===
+
+There are many many commands available for git. The resources section at the end of 
+this document points to some good sites where you can learn more after this primer.
+Here are a couple of other commands you may find useful in your day to day work:
+
+ | [img/git09.png]
+
+Any discussion of Git would be lacking if we did not mention [github
+http://github.com]. Github provide a free git hosting facility for your online
+git repositories. The free repositories must be public. For a fee you can also
+purchase space for hosting private repositories.
+
+== Git under windows ==
+
+Here are some generic notes on using git under windows you should install [msys
+git app http://code.google.com/p/msysgit/]. In windows explorer go to
+c:\Documents and Settings\<your user>\
+
+Make a directory called .ssh
+
+In that directory create a text file called 'config' (note it has no extension)
+and put the following content into it:
+
+```
+Host <host name>
+  User <user name>
+  HostName <host name>
+  Port <port>
+```
+
+Replace items in angle brackets above as appropriate.
+
+Now copy your id_dsa into this directory (it should be a unix style one so you
+may need to convert from putty style private key, though just try with your
+existing one first).
+
+Open the msys git shell then go to the directory where you want to check out
+your project to. For example to check it out to c:\dev\foo do
+
+```
+cd /c/
+mkdir dev
+cd dev
+```
+
+Now clone the directory:
+```
+git clone git@foo:bar.git bar
+```
+
+Make sure to type 'yes' in full when it asks you if you are sure you want to
+continue connecting.
+
+Then enter your passphrase when prompted.
+
+Wait a few minutes while it checks out.
+
+Thereafter you use the git commands from the msys shell as normal. There is
+also a tortoisegit explorer integration for windows you can try but I havent
+used it and don't know how well it works.
+
+
+== Further Reading ==
+
+http://gitref.org
+http://progit.org
+http://gitready.com
