@@ -1,6 +1,6 @@
 PostGIS Training Course
 
-Tim Sutton, Horst Duester, Gavin Fleming, Samantha Lee Pan 2010
+Tim Sutton, Horst Duester, Gavin Fleming, Samantha Lee Pan 2011
 
 %! target       : html
 %! style(html)  : style.css
@@ -125,7 +125,7 @@ test=# select * from person;
 (3 rows)
 ```
 
-There are many more datatypes you can use - [check the PostgreSQL manual! http://www.postgresql.org/docs/8.4/static/datatype.html]
+There are many more datatypes you can use - [check the PostgreSQL manual! http://www.postgresql.org/docs/current/static/datatype.html]
 
 
 
@@ -1729,6 +1729,8 @@ alter table people
 add constraint people_geom_point_chk 
     check(st_geometrytype(the_geom) = 'ST_Point'::text OR the_geom IS NULL);
 ```
+
+***check this ***
 
 What does that do? It adds a constrain to the table that prevents anything
 except a point geometry or a null.
