@@ -70,6 +70,102 @@ Before you start, you should have completed my Mapserver workshop (so that you h
 
 So lets make a working dir and unpack openlayers into it:
 
+```
+mkdir ol
+tar xfz installers/generic_installers/OpenLayers-2.10.tar.gz
+mv OpenLayers-2.10/ openlayers
+```
+
+The last command is just for convenience so this tutorial remains current even if you are using a newer version of OpenLayers.
+
+I would also strongly recommend that you use firefox for your work and install the 'firebug' developer extension to it. It will let us debug our pages if they have any errors.
+
+== Make your first map! ==
+
+We are going to make the 'hello world' equivalent for OpenLayers - a simple map that displays data from a WMS resource.
+
+First I will provide the complete listing:
+
+```
+<html>
+    <head>
+        <title>Tim's Map</title>
+        <link rel="stylesheet" href="openlayers/theme/default/style.css" type="text/css" />
+        <style>
+            #map-id {
+                width: 512px;
+                height: 512px;
+            }
+        </style>
+        <script src="openlayers/lib/OpenLayers.js"></script>
+    </head>
+    <body>
+        <h1>The world according to Tim</h1>
+        <div id="map-id"></div>
+        <script>
+            var map = new OpenLayers.Map("map-id");
+            var imagery = new OpenLayers.Layer.WMS(
+                "Country",
+                "http://196.35.94.243/cgi-bin/mapserv?map=ZA_SPOT10m2010",
+                {layers: "Spot5_RSA_2010_10m", format : "image/jpeg"}
+                // Or with our own map:
+                //"http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
+                //{layers: "Country,Cities", format : "image/png; mode=24bit"}
+            );
+            map.addLayer(imagery);
+            map.zoomToMaxExtent();
+        </script>
+    </body>
+</html>
+
+```
 
 
-== Mak
+Ok so lets try to understand what is going on here - I will break it down line by line:
+
+``<html>`` - All html pages must start with this tag - it says "I'm starting my page now". Similarly, you will see that the page ends with ``</html>`` - which means "I'm ending my page now". All tags that you open in html must be balanced by closing them again.
+
+``<head>`` - Each html page can have a header section where you can declare various page properties and include other files such as javascript files, style sheets and so on. Notice once again that the ``</head>`` closes the header section.
+
+``<title>Tim's Map</title>`` - This is the title for the page. It will appear in the top of the browser window. It is nested within the header section.
+
+``<link rel="stylesheet" href="openlayers/theme/default/style.css" type="text/css" />`` - Here I am referencing an //external// style sheet. In this case it is one that ships with openlayers and provides the default theme for openlayers.
+
+```
+<style>
+     #map-id {
+         width: 512px;
+         height: 512px;
+     }
+</style>
+```
+
+This is an //inline// style sheet. It defines the height and width for an element whose id is 'map-id'. We will create a 'div' block level element further down to hold our openlayers map and call it map-id, so this line is essentially just saying how big the map must be on the page.
+
+``<script src="openlayers/lib/OpenLayers.js"></script>`` - Now we are including an external javascript library. In this case the openlayers library. Doing this brings in all the logic needed for us to be able to add openlayers mapping functionality to our page.
+
+``<body>`` and ``</body>`` Mark the start and end of the user visible part of the page. Everything that follows will be part of the actual rendered web page.
+
+``<h1>The world according to Tim</h1>`` - This is just a heading written to the page in 'h1' (largest) heading style.
+
+``<div id="map-id"></div>`` - Remember further up we set the style for a map-id element? This is where it is defined. Because of its style definition in the header, it will occupy 512px x 512px space on the page underneath the heading.
+
+``<script>`` - Here I an inlining another piece of javascript within the web page. It will run as the page loads.
+
+``var map = new OpenLayers.Map("map-id");`` - This line is javascript. It declares a new openlayers map variable and passes it our map-id div as a parameter. The net result of doing that will be for openlayers to insert a map into the //map-id// div element.
+
+``var imagery = new OpenLayers.Layer.WMS(`` - Now that we have a map, the next thing we do is to create a layer. You can see that it is a WMS layer. The open bracket at the end of the line indicates that we will be passing the layer constructor a bunch of options - which follow below.
+
+``"Country",`` - This is the first option to the layer constructor. It tells openlayers to set the display name for this layer to //Country//.
+``"http://196.35.94.243/cgi-bin/mapserv?map=ZA_SPOT10m2010",`` - This is the second option. It is a url to the WMS resource that should be displayed.
+``{layers: "Spot5_RSA_2010_10m", format : "image/jpeg"}`` - This last option is actually a list of 'sub' options. The first indicates which layers from the WMS resource should be displayed. The second indicates which image format to use for the retrieved WMS layer. The image format you can use depends on the WMS resource.
+``);`` - This finalises the list of options for the WMS layer definition.
+
+``map.addLayer(imagery);`` - Now that we have defined a layer, we tell openlayers to add it to our map!
+
+``map.zoomToMaxExtent();`` - Lastly, we tell openlayers to zoom the map to the maximum extent of all the layers.
+
+If you save and load this page in your browser, you should see something like the image below.
+
+ | [img/image01.jpeg]
+
