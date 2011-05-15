@@ -1,0 +1,99 @@
+Create a polygon layer with attributes:
+ - name
+ - type
+ - value
+
+and call it property.
+
+Set up snapping options in QGIS options.
+
+Set Project properties to enable 
+ - topological editing
+ - Avoid polygon Intersections
+ - Snapping between layers
+
+Create some new features and experiment with the digitising tools
+
+
+--
+
+Create a new line layer with fields:
+ - id
+ - name
+ - type
+ - date_checked
+ - image
+
+Create a CSV file containing values and keys and use it to select types
+Set names to use layer unique values
+Set the date_checked field to use a date widget
+Set the image field to use a file picker
+
+Create some new features in your layer
+
+
+
+--------------
+
+Open the DEM and define a custom colour map for it with 10 classes
+
+Also try to make the collar dissapear around the image
+
+
+
+
+
+----------------------------------------
+
+Open the 3318DD_21_2008_19_RGB_RECT_UTM34 image and display it over the terrain model
+
+
+
+
+-----------------------------------------
+
+Buffering task:
+
+Create a buffer of 500 meters around all river polygons
+Select all roads that intersect that buffer
+Save the selected roads as a new shapefile
+Add teh selected roads to QGIS
+
+
+
+-------------------------------------------
+
+Grass - Create a new map set
+Import your dem into grass
+Create a hillshade model
+Add the shade to QGIS
+Create a 3d flythrough view
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
