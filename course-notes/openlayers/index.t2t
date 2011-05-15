@@ -1,0 +1,75 @@
+An Introduction to OpenLayers
+Tim Sutton
+Last Updated: %%mtime(%A %B %d, %Y)
+
+%! target       : tex
+%! style        : style.css
+%! Options      : --toc --toc-level 1 --enum-title --css-sugar --css-inside
+%! preproc      : TUT_URL   https://qgis.org
+%! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
+%! PostProc(html): '(?i)(</pre>)' '\1</div>'
+%
+% Tex processing
+%
+% Make sure this is first
+%! PostProc(tex): '\\includegraphics' '\\includegraphics[width=100mm]'
+% scartcl is from the koma script document class (apt-get install texlive-latex-recommended ttf-komatuna)
+% setlength parindent suppresses first line of paragraph idents
+% parskip puts blank space between paragraphs
+% title pic stuff used to put a logo on the front page
+%! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
+% use the color table and table packages so we can pimp the tables a little
+%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
+% Make the header row of tables have a dark background. light text
+%! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
+%! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
+% Make verbatim text a little smaller and use fancyvrb package to draw it in a box
+% Note Verbatim with capital V for fancyvrb to work
+%! PostProc(tex): '\\begin{verbatim}' '{\\scriptsize\\begin{Verbatim}[frame=single,rulecolor=\\color{linfiniti-blue}, framesep=4mm, label=\\fbox{\\small\\emph{Listing}}]'
+%! PostProc(tex): '\\end{verbatim}' '\\end{Verbatim}\n}'
+%! PostProc(tex): '\\section' '\\newpage\\section'
+%! PostProc(tex): 'section{' 'section{\\color{linfiniti-blue}'
+%! PostProc(tex): NEWPAGE  '\\newpage'
+% Give alternating table rows different colours and use a smaller font in tables (\tiny)
+%! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
+%! encoding: iso-8859-1
+
+%! PostProc(tex): WALLPAPER-IMAGE '../resources/linfiniti-footer.png'
+% These are comments and will not be generated in any output
+% -------------------
+
+%This document is in text2tags format. You can generate html, plain text and
+%moinmoin formatted documentation by running txt2tags on this document. See the
+%txt2tags home page for more details.  Please insert manual line breaks in this
+%document as it makes diffing for changes much easier. To do this in vim
+%automatically, select a section then issue (gq) command. Please dont
+%apply vim formatting to the whole document as it screws up some formatting
+%rather apply it selectively to paragraphs where needed.
+
+% To generate the text version of this document:
+% txt2tags -t txt -o index index.t2t
+% To generate the moinmoin version of this document
+% txt2tags -t moin -o index.moin  index.t2t
+% To generate the html version of this document
+% txt2tags -t html -o index.html index.t2t
+% To generate a LaTeX / pdf
+% txt2tags -t tex -o index.tex index.t2t; pdflatex index.tex
+
+
+%--------------------------------------------
+
+= An Introduction to OpenLayers =
+
+In this workshop I will introduce you to the [OpenLayers http://openlayers.org] javascript library. OpenLayers is a client side (it runs in your browser) library that can fetch and display geospatial data from various sources, including WMS and WFS, GeoRSS, Google maps, Bing maps and so on.
+
+In order to enjoy this tutorial, you will probably need to know a little bit about HTML and JavaScript, although I have tried to keep the examples approachable to those who have little or no knowledge of these two standards.
+
+== Getting Ready ==
+
+Before you start, you should have completed my Mapserver workshop (so that you have some local WMS sources available), or you need to have a working internet connection available. The first thing you need to do is to create a working directory and download and unpack OpenLayers into it. A copy of OpenLayers is provided on our resource cd, otherwise, fetch a copy from http://openlayers.org.
+
+So lets make a working dir and unpack openlayers into it:
+
+
+
+== Mak
