@@ -80,7 +80,7 @@ directory and download and unpack OpenLayers into it. A copy of OpenLayers is
 provided on our resource cd, otherwise, fetch a copy from
 http://openlayers.org.
 
-So lets make a working dir and unpack openlayers into it:
+So lets make a working dir and unpack OpenLayers into it:
 
 ```
 mkdir ol
@@ -155,8 +155,8 @@ in the top of the browser window. It is nested within the header section.
 
 ``<link rel="stylesheet" href="openlayers/theme/default/style.css"
 type="text/css" />`` - Here I am referencing an //external// style sheet. In
-this case it is one that ships with openlayers and provides the default theme
-for openlayers.
+this case it is one that ships with OpenLayers and provides the default theme
+for OpenLayers.
 
 ```
 <style>
@@ -169,12 +169,12 @@ for openlayers.
 
 This is an //inline// style sheet. It defines the height and width for an
 element whose id is 'map-id'. We will create a 'div' block level element
-further down to hold our openlayers map and call it map-id, so this line is
+further down to hold our OpenLayers map and call it map-id, so this line is
 essentially just saying how big the map must be on the page.
 
 ``<script src="openlayers/lib/OpenLayers.js"></script>`` - Now we are including
-an external javascript library. In this case the openlayers library. Doing this
-brings in all the logic needed for us to be able to add openlayers mapping
+an external javascript library. In this case the OpenLayers library. Doing this
+brings in all the logic needed for us to be able to add OpenLayers mapping
 functionality to our page.
 
 ``<body>`` and ``</body>`` Mark the start and end of the user visible part of
@@ -191,8 +191,8 @@ header, it will occupy 512px x 512px space on the page underneath the heading.
 page. It will run as the page loads.
 
 ``var map = new OpenLayers.Map("map-id");`` - This line is javascript. It
-declares a new openlayers map variable and passes it our map-id div as a
-parameter. The net result of doing that will be for openlayers to insert a map
+declares a new OpenLayers map variable and passes it our map-id div as a
+parameter. The net result of doing that will be for OpenLayers to insert a map
 into the //map-id// div element.
 
 ``var imagery = new OpenLayers.Layer.WMS(`` - Now that we have a map, the next
@@ -201,7 +201,7 @@ bracket at the end of the line indicates that we will be passing the layer
 constructor a bunch of options - which follow below.
 
 ``"Country",`` - This is the first option to the layer constructor. It tells
-openlayers to set the display name for this layer to //Country//.
+OpenLayers to set the display name for this layer to //Country//.
 ``"http://196.35.94.243/cgi-bin/mapserv?map=ZA_SPOT10m2010",`` - This is the
 second option. It is a url to the WMS resource that should be displayed.
 ``{layers: "Spot5_RSA_2010_10m", format : "image/jpeg"}`` - This last option is
@@ -212,9 +212,9 @@ for the retrieved WMS layer. The image format you can use depends on the WMS
 ``);`` - This finalises the list of options for the WMS layer definition.
 
 ``map.addLayer(imagery);`` - Now that we have defined a layer, we tell
-openlayers to add it to our map!
+OpenLayers to add it to our map!
 
-``map.zoomToMaxExtent();`` - Lastly, we tell openlayers to zoom the map to the
+``map.zoomToMaxExtent();`` - Lastly, we tell OpenLayers to zoom the map to the
 maximum extent of all the layers.
 
 If you save and load this page in your browser, you should see something like
@@ -559,12 +559,11 @@ the Google Mercator projection.
 
 The code above defines a variable 'options' and initialises it with an array of
 map options. We will pass this options list as a parameter to openlayers when
-we construct the map. You can see a [full list of options
-http://dev.openlayers.org/docs/files/OpenLayers/Map-js.html] by reading the
-mapserver api documentation. In our case, we are telling the map that its
-projection will be 'mercator', map units will be in meters and the maximum
-extent for the map will be the world rectangle which we calculated in the
-previous step.
+we construct the map. You can see a [full list of options http://dev.openlayers.org/docs/files/OpenLayers/Map-js.html] 
+by reading the openlayers api documentation. In our case, we are telling the map
+that its projection will be 'mercator', map units will be in meters and the
+maximum extent for the map will be the world rectangle which we calculated in
+the previous step.
 
 ```
   var map = new OpenLayers.Map("map-id", options);
@@ -802,5 +801,88 @@ In this case we did:
 Hopefully that was easy for you! Here is what the output should look like:
 
  | [img/simple-point.png]
+
+
+== Custom vector styles ==
+
+You may have noticed in our vector examples that the selection of colours used
+was not exactly scintillating - orange, orange or more orange about sums it up.
+Fortunately, OpenLayers allows us to control the style for a vector layer.
+
+=== Polygon styles ===
+
+Let's tweak that polygon we drew earlier from GeoJSON. The first thing I need
+to do is define my style:
+
+```
+// Let's get a custom style setup...
+var myLayerStyle = OpenLayers.Util.extend({}, 
+       OpenLayers.Feature.Vector.style['default']);
+myLayerStyle.fillOpacity = 0.5;
+myLayerStyle.fillColor = "black";
+myLayerStyle.strokeColor = "blue";
+myLayerStyle.strokeWidth = 3;
+stylemap = new OpenLayers.StyleMap(myLayerStyle);
+
+var format = new OpenLayers.Format.GeoJSON();
+
+// and then apply it to the layer...
+var layer = new OpenLayers.Layer.Vector("Search Area",{styleMap: stylemap} );
+```
+
+Lets walk through what we did:
+
+- I first define a new style object. I assign it that standard layer style to
+  begin with and then I will simply update some of its properties. 
+- The fill opacity is then set to half transparent (0 for full transparent).
+- Then I set the fill colour to black (it will actually appear grayish due to
+  its transparency.
+- Then the outline colour is set,
+- and the outline width.
+- To assign a style to a layer, it must be first added to a style map. In
+  advanced usage of OpenLayers, you may define stylemaps that render features
+  with different colours based on their attributes. In our example we are
+  keeping things simple, so one style  will be used for all features, but it
+  still needs to be placed in a style map before it can be used by the layer.
+- In the last line, I have altered the constructor for the layer, so that the
+  stylemap is passed to it.
+-
+
+Lets have a look at the output:
+
+ | [img/polystyle.png]
+
+=== Point styles ===
+
+We can use a similar technique to define a style for our points:
+
+```
+var myBlueStyle = OpenLayers.Util.extend({}, myLayerStyle);
+myBlueStyle.pointRadius = 10;
+myBlueStyle.fillColor = "blue";
+myBlueStyle.graphicName = "star";
+myBlueStyle.pointRadius = 10;
+myBlueStyle.strokeWidth = 1;
+
+myBlueStyle.rotation = 45;
+myBlueStyle.strokeLinecap = "butt";            
+      
+stylemap2 = new OpenLayers.StyleMap(myBlueStyle);
+var pointlayer = new OpenLayers.Layer.Vector("Points", {styleMap: stylemap2});
+```
+
+The approach is the same, but in this case I used the //myLayerStyle// I
+defined in the previous example as the starting point for my point style and
+then overrode its properties. This is just to illustrate that if you are
+creating many styles with some common properties, there is no need to redefine
+all properties each time.
+
+Once the point style properties are defined, the style is once again added to a
+style map and then assigned to the stylemap property of our layer when it is
+created.
+
+If you followed along, your map should now looks something like this:
+
+ | [img/pointstyle.png]
 
 

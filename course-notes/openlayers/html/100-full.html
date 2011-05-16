@@ -62,12 +62,12 @@
             myLayerStyle.graphicOpacity = 0.5;
             myLayerStyle.strokeColor = "blue";
             myLayerStyle.strokeWidth = 3;
+            stylemap1 = new OpenLayers.StyleMap(myLayerStyle);
 
             
             
             
             var format = new OpenLayers.Format.GeoJSON();
-            stylemap1 = new OpenLayers.StyleMap(myLayerStyle);
             var layer = new OpenLayers.Layer.Vector("Search Area",{styleMap: stylemap1});
             var feature = format.read({ "type": "Polygon", "coordinates": [ [ [ 21.005863, -31.252288 ], [ 23.422855, -29.163706 ], [ 24.433597, -31.589797 ], [ 22.324222, -32.557957 ], [ 21.005863, -31.252288 ] ] ] })[0];
             layer.addFeatures(feature);
