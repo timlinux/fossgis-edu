@@ -778,3 +778,29 @@ Here is what the result looks like:
  | [img/geojson.png]
 
 
+=== Adding simple features ===
+
+If the above examples were too complicated for you, maybe you will like this one:
+
+```
+var myPoint = new OpenLayers.Geometry.Point(24.0,-29.0);
+var myPointFeature = new OpenLayers.Feature.Vector(myPoint)
+var pointlayer = new OpenLayers.Layer.Vector("Points");
+pointlayer.addFeatures([myPointFeature]);
+map.addLayer(pointlayer);
+```
+
+In this case we did:
+
+- create a new point geometry object using the //geometry// factory.
+- create a new feature from the geometry using the //feature// factory.
+- create a new point //layer// object.
+- add our feature to the layer.
+- add the layer to the map.
+-
+
+Hopefully that was easy for you! Here is what the output should look like:
+
+ | [img/simple-point.png]
+
+
