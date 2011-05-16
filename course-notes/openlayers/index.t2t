@@ -967,3 +967,35 @@ By adding a couple of rules, we can change the scalebars look (you need to under
 So our (now remarkably ugly) styled scalebar looks like this:
 
  | [img/scalebar-style.png]
+
+
+=== Styling controls ===
+
+The actual controls that you see on the map with OpenLayers can also be
+customised. Here is a handy theme from the MapBox project that you can easily
+apply. Just before you declare your map e.g.:
+
+```
+function init() {
+  map = new OpenLayers.Map("map-id");
+```
+
+Add the //ImgPath// pointing to the mapbox theme:
+
+```
+function init() {
+  OpenLayers.ImgPath = "http://js.mapbox.com/theme/dark/";
+  map = new OpenLayers.Map("map-id");
+```
+
+Here's what the result should look like:
+
+ | [img/mapcontrol-style.png]
+
+== Heading off on your own ==
+
+Well that brings us to the end of our primer on OpenLayers - you should have at
+least an idea of what it is, what it can do and how to start creating your own
+OpenLayers maps. An excellent resource to help you gain an even fuller picture
+of what you can do with OpenLayers is the [OpenLayers Example Page
+http://openlayers.org/dev/examples/].
