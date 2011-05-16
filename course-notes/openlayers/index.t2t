@@ -1,6 +1,7 @@
 An Introduction to OpenLayers
 Tim Sutton
 Last Updated: %%mtime(%A %B %d, %Y)
+
 %! target    : tex
 %! style    : style.css
 %! Options   : --toc --toc-level 1 --enum-title --css-sugar --css-inside
@@ -18,7 +19,7 @@ Last Updated: %%mtime(%A %B %d, %Y)
 % title pic stuff used to put a logo on the front page
 %! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
 % use the color table and table packages so we can pimp the tables a little
-%! PostProc(tex): '\\usepackage{style.css.sty} % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
+%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
 % Make the header row of tables have a dark background. light text
 %! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
 %! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
