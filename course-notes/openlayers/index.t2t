@@ -234,19 +234,19 @@ before the ``</body>`` terminator tag like this:
         value="Go To Your House" />
 ```
 
-``<input type="button" value="Go To Your House" /> `` - This is html notation
+``<input type="button" value="Go To Your House" />`` - This is html notation
 to place a button on the page with the text for the button specified by the
 label option.
 
 The //onclick// event of this button has been programmed with some mapserver
 api calls. Lets break them down one at a time:
 
-``map.setCenter()`` - Tells the openlayers map that we want to recenter it on a
+```map.setCenter()``` - Tells the openlayers map that we want to recenter it on a
 new point. This function takes two parameters - a coordinate and a zoom level.
-``new OpenLayers.LonLat(25,-24)`` - Creates a new LonLat object - the point
+```new OpenLayers.LonLat(25,-24)``` - Creates a new LonLat object - the point
 position to which we will be zooming. Note that openlayers calls any coordinate
 pair 'lonlat' - even if it is in a projected coordinate reference system.
-``7`` - This is the zoom level to use when panning.  By default openlayers has
+```7``` - This is the zoom level to use when panning.  By default openlayers has
 16 zoom levels with 0 representing the smallest scale and 16 the largest.
 
 
@@ -421,16 +421,16 @@ the button, the values entered in the input boxes will be used to in a call to
 //map.setCenter()//.
 
 ```
-        <label for="lon">Lon</label><input type="text" id="lon" />
-        <label for="lat">Lat</label><input type="text" id="lat" />
-        <input type="button" onclick="
-          map.setCenter(
-          new OpenLayers.LonLat(
-          document.getElementById('lon').value,
-          document.getElementById('lat').value)
-          .transform(geographic, mercator), 14 );
-          " value="Go!" /
-        >
+    <label for="lon">Lon</label><input type="text" id="lon" />
+    <label for="lat">Lat</label><input type="text" id="lat" />
+    <input type="button" onclick="
+      map.setCenter(
+      new OpenLayers.LonLat(
+      document.getElementById('lon').value,
+      document.getElementById('lat').value)
+      .transform(geographic, mercator), 14 );
+      " value="Go!" /
+    >
 ```
 
 You will notice that we seamlessly transform the user's coordinates from

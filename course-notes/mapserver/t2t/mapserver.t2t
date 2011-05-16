@@ -649,7 +649,7 @@ cartographic symbols reference].
 === Creating multiple classes for a layer ===
 
 Sometimes you want to do things like assign multiple symbols to a layer based
-on an attribute. For example, lets make our cities vary in size based on the
+on an attribute. For example, let's make our cities vary in size based on the
 population they host.
 
 In QGIS I can load the cities layer and then create graduated symbology for it
@@ -1196,7 +1196,7 @@ mapserver-tut/
 The Raster folder contains two files - the Blue Marble mosaic for January 2004
 and its world file.
 
-Lets add this raster to QGIS then export its layer definitions as we have done
+Let's add this raster to QGIS then export its layer definitions as we have done
 before with vector data:
 
  | [img/image20.jpeg]
