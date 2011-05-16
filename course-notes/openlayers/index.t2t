@@ -2,10 +2,10 @@ An Introduction to OpenLayers
 Tim Sutton
 Last Updated: %%mtime(%A %B %d, %Y)
 
-%! target       : tex
-%! style        : style.css
-%! Options      : --toc --toc-level 1 --enum-title --css-sugar --css-inside
-%! preproc      : TUT_URL   https://qgis.org
+%! target    : tex
+%! style    : style.css
+%! Options   : --toc --toc-level 1 --enum-title --css-sugar --css-inside
+%! preproc   : TUT_URL  https://qgis.org
 %! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
 %! PostProc(html): '(?i)(</pre>)' '\1</div>'
 %
@@ -19,7 +19,7 @@ Last Updated: %%mtime(%A %B %d, %Y)
 % title pic stuff used to put a logo on the front page
 %! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
 % use the color table and table packages so we can pimp the tables a little
-%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
+%! PostProc(tex): '\\usepackage{style.css} % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
 % Make the header row of tables have a dark background. light text
 %! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
 %! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
@@ -29,9 +29,11 @@ Last Updated: %%mtime(%A %B %d, %Y)
 %! PostProc(tex): '\\end{verbatim}' '\\end{Verbatim}\n}'
 %! PostProc(tex): '\\section' '\\newpage\\section'
 %! PostProc(tex): 'section{' 'section{\\color{linfiniti-blue}'
-%! PostProc(tex): NEWPAGE  '\\newpage'
+%! PostProc(tex): NEWPAGE '\\newpage'
 % Give alternating table rows different colours and use a smaller font in tables (\tiny)
 %! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
+%fix turning single quote into apostrophe
+%%! PostProc(tex): "'" "\\math(\\prime)" 
 %! encoding: iso-8859-1
 
 %! PostProc(tex): WALLPAPER-IMAGE '../resources/linfiniti-footer.png'
@@ -40,7 +42,7 @@ Last Updated: %%mtime(%A %B %d, %Y)
 
 %This document is in text2tags format. You can generate html, plain text and
 %moinmoin formatted documentation by running txt2tags on this document. See the
-%txt2tags home page for more details.  Please insert manual line breaks in this
+%txt2tags home page for more details. Please insert manual line breaks in this
 %document as it makes diffing for changes much easier. To do this in vim
 %automatically, select a section then issue (gq) command. Please dont
 %apply vim formatting to the whole document as it screws up some formatting
@@ -49,7 +51,7 @@ Last Updated: %%mtime(%A %B %d, %Y)
 % To generate the text version of this document:
 % txt2tags -t txt -o index index.t2t
 % To generate the moinmoin version of this document
-% txt2tags -t moin -o index.moin  index.t2t
+% txt2tags -t moin -o index.moin index.t2t
 % To generate the html version of this document
 % txt2tags -t html -o index.html index.t2t
 % To generate a LaTeX / pdf
@@ -102,34 +104,34 @@ First I will provide the complete listing:
 
 ```
 <html>
-    <head>
-        <title>Tim's Map</title>
-        <link rel="stylesheet" href="openlayers/theme/default/style.css" type="text/css" />
-        <style>
-            #map-id {
-                width: 512px;
-                height: 512px;
-            }
-        </style>
-        <script src="openlayers/lib/OpenLayers.js"></script>
-    </head>
-    <body>
-        <h1>The world according to Tim</h1>
-        <div id="map-id"></div>
-        <script>
-            var map = new OpenLayers.Map("map-id");
-            var imagery = new OpenLayers.Layer.WMS(
-                "Country",
-                "http://196.35.94.243/cgi-bin/mapserv?map=ZA_SPOT10m2010",
-                {layers: "Spot5_RSA_2010_10m", format : "image/jpeg"}
-                // Or with our own map:
-                //"http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
-                //{layers: "Country,Cities", format : "image/png; mode=24bit"}
-            );
-            map.addLayer(imagery);
-            map.zoomToMaxExtent();
-        </script>
-    </body>
+  <head>
+    <title>Tim's Map</title>
+    <link rel="stylesheet" href="openlayers/theme/default/style.css" type="text/css" />
+    <style>
+      #map-id {
+        width: 512px;
+        height: 512px;
+      }
+    </style>
+    <script src="openlayers/lib/OpenLayers.js"></script>
+  </head>
+  <body>
+    <h1>The world according to Tim</h1>
+    <div id="map-id"></div>
+    <script>
+      var map = new OpenLayers.Map("map-id");
+      var imagery = new OpenLayers.Layer.WMS(
+        "Country",
+        "http://196.35.94.243/cgi-bin/mapserv?map=ZA_SPOT10m2010",
+        {layers: "Spot5_RSA_2010_10m", format : "image/jpeg"}
+        // Or with our own map:
+        //"http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
+        //{layers: "Country,Cities", format : "image/png; mode=24bit"}
+      );
+      map.addLayer(imagery);
+      map.zoomToMaxExtent();
+    </script>
+  </body>
 </html>
 
 ```
@@ -158,10 +160,10 @@ for openlayers.
 
 ```
 <style>
-     #map-id {
-         width: 512px;
-         height: 512px;
-     }
+   #map-id {
+     width: 512px;
+     height: 512px;
+   }
 </style>
 ```
 
@@ -206,7 +208,7 @@ second option. It is a url to the WMS resource that should be displayed.
 actually a list of 'sub' options. The first indicates which layers from the WMS
 resource should be displayed. The second indicates which image format to use
 for the retrieved WMS layer. The image format you can use depends on the WMS
-  resource.
+ resource.
 ``);`` - This finalises the list of options for the WMS layer definition.
 
 ``map.addLayer(imagery);`` - Now that we have defined a layer, we tell
@@ -221,6 +223,160 @@ the image below.
  | [img/image01.jpeg]
 
 
+== Bing! ==
+
+You can add Bing maps to OpenLayers in a similar way to adding WMS data. In
+this example we will continue to use Geographic projection and make a few
+improvements to the way in which we set up the map:
+
+```
+<html>
+  <head>
+    <title>Tims Map</title>
+    <link rel="stylesheet" href="openlayers/theme/default/style.css" type="text/css">
+    <style>
+      #map-id {
+        width: 512px;
+        height: 512px;
+      }
+    </style>
+    <script src="openlayers/OpenLayers.js"></script>
+    <script src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.2&mkt=en-us"></script>
+
+    <script>
+     var map;
+     function init(){
+      // Example based on: http://openlayers.org/dev/examples/bing.html
+      // setting restrictedExtent so that we can use the 
+      // VirtualEarth-layers, see e.g. 
+      // http://dev.openlayers.org/apidocs/files/OpenLayers/Layer/VirtualEarth-js.html
+      var restrictedExtent = new OpenLayers.Bounds(-180, -90, 180, 90);
+      map = new OpenLayers.Map("map-id");
+      map.addControl(new OpenLayers.Control.LayerSwitcher());
+      var shaded = new OpenLayers.Layer.VirtualEarth("Shaded", {
+        type: VEMapStyle.Shaded
+      });
+      var hybrid = new OpenLayers.Layer.VirtualEarth("Hybrid", {
+        type: VEMapStyle.Hybrid
+      });
+      var aerial = new OpenLayers.Layer.VirtualEarth("Aerial", {
+        type: VEMapStyle.Aerial
+      });
+      map.addLayers([shaded, hybrid, aerial]);
+      map.setCenter(new OpenLayers.LonLat(-110, 45), 3);
+     }
+    </script>
+  </head>
+  <body onload="init()">
+    <h1>The world according to Tim</h1>
+    <div id="map-id"></div>
+  </body>
+</html>
+
+```
+
+
+Lets do a line by line analysis again:
+
+```
+<script src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.2&mkt=en-us"></script>
+```
+
+The first thing we have done is to include the developer library for virtual
+earth. This is needed to display VE layers.
+
+```
+    <script>
+     var map;
+     function init(){
+```
+
+OK, so this is a little different to before. We have moved the javascript part
+that was previously embedded directly in our web page //<body>// into the
+head area. We put all the javascript code into a function called //init// which we
+will run when the page is initially loaded (by calling the onload event from
+the start of the body block).
+
+The ```var map;``` line just initialises a variable and makes its scope global
+(since it is defined outside of any function).
+
+```
+map = new OpenLayers.Map("map-id");
+```
+
+This is just as before - we setup our map, telling it to place itself inside
+the //map-id// div.
+
+```
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+```
+
+Now we are doing something new. I am telling the map to add a layerswitcher
+control. The layerswitcher will appear on the edge of the map as a small "+"
+symbol. When you click on it, you can select between the layers that have been
+added to the map. In the case of //baselayers// only one can be active at any
+time, so they are listed with radio buttons next to them. In the case of
+//overlays// each can be toggled on or off independently, so they are listed
+with checkboxes next to them.
+
+```
+      var shaded = new OpenLayers.Layer.VirtualEarth("Shaded", {
+        type: VEMapStyle.Shaded
+      });
+      var hybrid = new OpenLayers.Layer.VirtualEarth("Hybrid", {
+        type: VEMapStyle.Hybrid
+      });
+      var aerial = new OpenLayers.Layer.VirtualEarth("Aerial", {
+        type: VEMapStyle.Aerial
+      });
+```
+
+In this section, we define a bunch of VE layers. These are predefined by
+Microsoft, but otherwise the procedure is much the same as with our previous
+example.
+
+```
+      map.addLayers([shaded, hybrid, aerial]);
+```
+
+Before we used //addLayer()//, which adds a single layer to the map. If you
+have multiple layers, it is quicker to add them all in one go by passing the
+addLayers method an array of layers.
+
+```
+      map.setCenter(new OpenLayers.LonLat(-110, 45), 3);
+     }
+    </script>
+  </head>
+```
+
+Like before, I have centered the map using setCenter, and then I end my
+//function// (closing the '}'), the //<script>// block and finally the
+//<head>// block.
+
+```
+  <body onload="init()">
+```
+
+Since we have moved our script from being inline, to being declared in a script
+block in the head section of the page, we need to call it some how. We do that
+by adding the ```onload="init()"``` option to the body tag. When the body of
+the page has loaded, it will then call our new init function.
+
+```
+    <h1>The world according to Tim</h1>
+    <div id="map-id"></div>
+  </body>
+```
+
+The actual body contents are much the same as before with a notable exception -
+the body no longer contains an inlined //<script>// block (as discussed above).
+
+OpenLayers supports various other types of layers that can be added to the map,
+including google maps, yahoo maps, OpenStreetMaps (which we will try just now),
+WFS, GML and others. The procedure for adding each type varies a little, but
+the principle is the same - create a map and add some layers to it.
+
 == Controlling the map using javascript ==
 
 === A button to zoom to a place ===
@@ -231,7 +387,7 @@ before the ``</body>`` terminator tag like this:
 
 ```
 <input type="button" onclick="map.setCenter(new OpenLayers.LonLat(25,-24), 7 );" 
-        value="Go To Your House" />
+    value="Go To Your House" />
 ```
 
 ``<input type="button" value="Go To Your House" />`` - This is html notation
@@ -246,7 +402,7 @@ new point. This function takes two parameters - a coordinate and a zoom level.
 ```new OpenLayers.LonLat(25,-24)``` - Creates a new LonLat object - the point
 position to which we will be zooming. Note that openlayers calls any coordinate
 pair 'lonlat' - even if it is in a projected coordinate reference system.
-```7``` - This is the zoom level to use when panning.  By default openlayers has
+```7``` - This is the zoom level to use when panning. By default openlayers has
 16 zoom levels with 0 representing the smallest scale and 16 the largest.
 
 
@@ -275,9 +431,32 @@ Recent versions of firebug will 'intellisense complete' your javascript as you
 type. See if you can figure out some other ways to manipulate the map.
 
 
-== Other sources of data ==
+=== Set center based on user input ===
 
-In the previous section we saw that it is easy to use WMS services with
+Lets try an example where the user gets to decide where to recenter the map to:
+
+Because everything is just html and javascript, you can create user interfaces
+to allow the user to interact with the map in other ways. In this example we
+add two input boxes (``input type ="text"``) and a button. When the user clicks
+the button, the values entered in the input boxes will be used to in a call to
+//map.setCenter()//.
+
+```
+<label for="lon">Lon</label><input type="text" id="lon" />
+<label for="lat">Lat</label><input type="text" id="lat" />
+
+
+<input type="button" onclick="
+map.setCenter(
+ new OpenLayers.LonLat(
+  document.getElementById('lon').value,
+  document.getElementById('lat').value));
+  " value="Go!" /
+ >
+``` 
+== Working with data in other Coordinate Reference Systems (CRS) ==
+
+In the first section we saw that it is easy to use WMS services with
 openlayers. There are other map sources you can use too. In this example, we
 will show you how to add an [open street map http://openstreetmap.org] dataset
 to your map. The OpenStreetmap project publish their data in the Google
@@ -285,61 +464,73 @@ Mercator projection, so we need to do a little work to set up the map
 projection before we can add the layer.
 
 
-**Map 2:**
-
 ```
 <html>
-    <head>
-        <title>Tims Map</title>
-        <link rel="stylesheet" href="openlayers/theme/default/style.css" type="text/css">
-        <style>
-            #map-id {
-                width: 512px;
-                height: 512px;
-            }
-        </style>
-        <script src="openlayers/OpenLayers.js"></script>
-    </head>
-    <body>
-        <h1>The world according to Tim</h1>
-        <div id="map-id"></div>
-        <script>
-            var geographic = new OpenLayers.Projection("EPSG:4326");
-            var mercator = new OpenLayers.Projection("EPSG:900913");
+  <head>
+    <title>Tims Map</title>
+    <link rel="stylesheet" href="openlayers/theme/default/style.css" type="text/css">
+    <style>
+      #map-id {
+        width: 512px;
+        height: 512px;
+      }
+    </style>
+    <script src="openlayers/OpenLayers.js"></script>
+    <script>
+      var map;
+      var geographic;
+      var mercator;
+      function init(){
+        geographic = new OpenLayers.Projection("EPSG:4326");
+        mercator = new OpenLayers.Projection("EPSG:900913");
 
-            var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
-                geographic, mercator
-            );
+        var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
+          geographic, mercator
+        );
 
-            var options = {
-                projection: mercator,
-                units: "m",
-                maxExtent: world
-            };
-            var map = new OpenLayers.Map("map-id", options);
+        var options = {
+          projection: mercator,
+          units: "m",
+          maxExtent: world
+        };
+        var map = new OpenLayers.Map("map-id", options);
 
-            var osm = new OpenLayers.Layer.OSM();
-            map.addLayer(osm);
+        var osm = new OpenLayers.Layer.OSM();
+        map.addLayer(osm);
 
 
-            var gabs = new OpenLayers.LonLat(25,-24).transform(
-                geographic, mercator
-            );
-            map.setCenter(gabs, 9);
-        </script>
-    </body>
+        var gabs = new OpenLayers.LonLat(25,-24).transform(
+          geographic, mercator
+        );
+        map.setCenter(gabs, 9);
+      } //end of init
+    </script>
+  </head>
+  <body onload="init()">
+    <h1>The world according to Tim</h1>
+    <div id="map-id"></div>
+  </body>
 </html>
 ```
 
 
 Lets look in detail at the changes we have made to our project:
 
-The <head> section remains unchanged as of the last example so I won't
-re-discuss it here.  Our script starts off with these two lines:
+Once again we have our script to initialise the map in the <head> section.  Our
+updated script starts off with these three lines:
+
+``` 
+ var map;
+ var geographic;
+ var mercator;
+```
+
+These declare some global variables as we will use then elsewhere on the page.
 
 ```
-var geographic = new OpenLayers.Projection("EPSG:4326");
-var mercator = new OpenLayers.Projection("EPSG:900913");
+function init() {
+  var geographic = new OpenLayers.Projection("EPSG:4326");
+  var mercator = new OpenLayers.Projection("EPSG:900913");
 ```
 
 What we are doing is defining to //Projection// objects - one based on
@@ -349,9 +540,9 @@ if we need to do any other conversions between Geographic/Lat Lon and Google
 Mercator.
 
 ```
-   var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
-        geographic, mercator
-   );
+  var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
+    geographic, mercator
+  );
 ```
 
 Now we have defined the bounding box for the world by //transform//ing a
@@ -359,11 +550,11 @@ rectangle described in Geographic into a rectangle described in meters using
 the Google Mercator projection.
 
 ```
-   var options = {
-     projection: mercator,
-     units: "m",
-     maxExtent: world
-   };
+  var options = {
+   projection: mercator,
+   units: "m",
+   maxExtent: world
+  };
 ```
 
 The code above defines a variable 'options' and initialises it with an array of
@@ -376,33 +567,33 @@ extent for the map will be the world rectangle which we calculated in the
 previous step.
 
 ```
-    var map = new OpenLayers.Map("map-id", options);
+  var map = new OpenLayers.Map("map-id", options);
 ```
 
-This is the same as out first example, except now we have added the options
+This is the same as our first example, except now we have added the options
 parameter which is passed to the map when it is created.
 
 ```
-    var osm = new OpenLayers.Layer.OSM();
-    map.addLayer(osm);
+  var osm = new OpenLayers.Layer.OSM();
+  map.addLayer(osm);
 ```
 
 Here we use the built in function to create a new OpenStreetMap (OSM) layer,
 and then add it to the map.
 
 ```
-    var gabs = new OpenLayers.LonLat(25,-24).transform(
-      geographic, mercator
-    );
+  var gabs = new OpenLayers.LonLat(25,-24).transform(
+   geographic, mercator
+  );
 ```
 
-In this step we center the map (somewhere near Gabarone). Because the map is in
-EPSG:900913, we need to first reproject the LonLat coordinates for Gabarone to
-Google Mercator, in a similar way to the bounding box transform we carried out
-higher up.
+In this step we define a LatLon object (somewhere near Gabarone). Because the
+map is in EPSG:900913, we need to first reproject the LonLat coordinates for
+Gabarone to Google Mercator, in a similar way to the bounding box transform we
+carried out higher up.
 
 ```
-    map.setCenter(gabs, 9);
+  map.setCenter(gabs, 9);
 ```
 
 Finally we can set the map center to Gabarone with a zoom level of 9.
@@ -412,33 +603,26 @@ Load your page and have a play around with it.
 
 **Now you try:** Update the map so that it zooms to your house when it first loads.
 
-== More complex interactions ==
+**Question:** What do we need to do to make our zoom to place buttons work now?
 
-Because everything is just html and javascript, you can create user interfaces
-to allow the user to interact with the map in other ways. In this example we
-add two input boxes (``input type ="text"``) and a button. When the user clicks
-the button, the values entered in the input boxes will be used to in a call to
-//map.setCenter()//.
+=== Dealing with projections in your scripts ===
+
+The above example page set up some projection objects. These can then be 
+used within your scripts for transforming data when needed.
 
 ```
-    <label for="lon">Lon</label><input type="text" id="lon" />
-    <label for="lat">Lat</label><input type="text" id="lat" />
-    <input type="button" onclick="
-      map.setCenter(
-      new OpenLayers.LonLat(
-      document.getElementById('lon').value,
-      document.getElementById('lat').value)
-      .transform(geographic, mercator), 14 );
-      " value="Go!" /
-    >
+<label for="lon">Lon</label><input type="text" id="lon" />
+<label for="lat">Lat</label><input type="text" id="lat" />
+<input type="button" onclick="
+ map.setCenter(
+ new OpenLayers.LonLat(
+  document.getElementById('lon').value,
+  document.getElementById('lat').value
+ ).transform(geographic, mercator), 14 );
+ " value="Go!" /
+>
 ```
 
 You will notice that we seamlessly transform the user's coordinates from
-EPSG:4326 to EPSG:900913.
-
-== Bing! ==
-
-You can add Bing maps to OpenLayers in a similar way to adding WMS or OSM data.
-
-
+EPSG:4326 to EPSG:900913 and then center the map on that.
 

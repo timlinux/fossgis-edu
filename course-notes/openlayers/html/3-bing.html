@@ -10,53 +10,42 @@
         </style>
         <script src="openlayers/OpenLayers.js"></script>
         <script src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.2&mkt=en-us"></script>
+        <script>
+          var map;
 
+          function init(){
+            // Example based on: http://openlayers.org/dev/examples/bing.html
+            // setting restrictedExtent so that we can use the 
+            // VirtualEarth-layers, see e.g. 
+            // http://dev.openlayers.org/apidocs/files/OpenLayers/Layer/VirtualEarth-js.html
+            var restrictedExtent = new OpenLayers.Bounds(-180, -90, 180, 90);
+            map = new OpenLayers.Map("map-id");
+            map.addControl(new OpenLayers.Control.LayerSwitcher());
+            var shaded = new OpenLayers.Layer.VirtualEarth("Shaded", {
+                type: VEMapStyle.Shaded
+            });
+            var hybrid = new OpenLayers.Layer.VirtualEarth("Hybrid", {
+                type: VEMapStyle.Hybrid
+            });
+            var aerial = new OpenLayers.Layer.VirtualEarth("Aerial", {
+                type: VEMapStyle.Aerial
+            });
+            map.addLayers([shaded, hybrid, aerial]);
+            map.setCenter(new OpenLayers.LonLat(-110, 45), 3);
+          }
+        </script>
     </head>
-    <body>
+    <body onload="init()">
         <h1>The world according to Tim</h1>
         <div id="map-id"></div>
-        <script>
-            var geographic = new OpenLayers.Projection("EPSG:4326");
-            var mercator = new OpenLayers.Projection("EPSG:900913");
-
-            var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
-                geographic, mercator
-            );
-            var gabs = new OpenLayers.LonLat(25,-24).transform(
-                geographic, mercator
-            );
-
-            var options = {
-                projection: mercator,
-                units: "m",
-                maxExtent: world
-            };
-            var map = new OpenLayers.Map("map-id", options);
-
-            var osm = new OpenLayers.Layer.OSM();
-            map.addLayer(osm);
-            var bing = new OpenLayers.Layer.VirtualEarth("VE Streets", {
-              sphericalMercator: true
-             });
-            map.addLayer(bing);
-
-            map.addControl(new OpenLayers.Control.LayerSwitcher());
-
-            map.setCenter(gabs, 9);
-        </script>
-
-        <input type="button" onclick="map.setCenter(new OpenLayers.LonLat(2883721.7180776,-2833495.0053538), 14 );" value="Go To Boche's House">
         <label for="lon">Lon</label><input type="text" id="lon" />
         <label for="lat">Lat</label><input type="text" id="lat" />
         <input type="button" onclick="
         map.setCenter(
         new OpenLayers.LonLat(
         document.getElementById('lon').value,
-        document.getElementById('lat').value)
-        .transform(geographic, mercator), 14 );
-        
+        document.getElementById('lat').value));
         " value="Go!" /
-        
         >
     </body>
 </html>
