@@ -735,3 +735,46 @@ map.addLayer(feedlayer);
 The resulting map should look like this:
 
  | [img/rss-map.png]
+
+=== Adding JSON Features ===
+
+JSON (Javascript Simple Object Notation) is a lightweight (compared to xml)
+format for passing data between applications. With JSON you can define a
+geometry in a simple plain text notation. Here is an example of adding a json
+layer to our map:
+
+```            
+ var format = new OpenLayers.Format.GeoJSON();
+ var layer = new OpenLayers.Layer.Vector("Search Area");
+ var feature = format.read({ 
+   "type": "Polygon", 
+   "coordinates": 
+   [ 
+     [ 
+        [ 21.005863, -31.252288 ], 
+        [ 23.422855, -29.163706 ], 
+        [ 24.433597, -31.589797 ], 
+        [ 22.324222, -32.557957 ], 
+        [ 21.005863, -31.252288 ] 
+     ] 
+   ] })[0];
+ layer.addFeatures(feature);
+ map.addLayer(layer);
+```
+
+Lets work through what we did - step by step:
+
+- The process starts with creating a new format reader. OpenLayers provides
+  various format readers that know how to parse vector geometry definitions. In
+  this case we are using the GeoJSON format reader. 
+- Next we create a new 'empty' vector layer.
+- Then we create a new feature be reading it from a GeoJSON string. 
+- That feature is then added to the layer.
+- Finally, the layer is added to the map.
+-
+
+Here is what the result looks like:
+
+ | [img/geojson.png]
+
+

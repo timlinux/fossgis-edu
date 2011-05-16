@@ -25,6 +25,23 @@
       var feedlayer = new OpenLayers.Layer.GeoRSS( 'GeoRSS', 'earthquakes-feed.xml');
       map.addLayer(feedlayer);
 
+      var format = new OpenLayers.Format.GeoJSON();
+      var layer = new OpenLayers.Layer.Vector("Search Area");
+      var feature = format.read({ 
+        "type": "Polygon", 
+        "coordinates": 
+        [ 
+          [ 
+             [ 21.005863, -31.252288 ], 
+             [ 23.422855, -29.163706 ], 
+             [ 24.433597, -31.589797 ], 
+             [ 22.324222, -32.557957 ], 
+             [ 21.005863, -31.252288 ] 
+          ] 
+        ] })[0];
+      layer.addFeatures(feature);
+      map.addLayer(layer);
+
       map.zoomToMaxExtent();
      }
     </script>
