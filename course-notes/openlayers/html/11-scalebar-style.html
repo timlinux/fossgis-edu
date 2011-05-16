@@ -7,6 +7,13 @@
         width: 512px;
         height: 256px;
       }
+      #scaleline-id {
+        font-size: 8px;
+        }
+      .olControlScaleLineTop {
+        background-color: red;
+        border-color:green;
+        }
     </style>
     <script src="openlayers/OpenLayers.js"></script>
     <script>
@@ -73,13 +80,19 @@
       map.addLayer(pointlayer);
 
       map.zoomToMaxExtent();
-      
+      map.addControl(new OpenLayers.Control.LayerSwitcher());
+      var scaleline = new OpenLayers.Control.ScaleLine({
+        div: document.getElementById("scaleline-id")
+      });
+      map.addControl(scaleline); 
      }
     </script>
   </head>
   <body onload="init()">
     <h1>My Map</h1>
     <div id="map-id"></div>
+    <div id="scaleline-id"></div>
   </body>
 </html>
+
 

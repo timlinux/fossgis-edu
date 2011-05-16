@@ -885,4 +885,85 @@ If you followed along, your map should now looks something like this:
 
  | [img/pointstyle.png]
 
+== Further Customisation ==
 
+There are other things you can do beyond just adding layers and setting their
+style in order to customise your map.
+
+=== Adding a layer selector ===
+
+You can add a layer selector as we have seen earlier in our bing maps example.
+Lets add one to our current map:
+
+```
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+```
+
+The layerswitcher will appear on the edge of the map as a small "+" symbol.
+When you click on it, you can select between the layers that have been added to
+the map. In the case of //baselayers// only one can be active at any time, so
+they are listed with radio buttons next to them. In the case of
+//overlays// each can be toggled on or off independently, so they are listed
+with checkboxes next to them.
+
+
+ | [img/layerselector.png]
+
+=== Adding a scale bar ===
+
+It is also possible to add a scale bar. First add to the init function:
+
+```
+  var scaleline = new OpenLayers.Control.ScaleLine({
+    div: document.getElementById("scaleline-id")
+  });
+  map.addControl(scaleline); 
+```
+
+Then add to the body section of your html (after the map-id):
+
+```
+ <div id="scaleline-id"></div>
+```
+
+I got a little fancy here, adding the scale bar to a div element outside the
+map. In order to do that, I needed to define the div element. Here is how our 
+scalebar looks:
+
+
+ | [img/scalebar.png]
+
+=== Styling your scale bar ===
+
+Most parts of OpenLayers can be styled using CSS. We can simple add some style directives in the //<style>// we defined. The original looked like this (it is where we defined the map size):
+
+```
+    <style>
+      #map-id {
+        width: 512px;
+        height: 256px;
+      }
+    </style>
+```
+
+By adding a couple of rules, we can change the scalebars look (you need to understand CSS for this):
+
+```
+    <style>
+      #map-id {
+        width: 512px;
+        height: 256px;
+      }
+      #scaleline-id {
+        font-size: 8px;
+        }
+      .olControlScaleLineTop {
+        background-color: red;
+        border-color:green;
+        }
+    </style>
+```
+
+So our (now remarkably ugly) styled scalebar looks like this:
+
+ | [img/scalebar-style.png]
