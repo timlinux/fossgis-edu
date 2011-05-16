@@ -8,7 +8,7 @@
                 height: 512px;
             }
         </style>
-        <script src="openlayers/lib/OpenLayers.js"></script>
+        <script src="openlayers/OpenLayers.js"></script>
     </head>
     <body>
         <h1>The world according to Tim</h1>
@@ -17,8 +17,10 @@
             var map = new OpenLayers.Map("map-id");
             var imagery = new OpenLayers.Layer.WMS(
                 "Country",
-                "http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
-                {layers: "Country,Cities", format : "image/png; mode=24bit"}
+                "http://196.35.94.243/cgi-bin/mapserv?map=ZA_SPOT10m2010",
+                {layers: "Country", format : "image/jpeg"}
+                //"http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
+                //{layers: "Country,Cities", format : "image/png; mode=24bit"}
             );
 
             map.addLayer(imagery);

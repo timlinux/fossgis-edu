@@ -17,7 +17,7 @@
 
 
         </style>
-        <script src="openlayers/lib/OpenLayers.js"></script>
+        <script src="openlayers/OpenLayers.js"></script>
         
     </head>
     <body>
@@ -31,8 +31,11 @@
 
             var country = new OpenLayers.Layer.WMS(
                 "Country",
-                "http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
-                {layers: "Country", format : "image/png; mode=24bit"}
+                "http://196.35.94.243/cgi-bin/mapserv?map=ZA_SPOT10m2010",
+                {layers: "Country", format : "image/jpeg"}
+                //"Country",
+                //"http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map",
+                //{layers: "Country", format : "image/png; mode=24bit"}
             );
             map.addLayer(country);
 

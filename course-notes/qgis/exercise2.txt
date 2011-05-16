@@ -1,0 +1,33 @@
+Start a new project
+
+Set the CRS to UTM 34 S
+
+Add in the roads and rivers layers
+
+Define styles for each layer:
+ - classify roads by type and use a variation of an overlay style for each class
+ - create an offset shadow behind your rivers
+ - save the style definitions so that they can be reused later
+
+Add the roads in again, and create a query / subset definition so that it only shows streets and minor roads.
+
+Set the first road layer to only be visible between 100000 and 100000000
+Set the second road layer to be only visible between 0 and 100000
+
+Configure labels for the roads layer that is shown at a large scale
+
+Create a new line layer with attributes:
+ - name (text)
+ - type (number)
+
+Use the attribute properties to create a value map for each field
+
+Configure snapping so that the line layer is snapped to roads and rivers
+
+Capture 5 new features.
+
+Create a buffer around each line feature of 500m
+
+Select all roads that intersect the buffer
+
+Create a map composition showing the roads that intersect your buffers and add traditional map elements - scale bar, north arrow, etc. 

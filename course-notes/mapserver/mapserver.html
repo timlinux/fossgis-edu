@@ -1,254 +1,350 @@
-Mapserver Training Notes
-Tim Sutton
-(c) 2010 Linfiniti Consulting cc.
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.org">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Mapserver Training Notes</TITLE>
 
-%! target       : tex
-%! style        : style.css
-%! Options      : --toc --toc-level 1 --enum-title --css-sugar --css-inside
-%! preproc      : TUT_URL   https://qgis.org
-%! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
-%! PostProc(html): '(?i)(</pre>)' '\1</div>'
-%
-% Tex processing
-%
-% Make sure this is first
-%! PostProc(tex): '\\includegraphics' '\\includegraphics[width=100mm]'
-% scartcl is from the koma script document class (apt-get install texlive-latex-recommended ttf-komatuna)
-% setlength parindent suppresses first line of paragraph idents
-% parskip puts blank space between paragraphs
-% title pic stuff used to put a logo on the front page
-%! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
-% use the color table and table packages so we can pimp the tables a little
-%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
-% Make the header row of tables have a dark background. light text
-%! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
-%! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
-% Make verbatim text a little smaller and use fancyvrb package to draw it in a box
-% Note Verbatim with capital V for fancyvrb to work
-%! PostProc(tex): '\\begin{verbatim}' '{\\scriptsize\n\\begin{Verbatim}[frame=single,rulecolor=\\color{linfiniti-blue}, framesep=4mm, label=\\fbox{\\small\\emph{Listing}}]'
-%! PostProc(tex): '\\end{verbatim}' '\\end{Verbatim}\n}'
-%! PostProc(tex): '\\section' '\\newpage\\section'
-%! PostProc(tex): 'section{' 'section{\\color{linfiniti-blue}'
-%! PostProc(tex): NEWPAGE  '\\newpage'
-% Give alternating table rows different colours and use a smaller font in tables (\tiny)
-%! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
-%! encoding: iso-8859-1
+<!-- Included style.css -->
+<STYLE TYPE="text/css">
+body {
+  padding: 2em 1em 2em 70px;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+  background: white;
+}
+:link { color: #00C; background: transparent }
+:visited { color: #609; background: transparent }
+a:active { color: #C00; background: transparent }
 
-%! PostProc(tex): WALLPAPER-IMAGE '../../resources/linfiniti-footer.png'
-% These are comments and will not be generated in any output
-% -------------------
-
-%This document is in text2tags format. You can generate html, plain text and
-%moinmoin formatted documentation by running txt2tags on this document. See the
-%txt2tags home page for more details.  Please insert manual line breaks in this
-%document as it makes diffing for changes much easier. To do this in vim
-%automatically, select a section then issue (gq) command. Please dont
-%apply vim formatting to the whol document as it screws up some formatting
-%rather apply it selectively to paragraphs where needed.
-
-% To generate the text version of this document:
-% txt2tags -t txt -o index index.t2t
-% To generate the moinmoin version of this document
-% txt2tags -t moin -o index.moin  index.t2t
-% To generate the html version of this document
-% txt2tags -t html -o index.html index.t2t
-% To generate a LaTeX / pdf
-% txt2tags -t tex -o index.tex index.t2t; pdflatex index.tex
+a:link img, a:visited img { border-style: none } 
 
 
-= Introducing Mapserver with QGIS =
+h1, h2, h3, h4, h5, h6 { text-align: left }
+h1, h2, h3 { color: #005A9C; background: white }
+h1 { font: 170% sans-serif }
+h2 { font: 140% sans-serif }
+h3 { font: 120% sans-serif }
+h4 { font: bold 100% sans-serif }
+h5 { font: italic 100% sans-serif }
+h6 { font: small-caps 100% sans-serif }
 
-== What is it? ==
+pre { margin-left: 2em;
+      border: 1;
+      padding: 4px;
+      background: #ececec; }
+pre, code { font-family: monospace } 
 
-```
-MapServer is an Open Source platform for publishing spatial data and
-interactive mapping applications to the web. Originally developed in the
-mid-1990's at the University of Minnesota, MapServer is released under an
-MIT-style license, and runs on all major platforms (Windows, Linux, Mac OS X).
+
+</STYLE>
+
+</HEAD>
+<BODY>
+
+<DIV CLASS="header" ID="header">
+<H1>Mapserver Training Notes</H1>
+<H3>(c) 2010 Linfiniti Consulting cc.</H3>
+</DIV>
+
+<DIV CLASS="toc">
+
+  <OL>
+  <LI><A HREF="#toc1">Introducing Mapserver with QGIS</A>
+    <UL>
+    <LI><A HREF="#toc2">1.1. What is it?</A>
+    <LI><A HREF="#toc3">1.2. Installation</A>
+    <LI><A HREF="#toc4">1.3. Installing some test data into PostGIS</A>
+    <LI><A HREF="#toc5">1.4. Creating a connection to the database in QGIS</A>
+    <LI><A HREF="#toc6">1.5. Making your first map file</A>
+    <LI><A HREF="#toc7">1.6. Understanding the mapfile structure</A>
+    <LI><A HREF="#toc8">1.7. Testing</A>
+      <UL>
+      <LI><A HREF="#toc9">1.7.1. GetCapabilities</A>
+      <LI><A HREF="#toc10">1.7.2. DescribeLayer</A>
+      <LI><A HREF="#toc11">1.7.3. GetMap</A>
+      </UL>
+    <LI><A HREF="#toc12">1.8. Testing with QGIS</A>
+      <UL>
+      <LI><A HREF="#toc13">1.8.1. Create a new WMS Connection</A>
+      <LI><A HREF="#toc14">1.8.2. Adding a layer</A>
+      </UL>
+    <LI><A HREF="#toc15">1.9. Beautifying your map</A>
+      <UL>
+      <LI><A HREF="#toc16">1.9.1. Creating a symbol definition</A>
+      <LI><A HREF="#toc17">1.9.2. Creating multiple classes for a layer</A>
+      <LI><A HREF="#toc18">1.9.3. Now you try</A>
+      </UL>
+    <LI><A HREF="#toc19">1.10. An exercise</A>
+    <LI><A HREF="#toc20">1.11. Symbol Overlays</A>
+    <LI><A HREF="#toc21">1.12. Image Symbols</A>
+    <LI><A HREF="#toc22">1.13. Adding Rasters</A>
+    <LI><A HREF="#toc23">1.14. Transparency</A>
+    <LI><A HREF="#toc24">1.15. Creating a legend</A>
+    <LI><A HREF="#toc25">1.16. On the Fly Projection (OTFP)</A>
+    <LI><A HREF="#toc26">1.17. Get feature info</A>
+    <LI><A HREF="#toc27">1.18. Troubleshooting and debugging</A>
+    <LI><A HREF="#toc28">1.19. Where to next?</A>
+      <UL>
+      <LI><A HREF="#toc29">1.19.1. Setting up tilecache</A>
+      </UL>
+    </UL>
+  </OL>
+
+</DIV>
+<DIV CLASS="body" ID="body">
+
+<A NAME="toc1"></A>
+<H1>1. Introducing Mapserver with QGIS</H1>
+
+<A NAME="toc2"></A>
+<H2>1.1. What is it?</H2>
+
+<div class="code"><PRE>
+MapServer is an Open Source platform for publishing spatial data and 
+interactive mapping applications to the web. Originally developed in 
+the mid-1990s at the University of Minnesota, MapServer is released 
+under an MIT-style license, and runs on all major platforms (Windows, 
+Linux, Mac OS X).
 
    -- http://mapserver.org/
-```
+</PRE></div>
 
+<P>
 In this tutorial we will show you how to work with QGIS and mapserver to:
+</P>
 
- + generate mapfiles
- + test mapfiles
- + use mapserver as a portrayal service for maps and QGIS as a client (via wms)
- +
+ <OL>
+ <LI>generate mapfiles
+ <LI>test mapfiles
+ <LI>use mapserver as a portrayal service for maps and QGIS as a client (via wms)
+ </OL>
 
+<A NAME="toc3"></A>
+<H2>1.2. Installation</H2>
 
-== Installation ==
-
+<P>
 We assume you have QGIS installed already. To install mapserver under ubuntu do:
+</P>
 
-```
+<div class="code"><PRE>
 sudo apt-get install apache2 cgi-mapserver python-mapscript
-```
+</PRE></div>
 
-
+<P>
 The python mapscript module above is not strictly needed - 
 it will be used for testing our map files.
-
+</P>
+<P>
 For the above mentioned testing, you should also install mapfile 
 tools plugin using the QGIS python plugin manager (you need to 
 enable 3rd party repositories first).
+</P>
 
-== Installing some test data into PostGIS ==
+<A NAME="toc4"></A>
+<H2>1.3. Installing some test data into PostGIS</H2>
 
+<P>
 We are going to create a database first. We assume here that you already have
 postgresql and a database user account.
-
+</P>
+<P>
 At the bash prompt do:
+</P>
 
-```
+<div class="code"><PRE>
 createdb mapserver
 createlang plpgsql mapserver
-psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
-psql mapserver < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
-```
+psql mapserver &lt; /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
+psql mapserver &lt; /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
+</PRE></div>
 
+<P>
 Now load our sample datasets (also from bash):
+</P>
 
-```
+<div class="code"><PRE>
 pg_restore country.dmp | psql mapserver
 pg_restore cities.dmp | psql mapserver
-```
+</PRE></div>
 
+<P>
 (You may encounter an error message complaining about unknown roles, but
 you can safely disregard it.)
-
+</P>
+<P>
 Now create a non-privileged user for use from mapserver (from the psql
 prompt):
+</P>
 
-```
+<div class="code"><PRE>
 create role ms_readonly with password 'ms_readonly' LOGIN;
-```
+</PRE></div>
 
+<P>
 Assign the new user  read permissions to the tables we imported (again from
 the psql prompt):
+</P>
 
-```
+<div class="code"><PRE>
 grant select on cities to ms_readonly;
 grant select on country to ms_readonly;
 grant select on geometry_columns to ms_readonly;
-```
+</PRE></div>
 
-== Creating a connection to the database in QGIS ==
+<A NAME="toc5"></A>
+<H2>1.4. Creating a connection to the database in QGIS</H2>
 
+<P>
 Open QGIS and create a new postgres connection to your mapserver database using
 your readonly account. 
+</P>
 
-```
-Layer -> Add PostGIS Layer -> New 
-```
+<div class="code"><PRE>
+Layer -&gt; Add PostGIS Layer -&gt; New 
+</PRE></div>
 
+<P>
 And then configure it to look like this:
-
- | [img/image01.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image01.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 Now connect to your database. You may get an error like the one below, which
 you can safely ignore - it appears because we (purposely) gave the ms_readonly
 account limited permissions.
-
- | [img/image02.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image02.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 Once you have connected, open the countries and cities layers in QGIS:
-
- | [img/image03.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image03.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 Which should open with some random colours like this:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image04-thumb.jpeg" BORDER="0" ALT="">
+</P>
+<P>
+Note: To ensure that we can export all of this later, open the Properties
+dialog for each of these two layers and under the Style tab, change them to
+using the 'old symbology' implementation. Mapserver doesn't work with the new
+symbology yet, so for now we need to accommodate it in this way.
+</P>
 
+<A NAME="toc6"></A>
+<H2>1.5. Making your first map file</H2>
 
- | [img/image04.jpeg]
-
-""Note:"" Make sure that both layers are using 'Old Symbology'!
-
-== Making your first map file ==
-
+<P>
 What is a map file? A map file is a simple text file that defines the options
 that you want mapserver to use when rendering your maps. It specifies the
 extents of your project, Coordinate Reference Systems (CRS), which map layers
 to use and what symbology to use for them. In many respects, it is just like a
 QGIS project file, but for web mapping.
-
+</P>
+<P>
 Let's dive right in! We are going to use two plugins to help us do our work.
 First install the Mapfile Tools plugin in QGIS (you must enabled 3rd party
 repositories first).
-
- | [img/image05.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image05.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 Next use the plugin manager to enable the mapserver export tool - which we will
 use to create your initial map file. 
-
- | [img/image06.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image06.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 Save your qgis project - I called mine world.qgs and I placed it in a directory
 structure like this:
+</P>
 
-```
+<div class="code"><PRE>
 /home/web/mapserver-tut/
 `-- qgis-projects
     `-- world.qgs
-```
+</PRE></div>
 
+<P>
 Now run the mapserver export plugin:
+</P>
 
-```
-Plugins -> Mapserver Export -> Mapserver Export
-```
+<div class="code"><PRE>
+Plugins -&gt; Mapserver Export -&gt; Mapserver Export
+</PRE></div>
 
+<P>
 Accept the default options and save your map file. I have placed mine here:
+</P>
 
-```
+<div class="code"><PRE>
 mapserver-tut/
 |-- mapfiles
-|   `-- world.map    <-- new map file created
+|   `-- world.map    &lt;-- new map file created
 `-- qgis-projects
     `-- world.qgs
-```
+</PRE></div>
 
-""Note:"" The directory where you place the map file and the map file itself
+<P>
+Note: The directory where you place the map file and the map file itself
 must be accessible to the apache www-data user.
-
- | [img/image08.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image08.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 After the export, you will see a message with some tips like this:
-
- | [img/image09.jpeg]
-
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image09.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 Before it can be used, the map file as exported needs a few tweaks. Open it
-using your favourite editor e.g.
-
-```
-Accessories -> gedit
-```
-
+using your favourite editor, e.g. vim.
+</P>
+<P>
 Now comment out the following lines by placing a hash before them:
+</P>
 
-```
+<div class="code"><PRE>
  # FONTSET './fonts/fonts.txt'
  # SYMBOLSET './symbols/symbols.txt'
-```
+</PRE></div>
 
+<P>
 And near the bottom comment out the line:
+</P>
 
-```
+<div class="code"><PRE>
  # SYMBOL "circle"
-```          
+</PRE></div>
 
+<P>
 We will explain why we commented them out just now, but first let's test our
 new map service!
+</P>
 
-== Understanding the mapfile structure == 
+<A NAME="toc7"></A>
+<H2>1.6. Understanding the mapfile structure</H2>
 
+<P>
 Until now we have just dived into capabilities documents and adding layers
 without really taking a look at the structure of the mapfile itself. I did this
 on purpose to let you first get a feel for what can be achieved with mapserver.
-
+</P>
+<P>
 Let's look at the structure of the map file:
+</P>
 
-```
+<div class="code"><PRE>
 MAP
   PROJECTION
   OUTPUTFORMAT
@@ -260,49 +356,60 @@ MAP
   LAYER 2
   ...
   LAYER N
-```
+</PRE></div>
 
+<P>
 The mapfile is a structured document that is described very nicely in the
-[ mapserver mapfile http://mapserver.org/mapfile/index.html] documentation. As
+<A HREF="mapfile">http://mapserver.org/mapfile/index.html mapserver</A> documentation. As
 such we won't try to repeat everything they describe there. Rather we will
 highlight a few important points to bear in mind and create a few examples to
 illustrate what you can do with mapserver and a nice map file.
-
+</P>
+<P>
 The purpose of the map file is to describe all the elements of your web mapping
 service. With the map file you can create different kinds of services (simple
 mapserver cgi, WMS, WFS, WCS).
-
+</P>
+<P>
 The first thing to understand about the map file is that it is made up of
 nested sections that start with a section name and end with the keyword 'END'.
 The outermost or toplevel section is always the 'MAP' section, so the most
 basic possible map file you could make would look like this:
+</P>
 
-```
+<div class="code"><PRE>
 MAP
 END
-```
+</PRE></div>
 
+<P>
 Within each section, more sections can exist. Each section can have various
 properties.
-
+</P>
+<P>
 The MAP section describes general properties relating to the Coordinate
 Reference System, the image output format(s) supported, the image background
 colours etc.
-
+</P>
+<P>
 The LEGEND section describes how a getLegendGraphic image should look if it is
 requested.
-
+</P>
+<P>
 The WEB section provides some control for limiting zoom in an out activites,
 provides templating options and probably most importantly has a METADATA
 subsection which describes your web service using keywords.
-
+</P>
+<P>
 The PROJECTION section is used to define the Coordinate Reference System for
 the service. As we will see below, mapserver supports on the fly projection
 too.
+</P>
 
+<A NAME="toc8"></A>
+<H2>1.7. Testing</H2>
 
-== Testing ==
-
+<P>
 The first thing I usually do when I set up a new map service is to test it. In
 this section we show the different ways you can manually contruct a request to
 the server. Although you won't use these on a day to day basis, understanding
@@ -311,33 +418,39 @@ expected results, you can issue these low level commands and look at the xml
 documents returned to try to identify any inconsistencies. Also mapserver will
 sometimes add comments for you to the document indicating where the service
 specification can be improved.
-
+</P>
+<P>
 You will see later on in the trouble shooting section, that watching the apache
 logs to see which requests are being issued by your client (and if neccessary
 replaying those requests in your browser) can also help you to identify issues
 in your application architecture.
+</P>
 
-=== GetCapabilities ===
+<A NAME="toc9"></A>
+<H3>1.7.1. GetCapabilities</H3>
 
+<P>
 Your first port of call should be to issue a get capabilities request like this:
+</P>
 
-```
+<div class="code"><PRE>
 http://localhost/cgi-bin/mapserv?
-    map=/home/web/mapserver-tut/mapfiles/world.map&
-    request=getCapabilities&
-    service=wms&
+    map=/home/web/mapserver-tut/mapfiles/world.map&amp;
+    request=getCapabilities&amp;
+    service=wms&amp;
     version=1.1.0
-```
+</PRE></div>
 
-""Note:"" For formatting purposes I will be breaking up urls into multiple
+<P>
+Note: For formatting purposes I will be breaking up urls into multiple
 lines in this tutorial, but you should write them into your browser location
 bar as a single line.
+</P>
 
-
-```
-<!-- end of DOCTYPE declaration -->
-<WMT_MS_Capabilities version="1.1.0">
-  <!--
+<div class="code"><PRE>
+&lt;!-- end of DOCTYPE declaration --&gt;
+&lt;WMT_MS_Capabilities version="1.1.0"&gt;
+  &lt;!--
    MapServer version 5.6.5 OUTPUT=GIF OUTPUT=PNG OUTPUT=JPEG OUTPUT=WBMP
    OUTPUT=SWF OUTPUT=SVG SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE
    SUPPORTS=ICONV SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT
@@ -345,252 +458,282 @@ bar as a single line.
    SUPPORTS=SOS_SERVER SUPPORTS=FASTCGI SUPPORTS=THREADS SUPPORTS=GEOS
    SUPPORTS=RGBA_PNG INPUT=EPPL7 INPUT=POSTGIS INPUT=OGR INPUT=GDAL
    INPUT=SHAPEFILE 
-  -->
-  <Service>
-  <Name>OGC:WMS</Name>
-  <Title>QGIS-MAP</Title>
-  <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
-   map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-  <ContactInformation>
-    </ContactInformation>
-  </Service>
-  <Capability>
-    <Request>
-      <GetCapabilities>
-        <Format>application/vnd.ogc.wms_xml</Format>
-        <DCPType>
-        <HTTP>
-          <Get>
-            <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
-              map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-            </Get>
-            <Post>
-            <OnlineResource xlink:href="http://localhost/cgi-bin/
-              mapserv?map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-            </Post>
-          </HTTP>
-        </DCPType>
-      </GetCapabilities>
-      <GetMap>
-        <Format>image/png; mode=24bit</Format>
-        <Format>image/gif</Format>
-        <Format>image/png</Format>
-        <Format>image/jpeg</Format>
-        <Format>image/vnd.wap.wbmp</Format>
-        <Format>image/tiff</Format>
-        <Format>image/svg+xml</Format>
-        <DCPType>
-          <HTTP>
-            <Get>
-              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
-                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-            </Get>
-            <Post>
-              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
-                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-            </Post>
-          </HTTP>
-        </DCPType>
-      </GetMap>
-      <GetFeatureInfo>
-      <Format>text/plain</Format>
-      <Format>application/vnd.ogc.gml</Format>
-        <DCPType>
-          <HTTP>
-            <Get>
-              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
-                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-            </Get>
-            <Post>
-              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
-                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-            </Post>
-          </HTTP>
-        </DCPType>
-      </GetFeatureInfo>
-      <DescribeLayer>
-        <Format>text/xml</Format>
-        <DCPType>
-          <HTTP>
-            <Get>
-              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
-                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-            </Get>
-            <Post>
-              <OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
-                map=/home/web/mapserver-tut/mapfiles/world.map&"/>
-            </Post>
-          </HTTP>
-        </DCPType>
-      </DescribeLayer>
-    </Request>
-    <Exception>
-    <Format>application/vnd.ogc.se_xml</Format>
-    <Format>application/vnd.ogc.se_inimage</Format>
-    <Format>application/vnd.ogc.se_blank</Format>
-    </Exception>
-    <VendorSpecificCapabilities/>
-    <UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0"/>
-    <Layer>
-      <Name>QGIS-MAP</Name>
-      <Title>QGIS-MAP</Title>
-      <Abstract>QGIS-MAP</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/>
-      <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>Country</Name>
-        <Title>Country</Title>
-        <LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/>
-      </Layer>
-      <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>Cities</Name>
-        <Title>Cities</Title>
-        <LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/>
-      </Layer>
-    </Layer>
-  </Capability>
-</WMT_MS_Capabilities>
-```
+  --&gt;
+  &lt;Service&gt;
+  &lt;Name&gt;OGC:WMS&lt;/Name&gt;
+  &lt;Title&gt;QGIS-MAP&lt;/Title&gt;
+  &lt;OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+   map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+  &lt;ContactInformation&gt;
+    &lt;/ContactInformation&gt;
+  &lt;/Service&gt;
+  &lt;Capability&gt;
+    &lt;Request&gt;
+      &lt;GetCapabilities&gt;
+        &lt;Format&gt;application/vnd.ogc.wms_xml&lt;/Format&gt;
+        &lt;DCPType&gt;
+        &lt;HTTP&gt;
+          &lt;Get&gt;
+            &lt;OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+              map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+            &lt;/Get&gt;
+            &lt;Post&gt;
+            &lt;OnlineResource xlink:href="http://localhost/cgi-bin/
+              mapserv?map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+            &lt;/Post&gt;
+          &lt;/HTTP&gt;
+        &lt;/DCPType&gt;
+      &lt;/GetCapabilities&gt;
+      &lt;GetMap&gt;
+        &lt;Format&gt;image/png; mode=24bit&lt;/Format&gt;
+        &lt;Format&gt;image/gif&lt;/Format&gt;
+        &lt;Format&gt;image/png&lt;/Format&gt;
+        &lt;Format&gt;image/jpeg&lt;/Format&gt;
+        &lt;Format&gt;image/vnd.wap.wbmp&lt;/Format&gt;
+        &lt;Format&gt;image/tiff&lt;/Format&gt;
+        &lt;Format&gt;image/svg+xml&lt;/Format&gt;
+        &lt;DCPType&gt;
+          &lt;HTTP&gt;
+            &lt;Get&gt;
+              &lt;OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+            &lt;/Get&gt;
+            &lt;Post&gt;
+              &lt;OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+            &lt;/Post&gt;
+          &lt;/HTTP&gt;
+        &lt;/DCPType&gt;
+      &lt;/GetMap&gt;
+      &lt;GetFeatureInfo&gt;
+      &lt;Format&gt;text/plain&lt;/Format&gt;
+      &lt;Format&gt;application/vnd.ogc.gml&lt;/Format&gt;
+        &lt;DCPType&gt;
+          &lt;HTTP&gt;
+            &lt;Get&gt;
+              &lt;OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+            &lt;/Get&gt;
+            &lt;Post&gt;
+              &lt;OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+            &lt;/Post&gt;
+          &lt;/HTTP&gt;
+        &lt;/DCPType&gt;
+      &lt;/GetFeatureInfo&gt;
+      &lt;DescribeLayer&gt;
+        &lt;Format&gt;text/xml&lt;/Format&gt;
+        &lt;DCPType&gt;
+          &lt;HTTP&gt;
+            &lt;Get&gt;
+              &lt;OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+            &lt;/Get&gt;
+            &lt;Post&gt;
+              &lt;OnlineResource xlink:href="http://localhost/cgi-bin/mapserv?
+                map=/home/web/mapserver-tut/mapfiles/world.map&amp;"/&gt;
+            &lt;/Post&gt;
+          &lt;/HTTP&gt;
+        &lt;/DCPType&gt;
+      &lt;/DescribeLayer&gt;
+    &lt;/Request&gt;
+    &lt;Exception&gt;
+    &lt;Format&gt;application/vnd.ogc.se_xml&lt;/Format&gt;
+    &lt;Format&gt;application/vnd.ogc.se_inimage&lt;/Format&gt;
+    &lt;Format&gt;application/vnd.ogc.se_blank&lt;/Format&gt;
+    &lt;/Exception&gt;
+    &lt;VendorSpecificCapabilities/&gt;
+    &lt;UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0"/&gt;
+    &lt;Layer&gt;
+      &lt;Name&gt;QGIS-MAP&lt;/Name&gt;
+      &lt;Title&gt;QGIS-MAP&lt;/Title&gt;
+      &lt;Abstract&gt;QGIS-MAP&lt;/Abstract&gt;
+      &lt;SRS&gt;EPSG:4326&lt;/SRS&gt;
+      &lt;LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/&gt;
+      &lt;Layer queryable="1" opaque="0" cascaded="0"&gt;
+        &lt;Name&gt;Country&lt;/Name&gt;
+        &lt;Title&gt;Country&lt;/Title&gt;
+        &lt;LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/&gt;
+      &lt;/Layer&gt;
+      &lt;Layer queryable="1" opaque="0" cascaded="0"&gt;
+        &lt;Name&gt;Cities&lt;/Name&gt;
+        &lt;Title&gt;Cities&lt;/Title&gt;
+        &lt;LatLonBoundingBox minx="-173.83" miny="-81.3583" maxx="185.69" maxy="106.408"/&gt;
+      &lt;/Layer&gt;
+    &lt;/Layer&gt;
+  &lt;/Capability&gt;
+&lt;/WMT_MS_Capabilities&gt;
+</PRE></div>
 
+<P>
 The capabilities document is a machine and human readable declaration from your
 map service describing all the things it can do. In this case it can:
+</P>
 
-- Provide its name and title ""QGIS-MAP"".
-- Provide the contact details of the person responsible for the service if any.
-- Describe its capabilities and by which protocols (HTTP) they are available in
-  response to a ""GetCapabilities"" request (as listed above).
-- Provide a map (in various image formats) in response to a ""GetMap"" request.
-- Provide information about a given feature in response to a ""GetFeatureInfo"" request.
-- Provide details about one or more layers in response to a ""DescribeLayer"" request.
-- The document ends with a listing of all the layers available for the service.
-- 
+<UL>
+<LI>Provide its name and title QGIS-MAP.
+<LI>Provide the contact details of the person responsible for the service if any.
+<LI>Describe its capabilities and by which protocols (HTTP) they are available in
+  response to a GetCapabilities request (as listed above).
+<LI>Provide a map (in various image formats) in response to a GetMap request.
+<LI>Provide information about a given feature in response to a GetFeatureInfo request.
+<LI>Provide details about one or more layers in response to a DescribeLayer request.
+<LI>The document ends with a listing of all the layers available for the service.
+</UL>
 
+<A NAME="toc10"></A>
+<H3>1.7.2. DescribeLayer</H3>
 
-
-
-
-
-=== DescribeLayer ===
-
+<P>
 The purpose of the describe layer request is to get a description for one or more
 layers offered by the map service:
+</P>
 
-```
+<div class="code"><PRE>
 http://localhost/cgi-bin/mapserv?
-   map=/home/web/mapserver-tut/mapfiles/world.map&
-   request=DescribeLayer&
-   service=wms&
-   version=1.3.0&
-   layers=Country&
+   map=/home/web/mapserver-tut/mapfiles/world.map&amp;
+   request=DescribeLayer&amp;
+   service=wms&amp;
+   version=1.3.0&amp;
+   layers=Country&amp;
    sld_version=1.1.0
-```
+</PRE></div>
 
+<P>
 Which produces something like:
+</P>
 
-```
-<?xml version='1.0' encoding="ISO-8859-1"?>
-<DescribeLayerResponse xmlns="http://www.opengis.net/sld"
+<div class="code"><PRE>
+&lt;?xml version='1.0' encoding="ISO-8859-1"?&gt;
+&lt;DescribeLayerResponse xmlns="http://www.opengis.net/sld"
   xmlns:ows="http://www.opengis.net/ows" xmlns:se="http://www.opengis.net/se"
   xmlns:wfs="http://www.opengis.net/wfs"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xsi:schemaLocation="http://www.opengis.net/sld
-  http://schemas.opengis.net/sld/1.1.0/DescribeLayer.xsd">
-<Version>1.1.0</Version>
-  <LayerDescription>
-    <owsType>wfs</owsType>
-    <se:OnlineResource xlink:type="simple" 
+  http://schemas.opengis.net/sld/1.1.0/DescribeLayer.xsd"&gt;
+&lt;Version&gt;1.1.0&lt;/Version&gt;
+  &lt;LayerDescription&gt;
+    &lt;owsType&gt;wfs&lt;/owsType&gt;
+    &lt;se:OnlineResource xlink:type="simple" 
       xlink:href="http://localhost/cgi-bin/mapserv?
-      map=/home/web/mapserver-tut/mapfiles/world.map"/>
-    <TypeName>
-      <se:FeatureTypeName>Country</se:FeatureTypeName>
-    </TypeName>
-  </LayerDescription>
-</DescribeLayerResponse>
-```
+      map=/home/web/mapserver-tut/mapfiles/world.map"/&gt;
+    &lt;TypeName&gt;
+      &lt;se:FeatureTypeName&gt;Country&lt;/se:FeatureTypeName&gt;
+    &lt;/TypeName&gt;
+  &lt;/LayerDescription&gt;
+&lt;/DescribeLayerResponse&gt;
+</PRE></div>
 
+<P>
 It doesn't tell us too much because there are not many properties defined for
 the layer at this stage.
+</P>
 
-=== GetMap ===
+<A NAME="toc11"></A>
+<H3>1.7.3. GetMap</H3>
 
+<P>
 No doubt you have been waiting for this part - the part where we actually make
 a map:
+</P>
 
-```
+<div class="code"><PRE>
 http://localhost/cgi-bin/mapserv?
-   map=/home/web/mapserver-tut/mapfiles/world.map&
-   SERVICE=WMS&
-   VERSION=1.3.0&
-   REQUEST=GetMap&
-   BBOX=-86.962482,-182.818000,111.102000,194.678000&
-   CRS=EPSG:4326&
-   WIDTH=1561&
-   HEIGHT=819&
-   LAYERS=Cities,Country&
-   STYLES=,&
-   FORMAT=image/png&
-   DPI=96&
+   map=/home/web/mapserver-tut/mapfiles/world.map&amp;
+   SERVICE=WMS&amp;
+   VERSION=1.3.0&amp;
+   REQUEST=GetMap&amp;
+   BBOX=-86.962482,-182.818000,111.102000,194.678000&amp;
+   CRS=EPSG:4326&amp;
+   WIDTH=1561&amp;
+   HEIGHT=819&amp;
+   LAYERS=Country,Cities&amp;
+   STYLES=,&amp;
+   FORMAT=image/png&amp;
+   DPI=96&amp;
    TRANSPARENT=true
-```
+</PRE></div>
 
+<P>
 It should return a pretty picture something like this:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image10.jpeg" BORDER="0" ALT="">
+</P>
 
+<A NAME="toc12"></A>
+<H2>1.8. Testing with QGIS</H2>
 
- | [img/image10.jpeg]
+<A NAME="toc13"></A>
+<H3>1.8.1. Create a new WMS Connection</H3>
 
-== Testing with QGIS ==
-
-=== Create a new WMS Connection ===
-
+<P>
 You can use QGIS as a WMS client - it will display the rendered map just like
 any other layer.
+</P>
 
-```
-Layer -> Add WMS Layer -> New
-```
+<div class="code"><PRE>
+Layer -&gt; Add WMS Layer -&gt; New
+</PRE></div>
 
+<P>
 And then define your new WMS layer source as:
+</P>
+<P>
+""Name:" Localhost World
+"Url:"   
+```<A HREF="http://localhost/cgi-bin/mapserv">http://localhost/cgi-bin/mapserv</A>?
+   map=/home/web/mapserver-tut/mapfiles/world.map```
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image11.jpeg" BORDER="0" ALT="">
+</P>
 
-|| Property | Value |
-| Name | Localhost World |
-| Url | http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map |
+<A NAME="toc14"></A>
+<H3>1.8.2. Adding a layer</H3>
 
-
- | [img/image11.jpeg]
-
-=== Adding a layer ===
-
+<P>
 Now select 'Localhost World' from your connections list and click 'connect'.
-
+</P>
+<P>
 Then select the top level item on the tree then click 'add':
-
-
- | [img/image12.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image12.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 You should see the same layer we saw previously in the web browser, but now 
 rendered in QGIS. But now you can pan and zoom around in the layer!
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image13.jpeg" BORDER="0" ALT="">
+</P>
 
- | [img/image13.jpeg]
+<A NAME="toc15"></A>
+<H2>1.9. Beautifying your map</H2>
 
-
-== Beautifying your map ==
-
+<P>
 The process we followed above is an easy way to get started, but it is just 
-that - a starting point. From here on we will be manually editing the mapfile 
+that: a starting point. From here on we will be manually editing the mapfile 
 and creating symbol files etc.
+</P>
+<P>
+You might have noticed that the cities layer doesn't really show up (in fact
+they are there but drawn as single pixels). This is because we have not yet
+made a proper symbol for them. In this step we will show you how to define a
+new symbol and assign it to the cities layer.
+</P>
 
-You might have noticed that the cities layer doesnt really show up (in fact
-they are there but drawn as single black pixels). This is because we have not
-yet made a proper symbol for them. In this step we will show you how to define
-a new symbol and assign it to the cities layer.
+<A NAME="toc16"></A>
+<H3>1.9.1. Creating a symbol definition</H3>
 
-=== Creating a symbol definition ===
-
+<P>
 To start with we need to create a neat directory structure for our symbols, so
 we will add a new directory so our tree looks like this:
+</P>
 
-```
+<div class="code"><PRE>
 mapserver-tut/
 |-- mapfiles
 |   |-- symbols
@@ -598,13 +741,15 @@ mapserver-tut/
 |   `-- world.map
 `-- qgis-projects
     `-- world.qgs
-```
+</PRE></div>
 
+<P>
 So under the mapfiles directory, you need to create the symbols directory, and
-then create a text file called symbols.sym using your text editor. Now add the
+then create a text file called symbols.txt using your text editor. Now add the
 following to that file:
+</P>
 
-```
+<div class="code"><PRE>
 SYMBOLSET
   SYMBOL
     NAME 'circle'
@@ -615,67 +760,87 @@ SYMBOLSET
     END 
   END 
 END
-```
+</PRE></div>
 
+<P>
 We have created a simple symbolset and defined one symbol called 'circle' as an
 ellipse with radius and flattening equal (so it will make a perfect circle).
-
+</P>
+<P>
 Now let's uncomment and tweak a few lines in our map file that I had you comment
 out before:
-
+</P>
+<P>
 Uncomment your symbolset line near the top of the map file and make it look like this:
+</P>
 
-```
-SYMBOLSET './symbols/symbols.sym'
-```
+<div class="code"><PRE>
+SYMBOLSET './symbols/symbols.txt'
+</PRE></div>
 
-
+<P>
 Uncomment at around line 120:
+</P>
 
-```
+<div class="code"><PRE>
          SYMBOL "circle"
-```         
+</PRE></div>
 
+<P>
 Now refresh your map view in QGIS and you should see something like this:
-
- | [img/image14.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image14.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 The symbolset file is used to define any symbols you want to use. The process
 of creating symbols is described in the
-[http://mapserver.org/mapfile/symbol.html Mapserver Symbol Reference] and the
-[http://mapserver.org/mapfile/symbology/construction.html construction of
+<A HREF="Reference">http://mapserver.org/mapfile/symbol.html Mapserver Symbol</A> and the
+[<A HREF="http://mapserver.org/mapfile/symbology/construction.html">http://mapserver.org/mapfile/symbology/construction.html</A> construction of
 cartographic symbols reference].
+</P>
 
-=== Creating multiple classes for a layer ===
+<A NAME="toc17"></A>
+<H3>1.9.2. Creating multiple classes for a layer</H3>
 
+<P>
 Sometimes you want to do things like assign multiple symbols to a layer based
 on an attribute. For example, lets make our cities vary in size based on the
 population they host.
-
+</P>
+<P>
 In QGIS I can load the cities layer and then create graduated symbology for it
 (make sure you are using the 'old' symbology) based on the population.
-
- | [img/image15.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image15.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 When you click OK, your map should now look like this:
-
- | [img/image16.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image16.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 Now save your project and run the mapserver export tool again, but this time
 tick the 'LAYER information only' box and set the map file name to a temporary
 file e.g. /tmp/test.map. Doing this will create a map file with only layer
 definitions in it, which we can then use to overwrite the existing cities layer
 definition in our map file:
-
- | [img/image17.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image17.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 Now use a text editor to cut the 'cities' layer definition from the
 /tmp/test.map file you made and overwrite the cities definition in the
 world.map file with it.
-
+</P>
+<P>
 So this:
+</P>
 
-```
+<div class="code"><PRE>
   LAYER
     NAME 'Cities'
     TYPE POINT
@@ -683,8 +848,7 @@ So this:
     TEMPLATE fooOnlyForWMSGetFeatureInfo
   EXTENT -182.818000 -86.052507 194.678000 111.102207
     CONNECTIONTYPE postgis
-    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' 
-                password='ms_readonly' sslmode=disable"
+    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' password='ms_readonly' sslmode=disable"
     DATA 'the_geom FROM "cities" USING UNIQUE gid USING srid=4326'
     FILTER ( GeometryType("the_geom") IN ('POINT','MULTIPOINT') )
     METADATA
@@ -708,11 +872,13 @@ So this:
        END
     END
   END
-```
+</PRE></div>
 
+<P>
 Gets replaced with this:
+</P>
 
-```
+<div class="code"><PRE>
   LAYER
     NAME 'Cities'
     TYPE POINT
@@ -720,8 +886,7 @@ Gets replaced with this:
     TEMPLATE fooOnlyForWMSGetFeatureInfo
   EXTENT -218.847506 -191.606995 236.654187 165.517114
     CONNECTIONTYPE postgis
-    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' 
-                password='ms_readonly' sslmode=disable"
+    CONNECTION "dbname='mapserver' host=localhost port=5432 user='ms_readonly' password='ms_readonly' sslmode=disable"
     DATA 'the_geom FROM "cities" USING UNIQUE gid USING srid=4326'
     FILTER ( GeometryType("the_geom") IN ('POINT','MULTIPOINT') )
     METADATA
@@ -737,8 +902,8 @@ Gets replaced with this:
     END
     CLASSITEM 'POPULATION'
     CLASS
-      NAME '-99.000 < POPULATION < 186521.000'
-      EXPRESSION ( ([POPULATION] >= -99.000) AND ([POPULATION] <= 186521.000) )
+      NAME '-99.000 &lt; POPULATION &lt; 186521.000'
+      EXPRESSION ( ([POPULATION] &gt;= -99.000) AND ([POPULATION] &lt;= 186521.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 3.5 
@@ -747,8 +912,8 @@ Gets replaced with this:
        END
     END
     CLASS
-      NAME '186521.000 < POPULATION < 538300.000'
-      EXPRESSION ( ([POPULATION] >= 186521.000) AND ([POPULATION] <= 538300.000) )
+      NAME '186521.000 &lt; POPULATION &lt; 538300.000'
+      EXPRESSION ( ([POPULATION] &gt;= 186521.000) AND ([POPULATION] &lt;= 538300.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 5.25 
@@ -757,8 +922,8 @@ Gets replaced with this:
        END
     END
     CLASS
-      NAME '538300.000 < POPULATION < 1030000.000'
-      EXPRESSION ( ([POPULATION] >= 538300.000) AND ([POPULATION] <= 1030000.000) )
+      NAME '538300.000 &lt; POPULATION &lt; 1030000.000'
+      EXPRESSION ( ([POPULATION] &gt;= 538300.000) AND ([POPULATION] &lt;= 1030000.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 7.0 
@@ -767,8 +932,8 @@ Gets replaced with this:
        END
     END
     CLASS
-      NAME '1030000.000 < POPULATION < 1850000.000'
-      EXPRESSION ( ([POPULATION] >= 1030000.000) AND ([POPULATION] <= 1850000.000) )
+      NAME '1030000.000 &lt; POPULATION &lt; 1850000.000'
+      EXPRESSION ( ([POPULATION] &gt;= 1030000.000) AND ([POPULATION] &lt;= 1850000.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 8.75 
@@ -777,8 +942,8 @@ Gets replaced with this:
        END
     END
     CLASS
-      NAME '1850000.000 < POPULATION < 23620000.000'
-      EXPRESSION ( ([POPULATION] >= 1850000.000) AND ([POPULATION] <= 23620000.000) )
+      NAME '1850000.000 &lt; POPULATION &lt; 23620000.000'
+      EXPRESSION ( ([POPULATION] &gt;= 1850000.000) AND ([POPULATION] &lt;= 23620000.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 10.5 
@@ -788,48 +953,61 @@ Gets replaced with this:
     END
   END
 
-```
+</PRE></div>
 
+<P>
 There are two important changes here. Firstly the 'CLASSITEM' option was added
 that tells mapserver which field we are going to classify cities by. Secondly,
 each CLASS has an EXPRESSION defined which designates the upper and lower
 limits for that class.
-
-
+</P>
+<P>
 Let's add our mapserver layer back into QGIS and test what the result looks like:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image18.jpeg" BORDER="0" ALT="">
+</P>
 
- | [img/image18.jpeg]
+<A NAME="toc18"></A>
+<H3>1.9.3. Now you try</H3>
 
-=== Now you try ===
-
+<P>
 Use the techniques we have learned above to create distinct classes on the
 country layer based on the population size in each country. We want to achieve
 something like this:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image19.jpeg" BORDER="0" ALT="">
+</P>
 
- | [img/image19.jpeg]
+<A NAME="toc19"></A>
+<H2>1.10. An exercise</H2>
 
-
-== An exercise ==
-
+<P>
 Let's recap what we have learned so for by adding another layer to our project.
 This time we will add roads to our map so that we have some line features to
 work with.
+</P>
 
-+ Use the supplied roads.dmp to load the roads layer into your database
-+ Set the permissions on the roads table so that the ms_readonly user has access to it
-+ Add the roads layer to your GIS project three times
-+ Give the first layer a scale visibility range of 0 to 500000
-+ Give the second layer a scale visibility range of 500000 to 5000000 
-+ Give the third layer a scale visibility range of 5000000 to 50000000 
-+ Save your project
-+ Export the roads layers to a temporary map file and merge them into the world.map file.
-+
+<OL>
+<LI>Use the supplied roads.dmp to load the roads layer into your database
+<LI>Set the permissions on the roads table so that the ms_readonly user has access to it
+<LI>Add the roads layer to your GIS project three times
+<LI>Give the first layer a scale visibility range of 0 to 500000
+<LI>Give the second layer a scale visibility range of 500000 to 5000000 
+<LI>Give the third layer a scale visibility range of 5000000 to 50000000 
+<LI>Save your project
+<LI>Export the roads layers to a temporary map file and merge them into the world.map file.
+</OL>
 
+<P>
 Solution:
-
+</P>
+<P>
 You map file should now be looking something like this:
+</P>
 
-```
+<div class="code"><PRE>
 # Map file created from QGIS project file /home/web/mapserver-tut/qgis-projects/world.qgs
 # Edit this file to customize for your map interface
 # (Created with PyQgis MapServer Export plugin)
@@ -920,8 +1098,8 @@ MAP
     END
     CLASSITEM 'POPULATION'
     CLASS
-      NAME '-99.000 < POPULATION < 186521.000'
-      EXPRESSION ( ([POPULATION] >= -99.000) AND ([POPULATION] <= 186521.000) )
+      NAME '-99.000 &lt; POPULATION &lt; 186521.000'
+      EXPRESSION ( ([POPULATION] &gt;= -99.000) AND ([POPULATION] &lt;= 186521.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 3.5 
@@ -930,8 +1108,8 @@ MAP
        END
     END
     CLASS
-      NAME '186521.000 < POPULATION < 538300.000'
-      EXPRESSION ( ([POPULATION] >= 186521.000) AND ([POPULATION] <= 538300.000) )
+      NAME '186521.000 &lt; POPULATION &lt; 538300.000'
+      EXPRESSION ( ([POPULATION] &gt;= 186521.000) AND ([POPULATION] &lt;= 538300.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 5.25 
@@ -940,8 +1118,8 @@ MAP
        END
     END
     CLASS
-      NAME '538300.000 < POPULATION < 1030000.000'
-      EXPRESSION ( ([POPULATION] >= 538300.000) AND ([POPULATION] <= 1030000.000) )
+      NAME '538300.000 &lt; POPULATION &lt; 1030000.000'
+      EXPRESSION ( ([POPULATION] &gt;= 538300.000) AND ([POPULATION] &lt;= 1030000.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 7.0 
@@ -950,8 +1128,8 @@ MAP
        END
     END
     CLASS
-      NAME '1030000.000 < POPULATION < 1850000.000'
-      EXPRESSION ( ([POPULATION] >= 1030000.000) AND ([POPULATION] <= 1850000.000) )
+      NAME '1030000.000 &lt; POPULATION &lt; 1850000.000'
+      EXPRESSION ( ([POPULATION] &gt;= 1030000.000) AND ([POPULATION] &lt;= 1850000.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 8.75 
@@ -960,8 +1138,8 @@ MAP
        END
     END
     CLASS
-      NAME '1850000.000 < POPULATION < 23620000.000'
-      EXPRESSION ( ([POPULATION] >= 1850000.000) AND ([POPULATION] <= 23620000.000) )
+      NAME '1850000.000 &lt; POPULATION &lt; 23620000.000'
+      EXPRESSION ( ([POPULATION] &gt;= 1850000.000) AND ([POPULATION] &lt;= 23620000.000) )
        STYLE
          SYMBOL "circle" 
          SIZE 10.5 
@@ -1087,40 +1265,40 @@ MAP
     END
     CLASSITEM 'pop_cntry'
     CLASS
-      NAME '-99999.000 < pop_cntry < 62920.000'
-      EXPRESSION ( ([pop_cntry] >= -99999.000) AND ([pop_cntry] <= 62920.000) )
+      NAME '-99999.000 &lt; pop_cntry &lt; 62920.000'
+      EXPRESSION ( ([pop_cntry] &gt;= -99999.000) AND ([pop_cntry] &lt;= 62920.000) )
        STYLE
          WIDTH 0.91 
          COLOR 155 255 155
        END
     END
     CLASS
-      NAME '62920.000 < pop_cntry < 1085777.000'
-      EXPRESSION ( ([pop_cntry] >= 62920.000) AND ([pop_cntry] <= 1085777.000) )
+      NAME '62920.000 &lt; pop_cntry &lt; 1085777.000'
+      EXPRESSION ( ([pop_cntry] &gt;= 62920.000) AND ([pop_cntry] &lt;= 1085777.000) )
        STYLE
          WIDTH 0.91 
          COLOR 123 203 143
        END
     END
     CLASS
-      NAME '1085777.000 < pop_cntry < 5245515.000'
-      EXPRESSION ( ([pop_cntry] >= 1085777.000) AND ([pop_cntry] <= 5245515.000) )
+      NAME '1085777.000 &lt; pop_cntry &lt; 5245515.000'
+      EXPRESSION ( ([pop_cntry] &gt;= 1085777.000) AND ([pop_cntry] &lt;= 5245515.000) )
        STYLE
          WIDTH 0.91 
          COLOR 92 152 132
        END
     END
     CLASS
-      NAME '5245515.000 < pop_cntry < 17827520.000'
-      EXPRESSION ( ([pop_cntry] >= 5245515.000) AND ([pop_cntry] <= 17827520.000) )
+      NAME '5245515.000 &lt; pop_cntry &lt; 17827520.000'
+      EXPRESSION ( ([pop_cntry] &gt;= 5245515.000) AND ([pop_cntry] &lt;= 17827520.000) )
        STYLE
          WIDTH 0.91 
          COLOR 93 134 154
        END
     END
     CLASS
-      NAME '17827520.000 < pop_cntry < 1281008318.000'
-      EXPRESSION ( ([pop_cntry] >= 17827520.000) AND ([pop_cntry] <= 1281008318.000) )
+      NAME '17827520.000 &lt; pop_cntry &lt; 1281008318.000'
+      EXPRESSION ( ([pop_cntry] &gt;= 17827520.000) AND ([pop_cntry] &lt;= 1281008318.000) )
        STYLE
          WIDTH 0.91 
          COLOR 125 145 205
@@ -1130,12 +1308,16 @@ MAP
 
 END
 
-```
-== Symbol Overlays ==
+</PRE></div>
 
+<A NAME="toc20"></A>
+<H2>1.11. Symbol Overlays</H2>
+
+<P>
 You can overlay one or more symbols in a class:
+</P>
 
-```
+<div class="code"><PRE>
        STYLE
          SYMBOL "circle" 
          SIZE 10.25 
@@ -1149,41 +1331,52 @@ You can overlay one or more symbols in a class:
          COLOR 0 0 0
        END
 
-```
+</PRE></div>
 
+<P>
 Note that the render order is top down.
+</P>
 
-== Image Symbols ==
+<A NAME="toc21"></A>
+<H2>1.12. Image Symbols</H2>
 
+<P>
 You can create image symbols too by putting the image into symbols directory
 and symbol definition in your symbols/symbols.txt file:
+</P>
 
-```
+<div class="code"><PRE>
 SYMBOL
   NAME "blob"
   TYPE PIXMAP
   IMAGE "blob.png"
   TRANSPARENT 8
 END
-```
+</PRE></div>
 
+<P>
 Save the image as symbols/blob.png. Now in your map file define the style
+</P>
 
-```
+<div class="code"><PRE>
        STYLE
          SYMBOL "blob" 
          SIZE 5.25 
        END
-```
-== Adding Rasters ==
+</PRE></div>
 
+<A NAME="toc22"></A>
+<H2>1.13. Adding Rasters</H2>
+
+<P>
 The procedure for adding rasters is much the same. The easiest is to simply add
 them to a blank QGIS project and them export the mapserver layer definitions,
 then graft them into your map file. I am going to create a raster subfolder
 under my mapserver tutorial directory and place a NASA global mosaic image into
 it:
+</P>
 
-```
+<div class="code"><PRE>
 mapserver-tut/
 |-- mapfiles
 |   |-- symbols
@@ -1191,19 +1384,24 @@ mapserver-tut/
 `-- raster
     |-- BlueMarbleWorldJan2004.jgw
     `-- BlueMarbleWorldJan2004.jpg
-```
+</PRE></div>
 
+<P>
 The Raster folder contains two files - the Blue Marble mosaic for January 2004
 and its world file.
-
+</P>
+<P>
 Lets add this raster to QGIS then export its layer definitions as we have done
 before with vector data:
-
- | [img/image20.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image20.jpeg" BORDER="0" ALT="">
+</P>
+<P>
 It should have produced something that looks like this:
+</P>
 
-```
+<div class="code"><PRE>
   LAYER
     NAME 'BlueMarbleWorldJan2004'
     TYPE RASTER
@@ -1223,29 +1421,36 @@ It should have produced something that looks like this:
     'no_defs'
     END
   END
-```
+</PRE></div>
 
+<P>
 If you prefer (and I do), you can substitute the absolute file path for a
 relative path, thus:
+</P>
 
-```
+<div class="code"><PRE>
     DATA '../raster/BlueMarbleWorldJan2004.jpg'
-```
+</PRE></div>
 
+<P>
 Test again in the usual way - by adding a wms layer to QGIS and including all
 layers from the service:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image21.jpeg" BORDER="0" ALT="">
+</P>
 
- | [img/image21.jpeg]
+<A NAME="toc23"></A>
+<H2>1.14. Transparency</H2>
 
-
-== Transparency ==
-
+<P>
 As you can see from the previous screenshot, having a raster background is not
 much use if you can't actually see it because all your polygons are opaque. You
-can make any layer semi-transparent in mapserver by assiging it a value of <100.
+can make any layer semi-transparent in mapserver by assiging it a value of &lt;100.
 Let's make all our countries have a semi-transparent fill:
+</P>
 
-```
+<div class="code"><PRE>
   LAYER
     NAME 'Country'
     TYPE POLYGON
@@ -1261,166 +1466,216 @@ Let's make all our countries have a semi-transparent fill:
       'ows_title' 'Country'
     END 
     STATUS OFF 
-    TRANSPARENCY 50  # <-- make the layer semi-transparent
-```
+    TRANSPARENCY 50  # &lt;-- make the layer semi-transparent
+</PRE></div>
 
+<P>
 When specifying colours, you can also use 
+</P>
 
-```
+<div class="code"><PRE>
 -1 -1 -1
-```
+</PRE></div>
 
+<P>
 to indicate transparency. For example we can make the map background transparent by changing this:
+</P>
 
-```
+<div class="code"><PRE>
   # Background color for the map canvas -- change as desired
     IMAGECOLOR 255 255 255
-```
+</PRE></div>
 
+<P>
 to this:
+</P>
 
-```
+<div class="code"><PRE>
   # Background color for the map canvas -- change as desired
     IMAGECOLOR -1 -1 -1
-```
+</PRE></div>
 
+<P>
 To test it you will need to add just the non-raster layers to QGIS and then put
 something (like our raster) as a separate backdrop.
+</P>
 
+<A NAME="toc24"></A>
+<H2>1.15. Creating a legend</H2>
 
-
-== Creating a legend ==
-
+<P>
 The legend clause allows your service to support getLegendGraphic requests.
-
+</P>
+<P>
 For example you can make a request like this (spread over many lines to ease
 digestion):
+</P>
 
-```
+<div class="code"><PRE>
 http://localhost/cgi-bin/mapserv? 
-       map=/home/web/mapserver-tut/mapfiles/world.map&
-       request=getLegendGraphic&
-       layer=Cities&version=1.3.0&
-       format=image/png&
+       map=/home/web/mapserver-tut/mapfiles/world.map&amp;
+       request=getLegendGraphic&amp;
+       layer=Cities&amp;version=1.3.0&amp;
+       format=image/png&amp;
        sld_version=1.1.0
-```
+</PRE></div>
 
+<P>
 and it will produce a graphic like this:
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image21.png" BORDER="0" ALT="">
+</P>
 
- | [img/image21.png]
+<A NAME="toc25"></A>
+<H2>1.16. On the Fly Projection (OTFP)</H2>
 
-== On the Fly Projection (OTFP) ==
-
+<P>
 Mapserver supports on the fly projection - including for rasters! This is very
 handy since it means you can specify an arbitrary list of CRS's and have your
 map delivered in any one of them.
-
+</P>
+<P>
 Enabling OTFP is simply a matter of declaring additional CRSes in the WEB
 metadata section:
+</P>
 
-```
+<div class="code"><PRE>
     METADATA
       'wms_title'           'Mapserver Tut'
       'wms_onlineresource'  'http://localhost/cgi-bin/mapserv?map=/home/web/mapserver-tut/mapfiles/world.map'
       'wms_srs'             'EPSG:4326 EPSG:900913'
     END
-```
+</PRE></div>
 
+<P>
 Note: There are three places where CRS's are defined in the mapfile:
-+ ""The map section:"" This is the CRS that is used by default and all other
+</P>
+
+<OL>
+<LI>The map section: This is the CRS that is used by default and all other
 layers are converted to in the absence of any CRS being defined.
-+ ""Layer sections:"" Each layer can define its own CRS which specifies what
+<LI>Layer sections: Each layer can define its own CRS which specifies what
 specific CRS the layer is in.
-+ ""The web->metadata section:"" This is a list of allowed CRS's that the WMS
+<LI>The web-&gt;metadata section: This is a list of allowed CRS's that the WMS
 client can request. Mapserver will reproject all data to that CRS on the fly as
 needed.
-+
+</OL>
 
+<A NAME="toc26"></A>
+<H2>1.17. Get feature info</H2>
 
-== Get feature info ==
-
+<P>
 In order to support 'getFeatureInfo' requests
+</P>
 
-== Troubleshooting and debugging ==
+<A NAME="toc27"></A>
+<H2>1.18. Troubleshooting and debugging</H2>
 
+<P>
 Trouble shooting mapserver is an ordered activity:
-
-""Q:"" Is the client using a valid URL for the map service? 
-
-""A:"" Copy the url used into your browser and try to open it - does it give a
+</P>
+<P>
+Q: Is the client using a valid URL for the map service? 
+</P>
+<P>
+A: Copy the url used into your browser and try to open it - does it give a
 404 or similar error?
-
-""Q:"" Is your client making valid WMS requests?
-
-""A:"" If the URL is valid, the request parameters may not be. Once again, find
+</P>
+<P>
+Q: Is your client making valid WMS requests?
+</P>
+<P>
+A: If the URL is valid, the request parameters may not be. Once again, find
 out what the actual request URLS that are being generated look like and test
 one manually in your browser. There are a few ways to check what URLS are being
 used, but the simplest is to watch your apache logs as you make a request e.g.:
+</P>
 
-```
+<div class="code"><PRE>
 sudo tail -f /var/log/apache2/access.log
-```
+</PRE></div>
 
-""Q:"" Is the map file configuration correct?
-
-""A:"" It could be that the url being used is correct, but the actual map file
+<P>
+Q: Is the map file configuration correct?
+</P>
+<P>
+A: It could be that the url being used is correct, but the actual map file
 is broken. For example you may have the incorrect database password for your
 connection parameters, or you may have a syntax error in the map file.
 Mapserver by default will try to print the error information into the image it
 renders back for you. Better (and more secure) is to log any errors to a
 mapserver log file by adding a few lines like this to your map file:
+</P>
 
-```
+<div class="code"><PRE>
 DEBUG 5 #debugging level between 1 and 5, 5 is the most detailed
 CONFIG "MS_ERRORFILE" "/tmp/ms.log"
-```
+</PRE></div>
 
+<P>
 Now watch that log file using tail and watch for any errors while making a
 fresh request:
+</P>
 
-```
+<div class="code"><PRE>
 tail -f /tmp/ms.log
-```
+</PRE></div>
 
+<P>
 If you do notice an error in the log file, it will typically tell you the line
 number for the error and some (hopefully) diagnostic information.
-
-""Note:"" Be careful of the INCLUDE directive as it will throw your line
+</P>
+<P>
+Note: Be careful of the INCLUDE directive as it will throw your line
 numbers off.
+</P>
 
-== Where to next? ==
+<A NAME="toc28"></A>
+<H2>1.19. Where to next?</H2>
 
+<P>
 Once you have your mapserver web service successfully set up, you can use it to
 serve up maps via the OGC WMS, WFS and WCS services. You can also use it as the 
 backend for a tilecache if you are concerned about maximising performance. In
 the final section of this tutorial we will briefly describe how to set up and
 test such a tiled map service.
+</P>
 
-=== Setting up tilecache ===
+<A NAME="toc29"></A>
+<H3>1.19.1. Setting up tilecache</H3>
 
+<P>
 Tile cache works by making successive WMS getMap requests to your service, at a
 range of scales and storing the results as images on the server file system.
 When the client requests a map scene, TileCache looks to see if it has been
 pre-rendered. If it has it delivers it directly to the client from the cache.
 If it has not been cached yet, it requests the image from the upstream WMS
 server, caches for future use and delivers it to the client.
-
+</P>
+<P>
 To install TileCache, simply do:
+</P>
 
-```
+<div class="code"><PRE>
 sudo apt-get install tilecache
-```
+</PRE></div>
 
+<P>
 Next you need to configure tilecache's configuration file with the details of
 your service. Under Ubuntu this configuration file is stored as /etc/tilecache.cfg.
 For our world.map file we can add the following entry (you must do it as sudo user):
+</P>
 
-```
-sudo gedit /etc/tilecache.cfg
-```
+<div class="code"><PRE>
+sudo vim /etc/tilecache.cfg
+</PRE></div>
+
+<P>
 Now add an entry like this:
+</P>
 
-```
+<div class="code"><PRE>
 [mapserver-tut]
 type=WMS
 layers=Country,Cities,BlueMarbleWorldJan2004
@@ -1431,38 +1686,51 @@ metatile=yes
 levels=16
 srs=EPSG:4326
 extent_type=loose
-```
+</PRE></div>
 
+<P>
 Note that it simply references the existing mapserver service we have set up
 and passes it a list of layers that should be rendered.
-
-Also noteworthy is that since this is a ""cache"" we are building, it is not
+</P>
+<P>
+Also noteworthy is that since this is a cache we are building, it is not
 suitable to use for often changing layers, since the maps are pre-rendered and
 you will need to regenerate all the maps each time a layer changes.
-
+</P>
+<P>
 We can test our tilecache services by creating a new QGIS WMS connection that
 points to it:
-
-
- | [img/image22.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image22.png" BORDER="0" ALT="">
+</P>
+<P>
 Note that the connection now points to:
+</P>
 
-```
+<div class="code"><PRE>
 http://localhost/cgi-bin/tilecache.cgi
-```
+</PRE></div>
 
+<P>
 Rather than directly to our mapserver instance. Now go ahead and connect to the
 service
-
-
- | [img/image23.jpeg]
-
+</P>
+<P>
+<IMG ALIGN="middle" SRC="doc/img/image23.png" BORDER="0" ALT="">
+</P>
+<P>
 You will notice that the tilesets tab is activated (there must be no layers
 selected on the layers tab).
-
+</P>
+<P>
 Click on the Tilesets tab and you will then be able to select your
 mapserver-tut tileset. Click add and it should appear in the map canvas. If you
 zoom in and out you should see the individual tiles being rendered - they are
 being taken from the cache if present or rendered and cached if not.
+</P>
+</DIV>
 
+<!-- html code generated by txt2tags 2.6 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -t html -o ../mapserver.html mapserver.t2t -->
+</BODY></HTML>
