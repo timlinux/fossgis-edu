@@ -1,0 +1,126 @@
+An Introduction to Subversion
+Tim Sutton
+Last Updated: %%mtime(%A %B %d, %Y)
+
+%! target    : tex
+%! style    : style.css
+%! Options   : --toc --toc-level 1 --enum-title --css-sugar --css-inside
+%! preproc   : TUT_URL  https://qgis.org
+%! PostProc(html): '(?i)(<pre>)' '<div class="code">\1'
+%! PostProc(html): '(?i)(</pre>)' '\1</div>'
+%
+% Tex processing
+%
+% Make sure this is first
+%! PostProc(tex): '\\includegraphics' '\\includegraphics[width=100mm]'
+% scartcl is from the koma script document class (apt-get install texlive-latex-recommended ttf-komatuna)
+% setlength parindent suppresses first line of paragraph idents
+% parskip puts blank space between paragraphs
+% title pic stuff used to put a logo on the front page
+%! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
+% use the color table and table packages so we can pimp the tables a little
+%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{linfiniti-blue}{HTML}{0079FC}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=linfiniti-blue,urlcolor=linfiniti-blue}\\renewcommand\\thesection{\\color{linfiniti-blue}\\thechapter\\arabic{section}}'
+% Make the header row of tables have a dark background. light text
+%! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
+%! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
+% Make verbatim text a little smaller and use fancyvrb package to draw it in a box
+% Note Verbatim with capital V for fancyvrb to work
+%! PostProc(tex): '\\begin{verbatim}' '{\\scriptsize\\begin{Verbatim}[frame=single,rulecolor=\\color{linfiniti-blue}, framesep=4mm, label=\\fbox{\\small\\emph{Listing}}]'
+%! PostProc(tex): '\\end{verbatim}' '\\end{Verbatim}\n}'
+%! PostProc(tex): '\\section' '\\newpage\\section'
+%! PostProc(tex): 'section{' 'section{\\color{linfiniti-blue}'
+%! PostProc(tex): NEWPAGE '\\newpage'
+% Give alternating table rows different colours and use a smaller font in tables (\tiny)
+%! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
+%fix turning single quote into apostrophe
+%%! PostProc(tex): "'" "\\math(\\prime)" 
+%! encoding: iso-8859-1
+
+%! PostProc(tex): WALLPAPER-IMAGE '../resources/linfiniti-footer.png'
+% These are comments and will not be generated in any output
+% -------------------
+
+%This document is in text2tags format. You can generate html, plain text and
+%moinmoin formatted documentation by running txt2tags on this document. See the
+%txt2tags home page for more details. Please insert manual line breaks in this
+%document as it makes diffing for changes much easier. To do this in vim
+%automatically, select a section then issue (gq) command. Please dont
+%apply vim formatting to the whole document as it screws up some formatting
+%rather apply it selectively to paragraphs where needed.
+
+% To generate the text version of this document:
+% txt2tags -t txt -o index index.t2t
+% To generate the moinmoin version of this document
+% txt2tags -t moin -o index.moin index.t2t
+% To generate the html version of this document
+% txt2tags -t html -o index.html index.t2t
+% To generate a LaTeX / pdf
+% txt2tags -t tex -o index.tex index.t2t; pdflatex index.tex
+
+
+%--------------------------------------------
+
+= An Introduction to Subversion =
+
+== What is it? ==
+
+Subversion is a distributed file system and version control system.
+
+It can be used on the local filesystem or across a network.
+
+Use it to keep track of versions of files (with full history).
+
+Use it to collaboratively work in a file system with others.
+
+It's not only for code - it works well for any kind of document that you need to maitain version history on.
+
+Some usage scenarios:
+
+- oops I took a wrong turn, roll back to older version
+- 'let's work on this program together'
+- I'm going to try something risky and I don't want to interfere with my stable code
+- I want to share my work with others
+-
+
+== Installation ==
+
+Linux:
+
+```
+sudo apt-get install subversion
+```
+
+Windows:
+
+Use the installer provided with this CD
+
+== Create your first repo ==
+
+```
+svnadmin create testrepo
+```
+
+== Check out a repo ==
+
+
+Now checkout the repository in one of three ways:
+
+Local filesystem:
+
+```
+svn checkout file:///testrepo test
+```
+
+Over ssh:
+
+```
+svn co svn+ssh://orasac1/opt/svn/sac/serverdocs
+```
+
+Over SSL:
+
+```
+svn co https://196.35.94.196/svn/sac/serverdocs
+```
+
+
