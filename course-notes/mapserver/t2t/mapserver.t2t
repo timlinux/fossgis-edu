@@ -1336,10 +1336,119 @@ client can request. Mapserver will reproject all data to that CRS on the fly as
 needed.
 +
 
-
 == Get feature info ==
 
-In order to support 'getFeatureInfo' requests
+In order to support 'getFeatureInfo' requests you need to take a few small
+actions.
+
+Firstly, you need to indicate the mime type of the data you will return for 
+getFeatureInfo requests in the WEB section of your map file. We will use html. You can also return plain text (which is the default) or gml.
+
+```
+# Needed for gfi requests
+'wms_feature_info_mime_type' 'text/html'
+```
+
+Secondly, if you just want to return a response when you click on a
+layer using QGIS, you can simply add these to your map file in the LAYER
+section:
+
+```
+    # GFI Related Items
+    # Header, Footer only used if your 'wms_feature_info_mime_type' is 
+    # "text/html" but TEMPLATE required for all GFI requests
+    DUMP true
+    TEMPLATE 'templates/country.html'
+    HEADER   'templates/header.html'
+    FOOTER   'templates/footer.html'
+    TOLERANCE 5
+    # End of things needed for gfi
+```
+
+A couple of notes on the above:
++ ```DUMP True``` is also used by WFS services (see below).
++ A ```TEMPLATE``` directive must be defined for all mime types.
++ The ```HEADER``` and ```FOOTER``` must be defined for html requests.
++ The ```TOLERENCE``` species the snapping distance for determining how 
+  close to the query pixel position features should be selected.
++ 
+
+To implement the templates, simply create a template directory and put your
+template files there. Here are examples of the TEMPLATE, HEADER and FOOTER
+templates:
+
+Header:
+```
+<!-- MapServer Template -->
+<h1>Header</h1>
+```
+
+Footer:
+```
+<!-- MapServer Template -->
+<hr/>
+Footer
+<hr/>
+```
+
+Template:
+```
+<!-- MapServer Template -->
+id: [id]<br/>
+name: [cntry_name]
+```
+
+Note that the ```<!-- MapServer Template -->``` is required to be present in
+the first line of each template file for security purposes.
+
+The template will substitute field values for any attribute whose name is
+written enclosed in square brackets.
+
+Here is a little example of the result you might see in QGIS:
+
+ | [img/gfi.png]
+
+
+
+== WFS enabling your mapfile ==
+
+The WMS is a portrayal service - the map is pre-rendered on the server side and
+then delivered to the client as an image. If the client wants access to the
+actual features, then WFS is a better option. The features are delivered to teh
+client - where they can then be treated as if they were any other 'normal'
+vector layer.
+
+Enabling WFS delivery of the layers in our mapfile is easy - in fact the
+process we have walked you through above will do it for you already - out the
+box! There is a small catch and that is that the attribute data won't be
+delivered with the features, but that is easy to fix - we can simply
+//gml_include_items// and //gml_featureid// items to each vector layer section:
+
+e.g.:
+
+```
+    METADATA
+      'ows_title' 'Country'
+      'gml_include_items' 'all' ## Optional (serves all attributes for layer)
+      'gml_featureid' 'D' ## REQUIRED
+    END
+```
+
+After doing that, simply reconnect to the service and the attribute data should
+be available.
+
+QGIS includes a very nice WFS client which you can use to consume WFS services.
+In order to make use of the client, you need to first enable it in the plugin
+manager. To create a new WFS connection, to our map file, simply point it to
+the same URL as we have used for our WMS testing:
+
+```
+http://localhost/cgi-bin/mapserv?map=/home/web/mapserver/mapfiles/world.map
+```
+
+Then connect to the resource and add the layers you want to your map.
+Thereafter, you can treat them as any other vector layer, applying symbology
+changes to them, running queries and so on.
 
 == Troubleshooting and debugging ==
 
