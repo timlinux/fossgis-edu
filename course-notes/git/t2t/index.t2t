@@ -911,6 +911,26 @@ also a tortoisegit explorer integration for windows you can try but I havent
 used it and don't know how well it works.
 
 
+== GPG Signed Tags ==
+
+As a once-off you can tell git which gpg key to use:
+
+```
+git config user.signingkey 97626237
+```
+
+Now you can tag git, signing the tag:
+
+```
+[doc] git tag -s release-1_7_0 -m "Tagged 1.7.0 release branch prior to call for packaging"
+gpg: NOTE: old default options file `/home/timlinux/.gnupg/options' ignored
+
+You need a passphrase to unlock the secret key for
+user: "Tim Sutton (QGIS Key) <tim@linfiniti.com>"
+1024-bit DSA key, ID 97626237, created 2007-07-19
+
+```
+
 == Further Reading ==
 
 http://gitref.org
