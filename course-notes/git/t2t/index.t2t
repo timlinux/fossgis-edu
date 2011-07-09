@@ -931,6 +931,52 @@ user: "Tim Sutton (QGIS Key) <tim@linfiniti.com>"
 
 ```
 
+== Identifying where errors entered your code ==
+
+You can use git difftool or git diff to see the changes between two versions of
+a file withing the same branch. First use git whatchanged to see the revision
+number of the first version e.g.
+
+```
+git whatchanged some/file
+```
+
+You will see a history of changes for that file along with their version hashes:
+
+```
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Fri Jul 8 13:09:13 2011 +0200
+
+Use html buttons instead of jquery button throughout
+
+:100644 100644 a56a13a... ff34771... M  catalogue/templates/record.html
+
+commit e3126eee64120458fa326f4ec5a0b0f3a9c1c6f9
+Author: Tim Sutton <tim@linfiniti.com>
+Date:   Fri Jun 3 00:44:20 2011 +0200
+
+Various updates for test doc compliance
+
+:100644 100644 c4c34ef... a56a13a... M  catalogue/templates/record.html
+
+commit aa5d3fe8495ec64dc8fb8369ed73889c1d54984d
+Author: Dražen Odobašić <dodobas@geoinfo.geof.hr>
+Date:   Mon Apr 11 15:20:20 2011 +0200
+
+removed underline from delivery details
+
+:100644 100644 98a78dd... c4c34ef... M  catalogue/templates/record.html
+
+commit 776e9064c084c11b62b9a8d295e7897264b31289
+Author: Dražen Odobašić <dodobas@geoinfo.geof.hr>
+```
+
+Pick the revision you are interested in and then (to compare it to the 
+current version) do:
+
+```
+git difftool 776e9064 HEAD some/file
+```
 == Further Reading ==
 
 http://gitref.org
